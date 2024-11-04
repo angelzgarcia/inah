@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rol extends Model
 {
-    /** @use HasFactory<\Database\Factories\RolFactory> */
     use HasFactory;
+
+    protected $table = 'roles';
+    protected $primaryKey = 'idRol';
+
+    public function usuarios() {
+        return $this -> hasMany(Usuario::class, 'idRol', 'idRol');
+    }
+
 }

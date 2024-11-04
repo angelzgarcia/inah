@@ -17,7 +17,20 @@ class EstadoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nombre'=> fake() -> unique() -> randomElement([
+                'Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas',
+                'Chihuahua', 'Ciudad de México', 'Coahuila', 'Colima', 'Durango', 'Guanajuato',
+                'Guerrero', 'Hidalgo', 'Jalisco', 'Estado de México', 'Michoacán', 'Morelos',
+                'Nayarit', 'Nuevo León', 'Oaxaca', 'Puebla', 'Querétaro', 'Quintana Roo',
+                'San Luis Potosí', 'Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala',
+                'Veracruz', 'Yucatán', 'Zacatecas'
+            ]),
+            // 'slug' => fake() -> slug(),
+            'capital'=> fake() -> unique() -> city(),
+            'foto' => fake() ->  imageUrl(),
+            'video'=> fake() -> url(),
+            'triptico'=> 'triptico.pdf',
+            'guia'=> 'guia.pdf',
         ];
     }
 }

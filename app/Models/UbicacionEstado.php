@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class UbicacionEstado extends Model
 {
-    /** @use HasFactory<\Database\Factories\UbicacionEstadoFactory> */
     use HasFactory;
+
+    protected $table = 'ubicaciones_estados';
+    protected $primaryKey = 'idUbicacionEstado';
+
+    public function estado() {
+        return $this -> belongsTo(Estado::class, 'idEstadoRepublica', 'idEstadoRepublica');
+    }
+
 }

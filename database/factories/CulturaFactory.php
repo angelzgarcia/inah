@@ -17,7 +17,47 @@ class CulturaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nombre' => fake() -> unique() -> randomElement([
+                "Chichimeca",
+                "Otomí",
+                "Kumiai",
+                "Paipai",
+                "Cocopah",
+                "Pericú",
+                "Guaycura",
+                "Maya",
+                "Lacandona",
+                "Tarahumara",
+                "Paquimé",
+                "Coahuilteco",
+                "Nahua",
+                "Tepehuano",
+                "Chupícuaro",
+                "Purépecha",
+                "Mezcala",
+                "Tepehua",
+                "Teuchitlán",
+                "Mexica",
+                "Tolteca",
+                "Matlatzinca",
+                "Zapoteca",
+                "Mixteca",
+                "Popoloca",
+                "Cora",
+                "Huichol",
+                "Huasteca",
+                "Seri",
+                "Olmeca",
+                "Tlaxcalteca",
+                "Totonaca",
+                "Caxcan",
+                "Tehuelche"
+            ]),
+            'periodo' => fake() -> sentence(3, true),
+            'significado' => fake() -> sentences(2, true),
+            'descripcion' => fake() -> paragraphs(3, true),
+            'aportaciones' => fake() -> paragraph()
         ];
     }
+    
 }

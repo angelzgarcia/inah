@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class UbicacionZona extends Model
 {
-    /** @use HasFactory<\Database\Factories\UbicacionZonaFactory> */
     use HasFactory;
+
+    protected $table = 'ubicaciones_zonas';
+    protected $primaryKey = 'idUbicacionZona';
+
+    public function zona() {
+        return $this -> belongsTo(Zona::class, 'idZonaArqueologica', 'idZonaArqueologica');
+    }
+
 }

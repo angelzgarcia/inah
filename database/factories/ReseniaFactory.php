@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Usuario;
+use App\Models\Zona;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,16 @@ class ReseniaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'mensaje' => fake() -> paragraphs(3, true),
+            'puntuacion' => fake() -> randomNumber(1, true),
+
+            'idUsuario' => Usuario::inRandomOrder()
+                        -> first()
+                        -> idUsuario,
+            'idZonaArqueologica' => Zona::inRandomOrder()
+                                -> first()
+                                -> idZonaArqueologica,
+
         ];
     }
 }

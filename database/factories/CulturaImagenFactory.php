@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Cultura;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,12 @@ class CulturaImagenFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'foto' => fake() -> imageUrl(),
+
+            'idCultura' => Cultura::inRandomOrder()
+                        -> first()
+                        -> idCultura,
         ];
     }
+
 }

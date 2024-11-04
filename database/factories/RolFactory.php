@@ -17,7 +17,7 @@ class RolFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'tipo' => fake() -> unique() -> randomElement(['admin', 'user']),
         ];
     }
 }
