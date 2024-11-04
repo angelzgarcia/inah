@@ -1,13 +1,13 @@
 
 <x-layouts.admin-main :title="'Culturas de México | INAH'">
 
-    <livewire-button>
+    <x-button>
         <a href="{{route('database.index')}}">Volver</a>
-    </livewire-button>
+    </x-button>
 
-    <livewire-button>
+    <x-button>
         <a href="{{route('admin.culturas.create')}}">Agregar cultura</a>
-    </livewire-button>
+    </x-button>
 
     @foreach ($culturas as $cultura)
         <h1>
