@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Resenia;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,12 @@ class ReseniaImagenFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'foto' => fake() -> imageUrl(),
+
+            'idResenia' => Resenia::inRandomOrder()
+                        -> first()
+                        -> idResenia,
         ];
     }
+    
 }

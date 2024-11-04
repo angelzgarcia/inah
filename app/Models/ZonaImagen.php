@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class ZonaImagen extends Model
 {
-    /** @use HasFactory<\Database\Factories\ZonaImagenFactory> */
     use HasFactory;
+
+    protected $table = 'zonas_fotos';
+
+    protected $primaryKey = 'idZonaFoto';
+
+    public function zona() {
+        return $this -> belongsTo(Zona::class, 'idZonaArqueologica', 'idZonaArqueologica');
+    }
+
 }
