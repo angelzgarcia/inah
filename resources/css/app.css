@@ -6,6 +6,17 @@
     display: none;
 }
 
+:root, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-width: 100%;
+    min-height: 100vh;
+    scrollbar-width: thin;
+    scrollbar-color: #ccbcae #9b7c62;
+}
+
+
 /* SWEET ALERTS STYLES */
 .colored-toast.swal2-icon-success {
     background-color: #a5dc86 !important;
@@ -32,38 +43,63 @@
     color: white;
 }
 
-
-:root, body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    min-width: 100%;
-    min-height: 100vh;
-    scrollbar-width: thin;
-    scrollbar-color: #ccbcae #9b7c62;
-}
-/* ESTILOS PARA LAS COORDENADAS DEL FORMULARIO ZONAS Y ESTADOS */
-#info-box {
-    padding: 10px 0;
-    display: flex;
-    flex-direction: column;
-    /* gap: .3em; */
-    z-index: 100000;
-    font-family: Arial, sans-serif;
-}
-.info-title {
-    font-weight: bold;
-}
-.info-content {
-    margin-top: 5px;
-}
-/* ESTILOS ENLACES REQUEST ROUTES  */
+/* ESTILOS ENLACES REQUEST ROUTES ¿K ES ESTO? NO LO SE BRO NO LO RECUERDO */
 .active {
     background-color: antiquewhite;
     color: #816954 !important;
     box-shadow: 0 0 .5em 0 #816954 inset;
     border-radius: .5em;
 }
+
+
+
+
+/* ESTILOS MAMALONES PARA LOS COMPONENTES MAMALONES. MAMALÓN */
+.btn-comp {
+    color: #fff;
+    font-weight: bold;
+    padding: 1em 1.3em;
+    font-size: small;
+    border-radius: .5em;
+    min-height: 40px;
+    min-width: max-content;
+    box-shadow: 0 .2em .2em 0 #8080808c;
+    transition: all .2s;
+
+    &.btn-up {
+        background-color: #a7886c;
+    }
+
+    &.btn-back {
+        background-color: #2d2836;
+    }
+
+    &.btn-create {
+        background-color: #5e9c41;
+    }
+
+    &.btn-edit {
+        background-color: slateblue;
+    }
+
+    &.btn-destroy {
+        background-color: crimson;
+    }
+
+    &:hover {
+        opacity: .9;
+        box-shadow: 0 .2em .2em 0 #80808062;
+    }
+
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -804,4 +840,20 @@ footer {
             }
         }
     }
+}
+
+/* ESTILOS PARA LAS COORDENADAS DEL FORMULARIO ZONAS Y ESTADOS */
+#info-box {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    /* gap: .3em; */
+    z-index: 100000;
+    font-family: Arial, sans-serif;
+}
+.info-title {
+    font-weight: bold;
+}
+.info-content {
+    margin-top: 5px;
 }
