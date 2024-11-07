@@ -1,11 +1,9 @@
 
-@extends('layouts.main-admin')
-
-@section('titulo', 'Agregar cultura | INAH | Admin')
-
-@section('admin-content')
+<x-layouts.admin-main :title="'Agregar Cultura | INAH'">
     <h1>AQUÍ SE VAN A PODER AGREGAR CULTURAS</h1>
-    <h2><a href="{{route('admin.culturas.index')}}">Volver a las culturas</a></h2>
+    <x-button>
+        <a href="{{route('admin.culturas.index')}}">Volver a las culturas</a>
+    </x-button>
 
     {{-- TOKEN GENERADO POR LARAVEL POR SEGURIDAD  --}}
     <form action="{{route('admin.culturas.store')}}" method="POST" enctype="multipart/form-data">
@@ -59,7 +57,8 @@
             @enderror
         </fieldset>
 
-        <button type="submit">Guardar</button>
+        <x-button type="submit" tipo="create">
+            Guardar
+        </x-button>
     </form>
-
-@endsection
+</x-layouts.admin-main>
