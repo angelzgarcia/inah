@@ -21,6 +21,28 @@
 
     {{$js}} {{-- SCRIPTS --}}
     @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
-
+    <script>
+        window.addEventListener('cult-warning', event => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+                });
+                Toast.fire({
+                icon: "warning",
+                title: event.detail.title
+            });
+        });
+    </script>
 </body>
 </html>

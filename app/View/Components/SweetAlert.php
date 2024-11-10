@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 
 class SweetAlert extends Component
 {
-    public $sweet = [];
+    public $sweet;
 
     /**
      * Create a new component instance.

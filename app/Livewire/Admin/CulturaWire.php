@@ -56,7 +56,10 @@ class CulturaWire extends Component
     // actualizar
     public function update()
     {
-        $this -> culturaUpdate -> update();
+        $validate = $this -> culturaUpdate -> update();
+        if (!$validate) {
+            $this->dispatch('cult-warning', title: 'Máximo 4 imagenes');
+        }
     }
 
     // eliminar
