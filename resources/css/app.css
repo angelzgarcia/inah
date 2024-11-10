@@ -54,7 +54,7 @@
 
 
 
-/* ESTILOS MAMALONES PARA LOS COMPONENTES MAMALONES. MAMALÓN */
+/* ESTILOS MAMALONES PARA LOS COMPONENTES BOTON MAMALONES. MAMALÓN */
 .btn-comp {
     color: #fff;
     font-weight: bold;
@@ -74,16 +74,28 @@
         background-color: #2d2836;
     }
 
+    &.btn-aggregate {
+        background-color: #98bb45
+    }
+
     &.btn-create {
         background-color: #5e9c41;
     }
 
     &.btn-edit {
-        background-color: slateblue;
+        background-color: #5959e6;
+    }
+
+    &.btn-update {
+        background-color: #6052bd;
     }
 
     &.btn-destroy {
-        background-color: crimson;
+        background-color: #f9322c;
+    }
+
+    &.btn-cancel {
+        background-color: #dc143c;
     }
 
     &:hover {
@@ -92,7 +104,6 @@
     }
 
 }
-
 
 
 
@@ -840,6 +851,37 @@ footer {
             }
         }
     }
+}
+
+/* MODALES */
+.modal-container {
+    min-width: 100vw;
+    min-height: 100vh;
+    overflow: auto;
+    z-index: 100000000;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(83, 65, 65, 0.486);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & .modal {
+        padding: 1.6em;
+        border-radius: .6em;
+        max-height: 90vh;
+        overflow-x: hidden;
+        scrollbar-width: thin;
+        scrollbar-color: #fff #fff;
+        width: 70%;
+        background-color: #fff;
+        box-shadow: 0 .1em .3em 0 rgba(0, 0, 0, 0.2);
+
+        /* & .show {
+        } */
+
+    }
+
 }
 
 /* ESTILOS PARA LAS COORDENADAS DEL FORMULARIO ZONAS Y ESTADOS */

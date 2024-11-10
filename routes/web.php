@@ -17,6 +17,8 @@ use App\Http\Controllers\Usuario\HomeController;
 use App\Http\Controllers\Usuario\QuizzController;
 use App\Http\Controllers\Usuario\ReseniaController;
 use App\Http\Controllers\Usuario\ZonaController;
+use App\Livewire\Admin\CulturaWire;
+use App\Livewire\Admin\EstadoWire;
 use Illuminate\Support\Facades\Route;
 
 
@@ -107,14 +109,12 @@ Route::controller(VerificarCuentaController::class) -> prefix('verificar-adminis
 });
 
 // grupo de rutas para el controlador de las culturas
-Route::resource('admin/culturas', AdminCulturaController::class)
-        -> parameters(['culturas' => 'culture'])
-        -> names('admin.culturas');
+Route::get('admin/culturas', function(){
+    return view('admin.culturas');
+}) -> name('admin.culturas');
 
 // grupo de rutas para el controlador de los estados
-Route::resource('admin/estados', AdminEstadoController::class)
--> parameters(['estados' => 'state'])
--> names('admin.estados');
+Route::get('admin/estados', EstadoWire::class) -> name('admin.estados');
 
 // grupo de rutas para el controlador de las zonas
 Route::resource('admin/zonas', AdminZonaController::class)
