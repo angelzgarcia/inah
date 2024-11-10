@@ -19,7 +19,7 @@ class CulturaUpdateForm extends Form
     $imgs_update = [],
     $to_eliminate_imgs = [],
     $imgs_nuevas = [],
-    $sweet = '';
+    $sweet = [];
 
     public function edit(Cultura $cultura)
     {
@@ -39,11 +39,8 @@ class CulturaUpdateForm extends Form
         // $this->cultura->update($this->culturaEdit);
         // $imgs_nuevas_count = count($this -> imgs_nuevas);
         // if ($this -> imgs_count + $imgs_nuevas_count > 4) {
-
-        $this->sweet = [
-            'icon' => 'warning',
-            'titulo' => 'warning',
-        ];
+            return false;
+        // }
         // return;
         // dd($this->sweet);
         // }

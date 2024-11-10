@@ -345,7 +345,7 @@ footer {
         /* background-color: #9b7c62; */
         background-color: #816954;
         padding-bottom: 1em;
-        z-index: 100000;
+        z-index: 10;
         overflow-y: auto;
         scrollbar-width: thin;
         scrollbar-color: #816954 #816954;
@@ -849,7 +849,7 @@ footer {
     min-width: 100vw;
     min-height: 100vh;
     overflow: auto;
-    z-index: 100000000;
+    z-index: 100;
     position: fixed;
     inset: 0;
     background-color: rgba(83, 65, 65, 0.486);
