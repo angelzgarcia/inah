@@ -58,50 +58,41 @@
 .btn-comp {
     color: #fff;
     font-weight: bold;
-    padding: 1em 1.3em;
+    padding: .8em 1em;
     font-size: small;
     border-radius: .5em;
-    min-height: 40px;
-    min-width: max-content;
+    height: 40px;
+    min-width: 100px;
     box-shadow: 0 .2em .2em 0 #8080808c;
     transition: all .2s;
 
-    &.btn-up {
-        background-color: #a7886c;
-    }
+    &.btn-default{ background-color: #2d2836; }
 
-    &.btn-back {
-        background-color: #2d2836;
-    }
+    &.btn-up { background-color: #a7886c; }
 
-    &.btn-aggregate {
-        background-color: #98bb45
-    }
+    &.btn-back { background-color: #1f2937; }
 
-    &.btn-create {
-        background-color: #5e9c41;
-    }
+    &.btn-aggregate { background-color: #98bb45; }
 
-    &.btn-edit {
-        background-color: #5959e6;
-    }
+    &.btn-create { background-color: #98bb45; }
 
-    &.btn-update {
-        background-color: #6052bd;
-    }
+    &.btn-show { background-color: #2d2836; }
 
-    &.btn-destroy {
-        background-color: #f9322c;
-    }
+    &.btn-close { background-color: #2d2836; }
 
-    &.btn-cancel {
-        background-color: #dc143c;
-    }
+    &.btn-x { background-color: #e61009; }
 
-    &:hover {
-        opacity: .9;
-        box-shadow: 0 .2em .2em 0 #80808062;
-    }
+    &.btn-edit { background-color: #5959e6; }
+
+    &.btn-update { background-color: #6052bd; }
+
+    &.btn-destroy { background-color: #d2232a; }
+
+    &.btn-cancel { background-color: #dc143c; }
+
+    &:hover { opacity: .9; box-shadow: 0 .2em .2em 0 #80808062; }
+
+    & svg { height: 20px; fill: #fff; flex-shrink: 0; }
 
 }
 
@@ -867,16 +858,19 @@ footer {
     align-items: center;
 
     & .modal {
-        padding: 1.6em;
         border-radius: .6em;
-        max-height: 90vh;
-        overflow-x: hidden;
-        scrollbar-width: thin;
-        scrollbar-color: #fff #fff;
-        width: 70%;
+        width: 80%;
         background-color: #fff;
         box-shadow: 0 .1em .3em 0 rgba(0, 0, 0, 0.2);
+        padding: 1.6em;
 
+        & .form-edit-container {
+            padding: 0 1.6em;
+            max-height: 80vh;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #fff #fff;
+        }
         /* & .show {
         } */
 

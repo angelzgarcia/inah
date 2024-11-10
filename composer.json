@@ -29,7 +29,8 @@
             "app/helpers/coordsHelper.php",
             "app/helpers/imageHelper.php",
             "app/helpers/pdfHelper.php",
-            "app/helpers/hashingHelper.php"
+            "app/helpers/hashingHelper.php",
+            "app/helpers/sweetAlerts.php"
         ]
     },
     "autoload-dev": {
