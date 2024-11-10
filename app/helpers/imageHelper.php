@@ -10,19 +10,19 @@
 
     if (!function_exists('img_u_url')) {
         function img_u_url ($filename) {
-            return asset('/img/uploads/'.$filename);
+            return asset('/storage/img/uploads/'.$filename);
         }
     }
 
     if (!function_exists('img_a_url')) {
         function img_a_url($filename) {
-            return asset('/img/avatars/'.$filename);
+            return asset('/storage/img/avatars/'.$filename);
         }
     }
 
     if (!function_exists('img_p_url')) {
         function img_p_url($filename) {
-            return asset("/img/profiles/$filename");
+            return asset("/storage/img/profiles/$filename");
         }
     }
 

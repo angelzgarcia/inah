@@ -1,5 +1,5 @@
 
-<x-layouts.admin-main :title="'Dashboard | INAH'">
+<x-admin-main title="Dashboard | INAH">
 
     @isset($user)
         <x-slot name="user">
@@ -33,4 +33,4 @@
         </div> --}}
     </section>
 
-</x-layouts.admin-main>
+</x-admin-main>

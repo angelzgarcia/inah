@@ -6,10 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-use function PHPSTORM_META\type;
-
-class button extends Component
+class Button extends Component
 {
+
     public $class;
     public $type;
 
@@ -21,9 +20,12 @@ class button extends Component
         $this->class = match ($tipo) {
             'up' => 'up',
             'back' => 'back',
+            'aggregate' => 'aggregate',
             'create' => 'create',
             'edit' => 'edit',
+            'update' => 'update',
             'destroy' => 'destroy',
+            'cancel' => 'cancel',
         };
         // $this->class = $tipo;
 
