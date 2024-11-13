@@ -1,5 +1,5 @@
 
-<x-layouts.user-main title="Página principal | INAH">
+<x-user-main title="Página principal | INAH">
     <div class="home-container">
         <div class="zonas-home">
             <h2>
@@ -26,4 +26,4 @@
             </h2>
         </div>
     </div>
-</x-layouts.user-main>
+</x-user-main>

@@ -6,7 +6,6 @@
     :src-maps="$src_maps"
 />
 <body id="body-admin">
-
     <x-admin.sidebar /> {{-- SIDEBAR ADMIN --}}
     <x-admin.nav-bar {{-- NAVBAR ADMIN --}}
         :user="$user"
@@ -22,7 +21,7 @@
     {{$js}} {{-- SCRIPTS --}}
     @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
     <script>
-        window.addEventListener('cult-warning', event => {
+        window.addEventListener('cult-event', event => {
             const Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
@@ -39,7 +38,7 @@
                 }
                 });
                 Toast.fire({
-                icon: "warning",
+                icon: event.detail.icon,
                 title: event.detail.title
             });
         });
