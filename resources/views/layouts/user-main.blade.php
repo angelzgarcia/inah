@@ -1,6 +1,6 @@
 
-{{-- componentes de blade --}}
 
+{{-- componentes de blade --}}
 <!DOCTYPE html>
 <html lang="en">
 <x-head /> {{-- HEAD --}}
@@ -12,6 +12,7 @@
     </main>
 
     <x-usuario.footer /> {{-- FOOTER --}}
+    @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
 </body>
 </html>
 

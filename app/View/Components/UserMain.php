@@ -6,16 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class SweetAlert extends Component
+class UserMain extends Component
 {
-    public $sweet;
-
     /**
      * Create a new component instance.
      */
-    public function __construct($sweet = [])
+    public function __construct()
     {
-        $this -> sweet = $sweet;
+        //
     }
 
     /**
@@ -23,6 +21,6 @@ class SweetAlert extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.sweet-alert');
+        return view('layouts.user-main');
     }
 }
