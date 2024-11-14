@@ -5,7 +5,7 @@
     <section class="database-section">
         <h1>database <span>{{$database_name}}</span></h1>
 
-        <h2>{{$tables_count}} tablas</h2>
+        <h2 class="my-4 font-bold">{{$tables_count}} Tablas</h2>
         <div class="tables-preview-container">
             {{-- TABLA --}}
             @foreach($tables_and_counts as $table)

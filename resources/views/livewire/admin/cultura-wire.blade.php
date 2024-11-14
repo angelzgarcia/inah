@@ -1,5 +1,6 @@
 
 
+{{-- VISTA DEL COMPONENTE CULTURAS --}}
 <div class="w-full h-full">
 
     <div class="py-5">
@@ -9,8 +10,8 @@
             {{-- botones volver y mostrar create form --}}
             <div class="w-full flex justify-between">
                 {{-- volver --}}
-                <x-button tipo="back">
-                    <a href="{{route('database.index')}}"> Volver </a>
+                <x-button tipo="back" route="database">
+                    Volver
                 </x-button>
 
                 {{-- crear --}}
@@ -39,7 +40,7 @@
                         {{-- nombre --}}
                         <x-fieldset>
                             <x-legend>Nombre*</x-legend>
-                            <x-input wire:model="culturaCreate.nombre" value="{{old('nombre')}}" />
+                            <x-input wire:model.live="culturaCreate.nombre" value="{{old('nombre')}}" />
                             <x-error-message for="culturaCreate.nombre" />
                         </x-fieldset>
 
@@ -48,14 +49,14 @@
                             {{-- periodo --}}
                             <x-fieldset>
                                 <x-legend>Periodo*</x-legend>
-                                <x-textarea wire:model="culturaCreate.periodo">{{old('periodo')}}</x-textarea>
+                                <x-textarea wire:model.live="culturaCreate.periodo">{{old('periodo')}}</x-textarea>
                                 <x-error-message for="culturaCreate.periodo" />
                             </x-fieldset>
 
                             {{-- significado --}}
                             <x-fieldset>
                                 <x-legend>Significado*</x-legend>
-                                <x-textarea wire:model="culturaCreate.significado">{{old('significado')}}</x-textarea>
+                                <x-textarea wire:model.live="culturaCreate.significado">{{old('significado')}}</x-textarea>
                                 <x-error-message for="culturaCreate.significado" />
                             </x-fieldset>
                         </div>
@@ -63,21 +64,21 @@
                         {{-- descripcion --}}
                         <x-fieldset>
                             <x-legend>Descripcion*</x-legend>
-                            <x-textarea wire:model="culturaCreate.descripcion">{{old('descripcion')}}</x-textarea>
+                            <x-textarea wire:model.live="culturaCreate.descripcion">{{old('descripcion')}}</x-textarea>
                             <x-error-message for="culturaCreate.descripcion" />
                         </x-fieldset>
 
                         {{-- aportaciones --}}
                         <x-fieldset>
                             <x-legend>Aportaciones*</x-legend>
-                            <x-textarea wire:model="culturaCreate.aportaciones">{{old('aportaciones')}}</x-textarea>
+                            <x-textarea wire:model.live="culturaCreate.aportaciones">{{old('aportaciones')}}</x-textarea>
                             <x-error-message for="culturaCreate.aportaciones" />
                         </x-fieldset>
 
                         {{-- fotos --}}
                         <x-fieldset>
-                            <x-legend>Fotos*</x-legend>
-                            <input type="file" wire:model="culturaCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple max="4">
+                            <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
+                            <input type="file" wire:model.live="culturaCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple max="4">
                             <x-error-message for="culturaCreate.imagenes" />
                         </x-fieldset>
 
@@ -95,18 +96,28 @@
             {{-- lista de registros --}}
             <div class="flex flex-col w-full h-full justify-between rounded-xl">
                 {{-- titulo, buscador y filtro --}}
-                <div class="flex flex-row items-center justify-around">
-                    <h1 class="mb-5 text-4xl text-gray-900 tracking-wider">
+                <div class="flex my-8 items-center justify-around">
+                    <h1 class="text-4xl text-gray-900 tracking-wider uppercase">
                         Culturas
                     </h1>
 
                     {{-- filtro no.registros --}}
-                    <div>
-                        FILTRO
+                    <div class="">
+                        <h2>FILTRO</h2>
                     </div>
+
                     {{-- BUSCADOR --}}
-                    <div>
-                        BUSCADOR
+                    <div class="searcher-container flex flex-row">
+                        <form action="" method="post" autocomplete="off">
+                            {{-- <fieldset> --}}
+                                {{-- <legend> --}}
+                                    {{-- </legend> --}}
+                            <input type="text" placeholder="¿Qúe buscabas?">
+                            <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+                            </button>
+                            {{-- </fieldset> --}}
+                        </form>
                     </div>
                 </div>
 
@@ -142,7 +153,7 @@
                                     </x-button>
 
                                     {{-- eliminar --}}
-                                    <x-button tipo="destroy" wire:click="destroy({{$cultura}})">
+                                    <x-button tipo="destroy" wire:click="confirmDestroy({{$cultura->idCultura}})">
                                         Eliminar
                                     </x-button>
                                 </div>
@@ -256,21 +267,21 @@
                                 {{-- nombre --}}
                                 <x-fieldset>
                                     <x-legend>Nombre</x-legend>
-                                    <x-input wire:model="culturaUpdate.nombre" value="{{old('nombre')}}" />
+                                    <x-input wire:model.live="culturaUpdate.nombre" value="{{old('nombre')}}" />
                                     <x-error-message for="culturaUpdate.nombre" />
                                 </x-fieldset>
 
                                 {{-- periodo --}}
                                 <x-fieldset>
                                     <x-legend>Periodo</x-legend>
-                                    <x-textarea wire:model="culturaUpdate.periodo">{{old('periodo')}}</x-textarea>
+                                    <x-textarea wire:model.live="culturaUpdate.periodo">{{old('periodo')}}</x-textarea>
                                     <x-error-message for="culturaUpdate.periodo" />
                                 </x-fieldset>
 
                                 {{-- significado --}}
                                 <x-fieldset>
                                     <x-legend>Significado</x-legend>
-                                    <x-textarea wire:model="culturaUpdate.significado">{{old('significado')}}</x-textarea>
+                                    <x-textarea wire:model.live="culturaUpdate.significado">{{old('significado')}}</x-textarea>
                                     <x-error-message for="culturaUpdate.significado" />
                                 </x-fieldset>
 
@@ -279,14 +290,14 @@
                                     {{-- descripcion --}}
                                     <x-fieldset>
                                         <x-legend>Descripcion</x-legend>
-                                        <x-textarea wire:model="culturaUpdate.descripcion">{{old('descripcion')}}</x-textarea>
+                                        <x-textarea wire:model.live="culturaUpdate.descripcion">{{old('descripcion')}}</x-textarea>
                                         <x-error-message for="culturaUpdate.descripcion" />
                                     </x-fieldset>
 
                                     {{-- aportaciones --}}
                                     <x-fieldset>
                                         <x-legend>Aportaciones</x-legend>
-                                        <x-textarea wire:model="culturaUpdate.aportaciones">{{old('aportaciones')}}</x-textarea>
+                                        <x-textarea wire:model.live="culturaUpdate.aportaciones">{{old('aportaciones')}}</x-textarea>
                                         <x-error-message for="culturaUpdate.aportaciones" />
                                     </x-fieldset>
                                 </div>

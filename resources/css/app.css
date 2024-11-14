@@ -248,6 +248,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
+    padding: 2em 2em 0 2em;
     & .enalces, & .contactos, & .termCond {
         display: flex;
         flex-direction: column;
@@ -708,7 +709,7 @@ footer {
 .searcher-container {
     display: flex;
     justify-content: end;
-    padding: 1.2em 3em 0;
+    /* padding: 1.2em 3em; */
     /* background-color: #000000c4; */
     & form {
         width: 320px;
