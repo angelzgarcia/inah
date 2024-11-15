@@ -35,11 +35,12 @@ class EstadoWire extends Component
         return view('livewire.admin.estado-wire', compact('estados'));
     }
 
-
     public function save()
     {
         if ($this -> estadoCreate -> save())
             $this -> dispatch('est-event', icon: 'success', title: 'Estado agregado con éxito');
+        else
+            $this -> dispatch('est-event', icon: 'error', title: 'Contacta con soporte, ocurrió un error');
 
         $this -> fotoKey = rand();
         $this -> guiaKey = rand();
@@ -48,7 +49,7 @@ class EstadoWire extends Component
 
     public function show(Estado $estado)
     {
-        $this-> estado = $estado;
+        $this -> estado = $estado;
         $this -> openShow = true;
     }
 
@@ -60,12 +61,26 @@ class EstadoWire extends Component
 
     public function update()
     {
-        $this -> estadoUpdate -> update();
+        $validate = $this -> estadoUpdate -> update();
+
+        if ($validate)
+            return $this -> dispatch('est-event', icon: 'success', title: 'Estado actualizado con éxito');
+
+        else
+            return $this -> dispatch('est-event', icon: 'error', title: 'Contacte con soporte, ocurrió un error');
+
     }
 
-    public function destroy()
+    public function confirmDestroy($idEstado)
     {
+        $this -> dispatch('conf-event', $idEstado);
+    }
 
+    public function destroy(Estado $estado)
+    {
+        $estado -> delete();
+
+        $this -> dispatch('est-event', icon: 'success', title: 'Estado eliminado con éxito');
     }
 
 }

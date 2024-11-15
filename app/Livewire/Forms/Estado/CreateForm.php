@@ -33,36 +33,45 @@ class CreateForm extends Form
 
     public function save()
     {
-        $this -> validate();
+        if (isset($this -> foto, $this -> guia, $this -> triptico)) {
+            $this -> validate();
 
-        $foto = basename(time() . '-' . $this -> foto -> store('img/uploads', 'public'));
-        $triptico =  $this -> triptico -> storeAs('tripticos', $this -> triptico -> getClientOriginalName() . '-' . time() , 'public');
-        $guia =  $this -> guia -> storeAs('guias', $this -> guia -> getClientOriginalName() . '-' . time() ,'public');
+            $foto = basename(time() . '-' . $this -> foto -> store('img/uploads', 'public'));
+            $triptico =  $this -> triptico -> storeAs('tripticos', $this -> triptico -> getClientOriginalName() . '-' . time() , 'public');
+            $guia =  $this -> guia -> storeAs('guias', $this -> guia -> getClientOriginalName() . '-' . time() ,'public');
 
-        Estado::create(
-[
-                'nombre' => $this -> nombre,
-                'capital' => $this -> capital,
-                'foto' => $foto,
-                'video' => $this -> cleanYouTubeUrl($this -> video),
-                'triptico' => basename($triptico),
-                'guia' => basename($guia),
-            ]
-        );
+            Estado::create(
+    [
+                    'nombre' => $this -> nombre,
+                    'capital' => $this -> capital,
+                    'foto' => $foto,
+                    'video' => $this -> cleanYouTubeUrl($this -> video),
+                    'triptico' => basename($triptico),
+                    'guia' => basename($guia),
+                ]
+            );
 
-        $this -> reset();
+            $this -> reset();
 
-        return true;
+            return true;
+        }
+
+        return false;
     }
 
-    // limpiar parametros de una URL de youtube para poder incrustar el video en los modales
     public function cleanYouTubeUrl($url)
     {
         $parsedUrl = parse_url($url);
-        if (isset($parsedUrl['query'])) {
-            parse_str($parsedUrl['query'], $queryParams);
-            return 'https://www.youtube.com/embed/' . $queryParams['v'];
+
+        if (isset($parsedUrl['host']) && strpos($parsedUrl['host'], 'youtube.com') !== false) {
+            if (isset($parsedUrl['query'])) {
+                parse_str($parsedUrl['query'], $queryParams);
+                if (isset($queryParams['v'])) {
+                    return 'https://www.youtube.com/embed/' . $queryParams['v'];
+                }
+            }
         }
+
         return null;
     }
 

@@ -81,7 +81,6 @@ class CulturaWire extends Component
                 ]
             };
             $this -> dispatch('cult-event', icon: $data['icon'], title: $data['title']);
-
         }
     }
 
@@ -92,11 +91,10 @@ class CulturaWire extends Component
     }
 
     // eliminar
-    public function destroy($id)
+    public function destroy(Cultura $cultura)
     {
-        $cultura = Cultura::where('idCultura', $id) -> first();
         $cultura -> delete();
-        // dd($id);
+
         $this -> dispatch('cult-event', icon:'success', title:'Cultura eliminada');
     }
 
