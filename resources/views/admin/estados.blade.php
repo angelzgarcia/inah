@@ -1,13 +1,13 @@
 
+<x-admin-main title="Estados de la República Mexicana | Admin | INAH">
 
-<x-admin-main title="Culturas | Admin | INAH">
+    @livewire('admin.estado-wire')
 
-    @livewire('admin.cultura-wire')
 
-    @push('js') {{-- STACK JS CULTURAS --}}
+    @push('js') {{-- STACK JS ESTADOS --}}
 
         <script>
-            window.addEventListener('cult-event', event => {
+            window.addEventListener('est-event', event => {
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "top-end",
@@ -37,6 +37,7 @@
                     text: "Esta acción no se puede deshacer.",
                     icon: "warning",
                     toast: true,
+                    position: 'top-end',
                     showCancelButton: true,
                     confirmButtonColor: "#d33",
                     cancelButtonColor: "#3085d6",
@@ -50,15 +51,6 @@
                 });
             });
         </script> {{-- SWEET ALERT CONMFIRM EVENT --}}
-
-        <script>
-            function disabled_input(idImg) {
-                var fileInput = document.querySelector(`input[name="imgs_update.${idImg}"]`);
-                var checkbox = document.querySelector(`input[name="to_eliminate_imgs.${idImg}"]`);
-
-                checkbox.checked ? fileInput.disabled = true : fileInput.disabled = false;
-            }
-        </script> {{-- CHECKBOXES ELIMINAR IMAGENES --}}
 
     @endpush
 

@@ -73,6 +73,12 @@ Route::controller(QuizzController::class) -> prefix('quizz') -> group(function()
 
 
 
+
+
+
+
+
+
 /* _____________________ RUTAS   PARA    AUTH __________________*/
 
 // AUTH LOGIN
@@ -87,42 +93,59 @@ Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogl
 
 
 
+
+
+
+
+
+
+
+
+
 /*______________________ RUTAS   DEL    ADMIM ____________________*/
 
 // grupo de rutas para el dashboard
 Route::controller(AdminHomeController::class) -> prefix('admin')->group(function () {
     Route::get('dashboard', 'index') -> name('dashboard');
-    Route::get('database',  'database_index') -> name('database.index');
-    Route::get('migraciones',  'migraciones_index') -> name('admin.migrations.index');
-    Route::get('roles',  'roles_index') -> name('admin.roles.index');
-    Route::get('culturas-estados',  'culturas_estados_index') -> name('admin.culturas_estados.index');
-    Route::get('zonas-imagenes', 'zonas_imagenes_index') -> name('admin.zonas_fotos.index');
-    Route::get('resenias-imagenes', 'resenias_imagenes_index') -> name('admin.resenias_fotos.index');
-    Route::get('culturas-imagenes', 'culturas_imagenes_index') -> name('admin.culturas_fotos.index');
-    Route::get('ubicaciones-zonas', 'ubicaciones_zonas_index') -> name('admin.ubicaciones_zonas.index');
-    Route::get('ubicaciones-estados', 'ubicaciones_estados_index') -> name('admin.ubicaciones_estados.index');
+    Route::get('database',  'database') -> name('database');
+    Route::get('migraciones',  'migraciones') -> name('admin.migrations');
+    Route::get('roles',  'roles') -> name('admin.roles');
+    Route::get('culturas-estados',  'culturas_estados') -> name('admin.culturas_estados');
+    Route::get('zonas-imagenes', 'zonas_imagenes') -> name('admin.zonas_fotos');
+    Route::get('resenias-imagenes', 'resenias_imagenes') -> name('admin.resenias_fotos');
+    Route::get('culturas-imagenes', 'culturas_imagenes') -> name('admin.culturas_fotos');
+    Route::get('ubicaciones-zonas', 'ubicaciones_zonas') -> name('admin.ubicaciones_zonas');
+    Route::get('ubicaciones-estados', 'ubicaciones_estados') -> name('admin.ubicaciones_estados');
 });
 
+//
 Route::controller(VerificarCuentaController::class) -> prefix('verificar-administrador') -> group(function() {
     Route::get('', 'index') -> name('admin.verificar_cuenta.index');
     Route::put('',  'verify') -> name('admin.verificar_cuenta.verify');
     Route::put('update', 'update') -> name('admin.verificar_cuenta.update');
 });
 
-// grupo de rutas para el controlador de las culturas
+// ruta para el componente de las culturas
 Route::get('admin/culturas', function(){
     return view('admin.culturas');
 }) -> name('admin.culturas');
 
-// grupo de rutas para el controlador de los estados
-Route::get('admin/estados', EstadoWire::class) -> name('admin.estados');
+// ruta para el componente de los estados
+Route::get('admin/estados', function() {
+    return view('admin.estados');
+}) -> name('admin.estados');
 
-// grupo de rutas para el controlador de las zonas
-Route::resource('admin/zonas', AdminZonaController::class)
-        -> parameters(['zonas' => 'zone'])
-        -> names('admin.zonas');
+// ruta para el componente de las zonas
+Route::get('admin/zonas', function() {
+    return view('admin.zonas');
+}) -> name('admin.zonas');
 
-// grupo de rutas para el controlador de los administradores
+// ruta para las reseñas
+Route::controller(AdminReseniaController::class) -> prefix('resenias') -> group(function() {
+    Route::get('', 'index') -> name('admin.resenias');
+});
+
+// ruta para el componente de los administradores
 Route::controller(AdminController::class) -> prefix('admin')-> group(function () {
     Route::get('create', 'create') -> name('admin.create');
     Route::post('', 'store') -> name('admin.store');
@@ -134,15 +157,7 @@ Route::controller(AdminController::class) -> prefix('admin')-> group(function ()
 
 // grupo de rutas para los usuarios
 Route::controller(UsuarioController::class) -> prefix('admin/usuarios')-> group(function () {
-    Route::get('', 'index')-> name('admin.usuarios.index');
-    Route::get('{usuario}', 'show') -> name('admin.usuarios.show');
-    Route::get('{usuario}/edit', 'edit') -> name('admin.usuarios.edit');
-    Route::put('{usuario}', 'update') -> name('admin.usuarios.update');
+    Route::get('', 'index')-> name('admin.usuarios');
 });
 
-// grupo de rutas para las reseñas
-Route::controller(AdminReseniaController::class) -> prefix('resenias') -> group(function() {
-    Route::get('', 'index') -> name('admin.resenias.index');
-    Route::get('{resenia}', 'show') -> name('admin.resenias.show');
-    Route::delete('{resenia}', 'destroy') -> name('admin.resenias.destroy');
-});
+

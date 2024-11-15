@@ -2,10 +2,9 @@
 
 namespace App\Livewire\Admin;
 
-use App\Livewire\Forms\CulturaCreateForm;
-use App\Livewire\Forms\CulturaUpdateForm;
+use App\Livewire\Forms\Cultura\CreateForm;
+use App\Livewire\Forms\Cultura\UpdateForm;
 use App\Models\Cultura;
-use App\Models\CulturaImagen;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
@@ -14,9 +13,11 @@ class CulturaWire extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public CulturaCreateForm $culturaCreate;
+    protected $listeners = ['destroy'];
 
-    public CulturaUpdateForm $culturaUpdate;
+    public CreateForm $culturaCreate;
+
+    public UpdateForm $culturaUpdate;
 
     public
     $openShow = false,
@@ -32,14 +33,20 @@ class CulturaWire extends Component
         return view('livewire.admin.cultura-wire', compact('culturas'));
     }
 
-    // crear
+    // crear y guardar
     public function save()
     {
-        $this -> culturaCreate -> save();
+        $validate = $this -> culturaCreate -> save();
+
+        if ($validate)
+            $this -> dispatch('cult-event', icon:'success', title:'Cultura agregada con éxito');
+        else
+            $this -> dispatch('cult-event', icon:'error', title:'Contacta con soporte, ocurrió un error');
+
         $this -> fotoKey = rand();
     }
 
-    // mostrar / ver detalles
+    // ver detalles
     public function show(Cultura $cultura)
     {
         $this -> cultura = $cultura;
@@ -68,17 +75,29 @@ class CulturaWire extends Component
                     'icon' => 'info',
                     'title' => 'Deja al menos 2 imagenes',
                 ],
+                true => [
+                    'icon' => 'success',
+                    'title' => 'Cultura actualizada'
+                ]
             };
             $this -> dispatch('cult-event', icon: $data['icon'], title: $data['title']);
+
         }
-        return;
+    }
+
+    // confirmar eliminacio
+    public function confirmDestroy($idCultura)
+    {
+        $this -> dispatch('conf-event', $idCultura);
     }
 
     // eliminar
-    public function destroy(Cultura $cultura)
+    public function destroy($id)
     {
+        $cultura = Cultura::where('idCultura', $id) -> first();
         $cultura -> delete();
+        // dd($id);
+        $this -> dispatch('cult-event', icon:'success', title:'Cultura eliminada');
     }
-
 
 }

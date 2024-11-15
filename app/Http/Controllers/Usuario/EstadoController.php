@@ -10,7 +10,9 @@ class EstadoController extends Controller
 {
 
     public function index() {
-        return view('usuario.estados.index');
+        $estados = Estado::orderBy('nombre', 'asc') -> paginate(8, pageName: 'pageEstados');
+
+        return view('usuario.estados.index', compact('estados'));
     }
 
     public function show(Estado $estado)

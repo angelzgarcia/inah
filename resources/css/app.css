@@ -72,6 +72,8 @@
 
     &.btn-back { background-color: #1f2937; }
 
+    &.btn-go { background-color: #ffc300; }
+
     &.btn-aggregate { background-color: #98bb45; }
 
     &.btn-create { background-color: #98bb45; }
@@ -116,7 +118,8 @@
 .header-users {
     max-width: 95vw;
     height: 10vh;
-    margin: auto;
+    margin: 0 auto 1.5em auto;
+    /* margin-bottom: 1.5em; */
     & .nav-users {
         width: inherit;
         height: inherit;
@@ -168,15 +171,15 @@
                     & svg { fill: #fff; width: 100%; height: 100%;}
                 }
             }
-
         }
     }
 }
 
 .home-container {
     width: 95%;
-    margin: 1.5em auto;
+    /* margin: 1.5em auto; */
     /* min-height: 100vh; */
+    margin: auto;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -244,10 +247,12 @@
 footer {
     min-height: 45vh;
     width: 100%;
+    margin-top: 2.5em;
     background-color: #611232;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
+    padding: 2em 2em 0 2em;
     & .enalces, & .contactos, & .termCond {
         display: flex;
         flex-direction: column;
@@ -314,6 +319,90 @@ footer {
         }
     }
 }
+
+/* SECCION ESTADOS DE LA REPUBLICA */
+.estados-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    & .paginator {margin: auto; width: 95vw; }
+    & .grid-estados {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-auto-rows: auto;
+        margin: auto;
+        width: 95vw;
+        gap: 2em;
+        & .card-estado {
+            border-radius: .7em;
+            position: relative;
+            min-height: 530px;
+            overflow: hidden;
+            & img {
+                width: 100%;
+                height: 100%;
+                border-radius: inherit;
+                object-fit: cover;
+                object-position: center;
+                z-index: -1;
+            }
+            &  .estado-content {
+                color: white;
+                z-index: 11;
+                padding: 2em 1em;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: start;
+                text-align: start;
+                gap: 1em;
+                border-radius: .7em;
+                background: linear-gradient(
+                    180deg,
+                    hsla(1, 0%, 0%, 0) 0%,
+                    hsla(1, 0%, 0%, 0.3) 10%,
+                    hsl(1, 0%, 0.8%) 100%
+                );
+
+                & button {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    width: 100%;
+                    justify-content: space-between;
+                    color: #111;
+                    border-radius: .7em;
+                    font-size: 1.1em;
+                    letter-spacing: .2em;
+                    box-shadow: 0 .1em .1em 0 rgb(193, 192, 192);
+                    & svg {
+                        fill: #000;
+                    }
+                    &:active {
+                        transform: scale(90%);
+                    }
+                }
+                & h2::after {
+                    content: ""; /* Crea una línea debajo del título */
+                    position: absolute;
+                    height: 0.3125rem; /* Grosor de la línea */
+                    width: calc(100%    ); /* Anchura de la línea */
+                    background-color: #ffc300;
+                    left: -.45em;
+                    bottom: -15px;
+                }
+            }
+            & p { padding: 1em 0; }
+        }
+    }
+}
+
+
+
+
+
 
 
 
@@ -454,7 +543,7 @@ footer {
             align-items: center;
             gap: 1em;
             padding: 0 2em 0 1em;
-            margin: 1em 0;
+            /* margin: 1em 0; */
             transition: all .2s;
             border: 1px solid transparent;
             & a {
@@ -708,7 +797,7 @@ footer {
 .searcher-container {
     display: flex;
     justify-content: end;
-    padding: 1.2em 3em 0;
+    /* padding: 1.2em 3em; */
     /* background-color: #000000c4; */
     & form {
         width: 320px;
@@ -735,13 +824,14 @@ footer {
         & input {
             color: #111;
             /* background-color: #611232; */
-            box-shadow: 0 .2em .2em 0 rgba(0,0,0,0.5);
+            box-shadow: 0 .1em .2em 0 rgba(0,0,0,0.5);
             width: 100%;
             border-radius: 2em;
             height: 100%;
             letter-spacing: .2em;
             text-align: center;
             outline: none;
+            font-size: small;
             /* border-color: #fff; */
             border: none;
         }

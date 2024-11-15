@@ -1,5 +1,5 @@
 
-<x-user-main title="Página principal | INAH">
+<x-user-main title="Pagina principal | INAH">
     <div class="home-container">
         <div class="zonas-home">
             <h2>

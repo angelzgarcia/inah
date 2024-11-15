@@ -3,7 +3,10 @@
 {{-- componentes de blade --}}
 <!DOCTYPE html>
 <html lang="en">
-<x-head /> {{-- HEAD --}}
+<x-head {{-- HEAD --}}
+    :title="$title"
+    :src-maps="$src_maps"
+/>
 <body class="body-users">
     <x-usuario.header /> {{-- HEADER --}}
 
@@ -13,6 +16,7 @@
 
     <x-usuario.footer /> {{-- FOOTER --}}
     @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
+    @stack('js')
 </body>
 </html>
 
