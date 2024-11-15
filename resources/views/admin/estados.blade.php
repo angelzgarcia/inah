@@ -33,11 +33,11 @@
         <script>
             Livewire.on('conf-event', event => {
                 Swal.fire({
-                    title: "¿Estás seguro?",
-                    text: "Esta acción no se puede deshacer.",
+                    title: "¿Estás seguro? \n Esta acción no se puede revertir.",
+                    text: "Todas las culturas relacionadas a este estado tambien serán elimiandas",
                     icon: "warning",
                     toast: true,
-                    position: 'top-end',
+                    position: 'center-end',
                     showCancelButton: true,
                     confirmButtonColor: "#d33",
                     cancelButtonColor: "#3085d6",

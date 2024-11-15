@@ -12,7 +12,7 @@ use Livewire\Form;
 
 class UpdateForm extends Form
 {
-    #[Rule('required|string|min:5|max:50|regex: /^[\pL\s]+$/u')]
+    #[Rule('required|string|min:3|max:50|regex: /^[\pL\s]+$/u')]
     public $nombre;
 
     #[Rule('required|max:80|min:20')]
@@ -58,7 +58,12 @@ class UpdateForm extends Form
 
     public function update()
     {
-        $this -> validate();
+        $this -> validate(
+    [
+                'nombre' => ValidationRule::unique('culturas', 'nombre')
+                                            ->ignore($this->cultura->idCultura, 'idCultura')
+            ]
+        );
 
         $this -> cultura -> update($this -> only(
 'nombre',
@@ -168,15 +173,4 @@ class UpdateForm extends Form
         $this -> reset(['to_eliminate_imgs', 'imgs_update', 'imgs_nuevas']);
         $this -> fotoKey = rand();
     }
-
-    public function rules()
-    {
-        return [
-            'nombre' => [
-                ValidationRule::unique('culturas', 'nombre')
-                ->ignore($this->cultura->idCultura, 'idCultura')
-            ]
-        ];
-    }
-
 }

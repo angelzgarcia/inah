@@ -208,15 +208,16 @@
                                             frameborder="0"
                                             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                             allowfullscreen
-                                            class="rounded-md"
+                                            class="rounded-md">
                                         >
+                                            <p>No se puede mostrar el video. URL no válida.</p>
                                         </iframe>
                                     </div>
 
                                     {{-- imagen --}}
                                     <div>
-                                        <x-legend>Imagen</x-legend>
-                                        <img src="{{img_u_url($this->estado->foto)}}" alt="{{$this->estado->foto}}">
+                                        <x-legend>Portada</x-legend>
+                                        <img src="{{img_u_url($this->estado->foto)}}" class="rounded-md" alt="{{$this->estado->foto}}">
                                     </div>
 
                                     {{-- triptico --}}
@@ -269,7 +270,7 @@
                                         {{-- nombre --}}
                                         <x-fieldset>
                                             <x-legend>Nombre:</x-legend>
-                                            <x-input wire:model.live="estadoUpdate.nombre" value="{{old('nombre')}}" />
+                                            <x-input wire:model.defer="estadoUpdate.nombre" />
                                             <x-error-message for="estadoUpdate.nombre" />
                                         </x-fieldset>
                                         {{-- capital --}}
@@ -292,7 +293,7 @@
                                         <x-fieldset>
                                             <x-legend>Foto</x-legend>
                                             <input type="file" wire:model.live="estadoUpdate.foto" wire:key="{{$fotoKey}}" accept="image/*">
-                                            <img src="https://www.contramuro.com/wp-content/uploads/2023/04/WhatsApp-Image-2023-04-06-at-7.10.12-PM.jpeg" width="60%" class="rounded-md" alt="{{$this->estado->foto}}">
+                                            <img src="{{img_u_url($this->estado->foto)}}" width="60%" class="rounded-md" alt="{{$this->estado->foto}}">
                                             <x-error-message for="estadoUpdate.foto" />
                                         </x-fieldset>
                                         {{-- triptico --}}
