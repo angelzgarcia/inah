@@ -4,14 +4,15 @@ namespace App\Livewire\Forms\Cultura;
 
 use App\Models\Cultura;
 use App\Models\CulturaImagen;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Rule;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class UpdateForm extends Form
 {
-    #[Rule('required|string|min:5|max:50|unique:culturas,nombre|regex: /^[\pL\s]+$/u')]
+    #[Rule('required|string|min:5|max:50|regex: /^[\pL\s]+$/u')]
     public $nombre;
 
     #[Rule('required|max:80|min:20')]
@@ -166,6 +167,16 @@ class UpdateForm extends Form
     {
         $this -> reset(['to_eliminate_imgs', 'imgs_update', 'imgs_nuevas']);
         $this -> fotoKey = rand();
+    }
+
+    public function rules()
+    {
+        return [
+            'nombre' => [
+                ValidationRule::unique('culturas', 'nombre')
+                ->ignore($this->cultura->idCultura, 'idCultura')
+            ]
+        ];
     }
 
 }

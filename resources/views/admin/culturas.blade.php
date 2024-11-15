@@ -36,6 +36,7 @@
                     title: "¿Estás seguro?",
                     text: "Esta acción no se puede deshacer.",
                     icon: "warning",
+                    toast: true,
                     showCancelButton: true,
                     confirmButtonColor: "#d33",
                     cancelButtonColor: "#3085d6",
@@ -49,7 +50,6 @@
                 });
             });
         </script> {{-- SWEET ALERT CONMFIRM EVENT --}}
-
 
         <script>
             function disabled_input(idImg) {

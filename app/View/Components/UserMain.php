@@ -8,12 +8,17 @@ use Illuminate\View\Component;
 
 class UserMain extends Component
 {
+    public $title, $user, $src_maps, $js;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($title = null, $user = null, $src_maps = null, $js = null)
     {
-        //
+        $this->title = $title;
+        $this->user = $user;
+        $this->src_maps = $src_maps;
+        $this->js = $js;
     }
 
     /**

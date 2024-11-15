@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="{{ asset('/img/downloads/favicon.ico') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/path/to/alpine.min.js" defer></script>
     {{$src_maps ?? ''}}
     <title>
         {{$title ?? 'Zonas Arqueológicas de México'}}

@@ -100,6 +100,8 @@ Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogl
 
 
 
+
+
 /*______________________ RUTAS   DEL    ADMIM ____________________*/
 
 // grupo de rutas para el dashboard

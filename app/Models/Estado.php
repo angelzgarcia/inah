@@ -13,7 +13,8 @@ class Estado extends Model
     protected $primaryKey = 'idEstadoRepublica';
 
     // protected $fillable = [];
-    protected $guarded = ['foto', 'triptico', 'guia'];
+    protected $guarded = [''];
+
 
     public function ubicacion() {
         return $this -> hasOne(UbicacionEstado::class, 'idEstadoRepublica', 'idEstadoRepublica');
