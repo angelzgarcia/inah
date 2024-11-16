@@ -39,8 +39,8 @@ class EstadoWire extends Component
     {
         if ($this -> estadoCreate -> save())
             $this -> dispatch('est-event', icon: 'success', title: 'Estado agregado con éxito');
-        else
-            $this -> dispatch('est-event', icon: 'error', title: 'Contacta con soporte, ocurrió un error');
+        // else
+        //     $this -> dispatch('est-event', icon: 'error', title: 'Contacta con soporte, ocurrió un error');
 
         $this -> fotoKey = rand();
         $this -> guiaKey = rand();

@@ -7,25 +7,8 @@
 
         <div class="w-full h-fullitems-center justify-center flex flex-col gap-14 px-7">
 
-            {{-- botones volver y mostrar create form --}}
-            <div class="w-full flex justify-between">
-                {{-- volver --}}
-                <x-button tipo="back" route="database">
-                    Volver
-                </x-button>
-
-                {{-- crear --}}
-                @if (!$estadoCreate->openCreate)
-                    <x-button tipo="aggregate" wire:click="$set('estadoCreate.openCreate', true)">
-                        Agregar estado
-                    </x-button>
-                @else
-                    {{-- cancelar --}}
-                    <x-button tipo="cancel" wire:click="$set('estadoCreate.openCreate', false)">
-                        Cancelar
-                    </x-button>
-                @endif
-            </div>
+            {{-- botones volver, agreagar y cancelar form --}}
+            <x-crud-buttons-header :form_object="$estadoCreate" name_form="estadoCreate" />
 
             {{-- formularo crear estado --}}
             @if ($estadoCreate->openCreate)
@@ -56,7 +39,7 @@
                                 {{-- video --}}
                                 <x-fieldset>
                                     <x-legend class="normal-case">URL del video*</x-legend>
-                                    <x-input wire:model.live="estadoCreate.video" value="{{old('video')}}" />
+                                    <x-input wire:model.live="estadoCreate.video" placeholder="https://www.youtube.com/watch?v=" value="{{old('video')}}" />
                                     <x-error-message for="estadoCreate.video" />
                                 </x-fieldset>
                             </div>
@@ -65,7 +48,7 @@
                             <div class="flex flex-col gap-12">
                                 {{-- foto --}}
                                 <x-fieldset>
-                                    <x-legend>Foto*</x-legend>
+                                    <x-legend>Portada*</x-legend>
                                     <input type="file" wire:model.live="estadoCreate.foto" wire:key="{{$fotoKey}}" accept="image/*">
                                     <x-error-message for="estadoCreate.foto" />
                                 </x-fieldset>
@@ -281,7 +264,7 @@
                                         </x-fieldset>
                                         {{-- video --}}
                                         <x-fieldset>
-                                            <x-legend class="normal-case">URL del video*</x-legend>
+                                            <x-legend class="normal-case">URL del video</x-legend>
                                             <x-input wire:model.live="estadoUpdate.video" value="{{old('video')}}" />
                                             <x-error-message for="estadoUpdate.video" />
                                         </x-fieldset>
@@ -291,28 +274,28 @@
                                     <div class="flex flex-col gap-12">
                                         {{-- foto --}}
                                         <x-fieldset>
-                                            <x-legend>Foto</x-legend>
+                                            <x-legend>Portada</x-legend>
                                             <input type="file" wire:model.live="estadoUpdate.foto" wire:key="{{$fotoKey}}" accept="image/*">
-                                            <img src="{{img_u_url($this->estado->foto)}}" width="60%" class="rounded-md" alt="{{$this->estado->foto}}">
+                                            <img src="{{img_u_url($this->estado->foto)}}" width="60%" class="rounded-md shadow-md shadow-slate-400 mt-2" alt="{{$this->estado->foto}}">
                                             <x-error-message for="estadoUpdate.foto" />
                                         </x-fieldset>
                                         {{-- triptico --}}
                                         <x-fieldset>
-                                            <x-legend>Triptico <small class="text-xs font-bold lowercase"> solo archivos pdf</small></x-legend>
+                                            <x-legend>Triptico <small class="text-xs font-normal underline lowercase"> solo archivos pdf</small></x-legend>
                                             <input type="file" class="block" wire:model.live="estadoUpdate.triptico" wire:key="{{$tripticoKey}}" accept=".pdf">
                                             <x-label class="text-xs">
                                                 Fichero actual:
-                                                <em class="font-bold">{{$this->estado->triptico}}</em>
+                                                <em class="font-normal underline">{{$this->estado->triptico}}</em>
                                             </x-label>
                                             <x-error-message for="estadoUpdate.triptico" />
                                         </x-fieldset>
                                         {{-- guia --}}
                                         <x-fieldset>
-                                            <x-legend>Guia informativa <small class="text-xs font-bold lowercase"> Solo archivos PDF</small></x-legend>
+                                            <x-legend>Guia informativa <small class="text-xs font-normal underline lowercase"> Solo archivos PDF</small></x-legend>
                                             <input type="file" class="block"  wire:model.live="estadoUpdate.guia" wire:key="{{$guiaKey}}" accept=".pdf">
                                             <x-label class="text-xs">
                                                 Fichero actual:
-                                                <em class="font-bold">{{$this->estado->guia}}</em>
+                                                <em class="font-normal underline">{{$this->estado->guia}}</em>
                                             </x-label>
                                             <x-error-message for="estadoUpdate.guia" />
                                         </x-fieldset>

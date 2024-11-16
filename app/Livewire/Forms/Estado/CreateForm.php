@@ -6,6 +6,8 @@ use App\Models\Estado;
 // use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Rule;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Form;
 
 class CreateForm extends Form
@@ -31,16 +33,18 @@ class CreateForm extends Form
 
     public $openCreate = false;
 
+
     public function save()
     {
+        $this -> validate();
+
         if (isset($this -> foto, $this -> guia, $this -> triptico)) {
-            $this -> validate();
 
             $foto = basename(time() . '-' . $this -> foto -> store('img/uploads', 'public'));
             $triptico =  $this -> triptico -> storeAs('tripticos', $this -> triptico -> getClientOriginalName() . '-' . time() , 'public');
             $guia =  $this -> guia -> storeAs('guias', $this -> guia -> getClientOriginalName() . '-' . time() ,'public');
 
-            Estado::create(
+            Estado::create( 
     [
                     'nombre' => $this -> nombre,
                     'capital' => $this -> capital,
@@ -56,7 +60,7 @@ class CreateForm extends Form
             return true;
         }
 
-        return false;
+        // return false;
     }
 
     public function cleanYouTubeUrl($url)
@@ -74,7 +78,6 @@ class CreateForm extends Form
 
         return null;
     }
-
 
     // mensajes para las reglas de validacion
     public function messages()
