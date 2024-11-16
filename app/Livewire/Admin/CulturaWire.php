@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Livewire\Forms\Cultura\CreateForm;
 use App\Livewire\Forms\Cultura\UpdateForm;
 use App\Models\Cultura;
+use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
@@ -21,16 +22,25 @@ class CulturaWire extends Component
 
     public
     $openShow = false,
+    $fotoKey,
     $cultura,
-    $fotoKey;
+    $query = '',
+    $perPage = 5;
 
     // renderizar la vista
     public function render()
     {
         $culturas = Cultura::with('fotos')
+                            -> where('nombre', 'like', "%{$this->query}%")
+                            -> orWhere('idCultura', 'like', "%{$this->query}%")
                             -> orderBy('idCultura', 'desc')
-                            -> paginate(5, pageName: 'pageCulturas');
-        return view('livewire.admin.cultura-wire', compact('culturas'));
+                            -> paginate($this->perPage < 1 ? 5 : $this -> perPage, pageName: 'pageCulturas');
+
+        $cols = Schema::getColumnListing('culturas');
+
+
+
+        return view('livewire.admin.cultura-wire', compact('culturas', 'cols'));
     }
 
     // crear y guardar

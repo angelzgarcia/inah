@@ -21,29 +21,54 @@ class HomeController extends Controller
         return view('admin.dashboard');
     }
 
+    // public function database() {
+    //     $tables = DB::select('SHOW TABLES');
+    //     $database_name = env('DB_DATABASE');
+    //     $column_name = "Tables_in_{$database_name}";
+
+    //     $tables_with_counts = [];
+
+    //     foreach($tables as $table):
+    //         $table_name = $table -> $column_name;
+    //         $table_count = DB::table($table_name) -> count();
+
+    //         $tables_with_counts[] = [
+    //             'name' => $table_name,
+    //             'count' => $table_count,
+    //         ];
+    //     endforeach;
+
+    //     return view('admin.database', [
+    //         'tables_and_counts' => $tables_with_counts,
+    //         'tables_count' => count($tables_with_counts),
+    //         'database_name' => $database_name
+    //     ]);
+    // }
+
     public function database() {
         $tables = DB::select('SHOW TABLES');
         $database_name = env('DB_DATABASE');
-        $column_name = "Tables_in_{$database_name}";
 
         $tables_with_counts = [];
 
-        foreach($tables as $table):
-            $table_name = $table -> $column_name;
-            $table_count = DB::table($table_name) -> count();
+        foreach ($tables as $table) {
+            $table_name = $table->Tables_in_inah;
+
+            $table_count = DB::table($table_name)->count();
 
             $tables_with_counts[] = [
                 'name' => $table_name,
                 'count' => $table_count,
             ];
-        endforeach;
+        }
 
         return view('admin.database', [
             'tables_and_counts' => $tables_with_counts,
             'tables_count' => count($tables_with_counts),
-            'database_name' => $database_name
+            'database_name' => $database_name,
         ]);
     }
+
 
     public function migrations() {
         return view('admin.database');

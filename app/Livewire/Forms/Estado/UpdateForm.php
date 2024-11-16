@@ -41,20 +41,22 @@ class UpdateForm extends Form
     {
         $this -> openEdit = true;
         $this-> estado = $estado;
-        $this -> fill($estado -> only(
+        $this -> fill($this -> estado -> only(
             [
                 'nombre',
                 'capital',
                 'video',
             ]
         ));
+
+        $this -> validate();
     }
 
     public function update()
     {
         $this -> validate();
 
-        $this -> video = $this -> cleanYouTubeUrl($this -> video);
+        $this -> estado -> video = $this -> cleanYouTubeUrl($this -> video);
 
         if (isset($this -> foto))
             $this ->
@@ -116,9 +118,15 @@ class UpdateForm extends Form
                 'required',
                 'string',
                 'max:255',
-                ValidationRule::unique('estados', 'capital')->ignore($this->estado->idEstadoRepublica, 'idEstadoRepublica'),
+                ValidationRule::unique('estados', 'capital' )-> ignore($this -> estado -> idEstadoRepublica, 'idEstadoRepublica'),
             ],
             'foto' => 'required|image|mimes:jpeg,jpg,png,webp,svg|max:10000',
+            'video' => [
+                'required',
+                'url',
+                'max:255',
+                ValidationRule::unique('estados', 'video') -> ignore($this -> estado -> idEstadoRepublica, 'idEstadoRepublica'),
+            ],
             'triptico' => 'required|mimes:pdf|max:10500',
             'guia' => 'required|mimes:pdf|max:10500',
         ];

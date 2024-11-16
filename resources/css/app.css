@@ -799,7 +799,7 @@ footer {
     justify-content: end;
     /* padding: 1.2em 3em; */
     /* background-color: #000000c4; */
-    & form {
+    & div {
         width: 320px;
         display: flex;
         justify-content: center;
@@ -823,8 +823,8 @@ footer {
                 /* padding: 1em; */
         & input {
             color: #111;
+            box-shadow: 0 0 .2em .5px rgba(0, 0, 0, 0.15) inset;
             /* background-color: #611232; */
-            box-shadow: 0 .1em .2em 0 rgba(0,0,0,0.5);
             width: 100%;
             border-radius: 2em;
             height: 100%;
@@ -834,6 +834,11 @@ footer {
             font-size: small;
             /* border-color: #fff; */
             border: none;
+            &:focus {
+                box-shadow:
+                0 0 .2em .5px rgba(0, 0, 0, 0.15) inset,
+                0 .2em .3em 0 rgba(34, 34, 34, 0.134);
+            }
         }
         & button {
             display: block;
@@ -847,7 +852,7 @@ footer {
             border-radius: 3em;
             outline: none;
             border: none;
-            cursor: pointer;
+            cursor: default;
             & svg {
                 width: 21px;
                 height: 21px;
@@ -907,8 +912,13 @@ footer {
                     /* background-color: #000000c4; */
                     border-right: 1px solid #c4baae;
                     & a {
+                        letter-spacing: .2em;
+                        color: indigo;
                         text-transform: lowercase;
                         text-decoration: none;
+                        &:hover {
+                            color: black;
+                        }
                     }
                 }
                 & .table-actions {
@@ -1005,16 +1015,15 @@ footer {
     min-height: 100%;
     /* margin: auto; */
     display: grid;
-    gap: 1.5em;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    /* gap: 1.5em; */
+    /* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); */
+    grid-template-columns: minmax(600px, 1fr) minmax(400px, 1fr);
     align-items: center;
     grid-auto-rows: auto;
-    justify-content: space-between;
     /* align-content: center;
     align-items: center; */
     /* grid-auto-rows: auto; */
     /* background-color: #2d2836; */
-    /* grid-template-columns: repeat(2, 1fr); */
 }
 
 /* ESTILOS PARA LAS COORDENADAS DEL FORMULARIO ZONAS Y ESTADOS */

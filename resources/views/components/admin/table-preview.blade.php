@@ -7,7 +7,7 @@
         </div>
         <div class="table-actions">
             {{$examinar}}
-            {{$eliminar}}
+            {{$eliminar ?? ''}}
             {{$count_registers}}
         </div>
     </div>

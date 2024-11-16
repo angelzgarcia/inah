@@ -43,7 +43,7 @@ class UpdateForm extends Form
         $this -> openEdit = true;
         $this -> cultura = $cultura;
         $this -> imgs_count = count($cultura -> fotos);
-        $this -> fill($cultura -> only(
+        $this -> fill($this -> cultura -> only(
 [
                 'nombre',
                 'periodo',
