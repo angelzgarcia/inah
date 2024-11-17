@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Livewire\Forms\Cultura\CreateForm;
 use App\Livewire\Forms\Cultura\UpdateForm;
 use App\Models\Cultura;
+use App\Models\Estado;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -27,6 +28,12 @@ class CulturaWire extends Component
     $query = '',
     $perPage = 5;
 
+    // reiniciar la paginacion cuando se consulte el buscador
+    public function updatedQuery()
+    {
+        $this->resetPage('pageCulturas');
+    }
+
     // renderizar la vista
     public function render()
     {
@@ -38,9 +45,17 @@ class CulturaWire extends Component
 
         $cols = Schema::getColumnListing('culturas');
 
+        $nEstados = Estado::count();
 
+        $estados = Estado::select(['idEstadoRepublica', 'nombre']) -> paginate(pageName: 'estadosPage');
 
-        return view('livewire.admin.cultura-wire', compact('culturas', 'cols'));
+        return view('livewire.admin.cultura-wire', compact('culturas', 'cols', 'nEstados', 'estados'));
+    }
+
+    // crear y guardar relacion con estados
+    public function saveEstado($idEstado)
+    {
+        $this -> culturaCreate -> saveEstado($idEstado);
     }
 
     // crear y guardar

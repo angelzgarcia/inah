@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
 /*______________________ RUTAS   DEL    USUARIO ____________________*/
 
 // grupo de ruts para el index / home
@@ -100,12 +99,10 @@ Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogl
 
 
 
-
-
 /*______________________ RUTAS   DEL    ADMIM ____________________*/
 
 // grupo de rutas para el dashboard
-Route::controller(AdminHomeController::class) -> prefix('admin')->group(function () {
+Route::controller(AdminHomeController::class) -> prefix('admin') -> group(function () {
     Route::get('dashboard', 'index') -> name('dashboard');
     Route::get('database',  'database') -> name('database');
     Route::get('migraciones',  'migraciones') -> name('admin.migrations');
@@ -161,3 +158,6 @@ Route::controller(UsuarioController::class) -> prefix('admin/usuarios')-> group(
 });
 
 
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});

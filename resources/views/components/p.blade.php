@@ -5,7 +5,7 @@
         merge([
             'class'
                 =>
-            "italic mr-2 tracking-widest min-w-max max-w-min overflow-hidden"
+            "italic mr-2 tracking-widest max-w-20 min-w-32 text-nowrap overflow-hidden text-ellipsis"
         ])
     !!}
 >

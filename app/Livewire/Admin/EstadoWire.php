@@ -24,23 +24,36 @@ class EstadoWire extends Component
     $estado,
     $fotoKey,
     $guiaKey,
-    $tripticoKey;
+    $tripticoKey,
+    $query = '',
+    $perPage = 5;
 
+    // reiniciar la paginacion cuando se consulte el buscador
+    public function updatedQuery()
+    {
+        $this->resetPage('pageEstados');
+    }
 
     // renderizar la vista del componente
     public function render()
     {
         $estados = Estado::orderBy('idEstadoRepublica', 'desc')
-                            -> paginate(5, pageName: 'pageEstados');
-        return view('livewire.admin.estado-wire', compact('estados'));
+                            -> where('nombre', 'like', "%{$this -> query}%")
+                            -> orWhere('capital', 'like', "%{$this -> query}%")
+                            -> orWhere('idEstadoRepublica', 'like', "%{$this -> query}%")
+                            -> paginate($this->perPage < 1 ? 5 : $this -> perPage, pageName: 'pageEstados');
+
+        $nEstados = Estado::count();
+
+        return view('livewire.admin.estado-wire', compact('estados', 'nEstados'));
     }
 
     public function save()
     {
         if ($this -> estadoCreate -> save())
             $this -> dispatch('est-event', icon: 'success', title: 'Estado agregado con éxito');
-        // else
-        //     $this -> dispatch('est-event', icon: 'error', title: 'Contacta con soporte, ocurrió un error');
+        else
+            $this -> dispatch('est-event', icon: 'error', title: 'Este video ya está registrado');
 
         $this -> fotoKey = rand();
         $this -> guiaKey = rand();
