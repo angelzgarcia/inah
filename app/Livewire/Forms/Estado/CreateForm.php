@@ -38,13 +38,17 @@ class CreateForm extends Form
     {
         $this -> validate();
 
+        $video = Estado::where('video',  $this -> cleanYouTubeUrl($this -> video));
+
+        if ($video) return false;
+
         if (isset($this -> foto, $this -> guia, $this -> triptico)) {
 
             $foto = basename(time() . '-' . $this -> foto -> store('img/uploads', 'public'));
             $triptico =  $this -> triptico -> storeAs('tripticos', $this -> triptico -> getClientOriginalName() . '-' . time() , 'public');
             $guia =  $this -> guia -> storeAs('guias', $this -> guia -> getClientOriginalName() . '-' . time() ,'public');
 
-            Estado::create( 
+            Estado::create(
     [
                     'nombre' => $this -> nombre,
                     'capital' => $this -> capital,
@@ -59,8 +63,6 @@ class CreateForm extends Form
 
             return true;
         }
-
-        // return false;
     }
 
     public function cleanYouTubeUrl($url)

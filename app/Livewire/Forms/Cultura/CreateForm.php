@@ -25,10 +25,15 @@ class CreateForm extends Form
     #[Rule('required|max:1000|min:50')]
     public $aportaciones;
 
-    #[Rule('required|min:2|max:4|distinct|max:10000')]
+    #[Rule('required|array|min:2|max:4|distinct|max:10000')]
     public $imagenes = [];
 
-    public $openCreate = false;
+    #[Rule('required|min:1|array|distinct|unique:estados,idEstadoRepublica')]
+    public $estadosID = [];
+
+    public
+    $openCreate = false,
+    $openStatesSelect = false;
 
 
     // guardar cultura
@@ -72,6 +77,15 @@ class CreateForm extends Form
         }
     }
 
+    // crear y guardar relacion con estados
+    public function saveEstado($idEstado)
+    {
+        if (in_array($idEstado, $this -> estadosID))
+            $this -> estadosID = array_filter($this -> estadosID, fn($id) => $id !== $idEstado);
+        else
+            $this -> estadosID[] = $idEstado;
+    }
+
     // mensajes para las relgas de validacion de cada atributo
     protected function messages()
     {
@@ -105,6 +119,9 @@ class CreateForm extends Form
             'imagenes.*.max' => 'Cada imagen no puede exceder los 10 MB.',
             'imagenes.*.image' => 'Cada archivo debe ser una imagen.',
             'imagenes.*.mimes' => 'Cada imagen debe ser de tipo jpg, jpeg, png o webp.',
+
+            'estadosID.required' => 'La relación con al menos un estado es obligatoria.',
+            'estadosID.min' => 'Debes seleccionar al menos un estado.',
         ];
     }
 

@@ -92,7 +92,7 @@ class UpdateForm extends Form
             }
 
             // si las imagenes que se quieren eliminar son en igual cantidad a las actuales o si la resta de las actuales menos las que se quieren eliminar es menor a 2 se rechaza
-            if (($imgs_to_el_count + $imgs_nuevas_count ==  $this -> imgs_count) || ($this -> imgs_count - $imgs_to_el_count + $imgs_nuevas_count < 2)) {
+            if (($imgs_to_el_count  > 1 && ($imgs_to_el_count + $imgs_nuevas_count ==  $this -> imgs_count)) || ($this -> imgs_count - $imgs_to_el_count + $imgs_nuevas_count < 2)) {
                 $this -> resetImagenes();
                 return 'min-img';
             }
@@ -108,8 +108,8 @@ class UpdateForm extends Form
                 ) { $this -> uploadElimianteImage(); return; }
 
             // si las que se quieren eliminar son exactamnte igual a las que se quieren actualizar
-            if ($imgs_update_count == $imgs_to_el_count) {
-                if ($imgs_to_el_count > 2) return 'min-img';
+            if ((($imgs_update_count > 2 && $imgs_to_el_count > 2) && ($imgs_to_el_count  == $imgs_update_count)) || $imgs_to_el_count > 2) {
+                return 'min-img';
 
                 foreach ($this -> to_eliminate_imgs as $clave => $img) $this -> eliminateImage($clave);
             }

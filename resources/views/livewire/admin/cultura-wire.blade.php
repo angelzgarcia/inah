@@ -16,93 +16,146 @@
             {{-- formularo crear cultura --}}
             @if ($culturaCreate->openCreate)
                 <div class="sbw-thin w-full flex flex-col justify-between gap-8 rounded-xl">
-                    {{-- titulo --}}
-                    <h1 class="text-3xl">
-                        <x-strong>Agregar Cultura</x-strong>
-                    </h1>
-                    {{-- formulario --}}
-                    <form wire:submit="save" enctype="multipart/form-data" class="w-full italic flex flex-col gap-2">
-                        @csrf
-                        {{-- nombre --}}
-                        <x-fieldset>
-                            <x-legend>Nombre*</x-legend>
-                            <x-input wire:model.live="culturaCreate.nombre" value="{{old('nombre')}}" />
-                            <x-error-message for="culturaCreate.nombre" />
-                        </x-fieldset>
-
-                        {{-- periodo y significado --}}
-                        <div class="flex flex-row justify-between gap-12">
-                            {{-- periodo --}}
+                    @if ($nEstados < 1)
+                        <x-not-found>
+                            Aún no existen registros de Estados de la República Mexicana. <br>
+                            Ingresa algunos para continuar.
+                            <x-button class="w-full mt-4" route="admin.estados" tipo="go" />
+                        </x-not-found>
+                    @else
+                        {{-- titulo --}}
+                        <h1 class="text-3xl">
+                            <x-strong>Agregar Cultura</x-strong>
+                        </h1>
+                        {{-- formulario --}}
+                        <form wire:submit="save" enctype="multipart/form-data" class="w-full italic flex flex-col gap-2">
+                            @csrf
+                            {{-- nombre --}}
                             <x-fieldset>
-                                <x-legend>Periodo*</x-legend>
-                                <x-textarea wire:model.live="culturaCreate.periodo">{{old('periodo')}}</x-textarea>
-                                <x-error-message for="culturaCreate.periodo" />
+                                <x-legend>Nombre*</x-legend>
+                                <x-input wire:model.live="culturaCreate.nombre" value="{{old('nombre')}}" />
+                                <x-error-message for="culturaCreate.nombre" />
                             </x-fieldset>
 
-                            {{-- significado --}}
+                            {{-- periodo y significado --}}
+                            <div class="flex flex-row justify-between gap-12">
+                                {{-- periodo --}}
+                                <x-fieldset>
+                                    <x-legend>Periodo*</x-legend>
+                                    <x-textarea wire:model.live="culturaCreate.periodo">{{old('periodo')}}</x-textarea>
+                                    <x-error-message for="culturaCreate.periodo" />
+                                </x-fieldset>
+
+                                {{-- significado --}}
+                                <x-fieldset>
+                                    <x-legend>Significado*</x-legend>
+                                    <x-textarea wire:model.live="culturaCreate.significado">{{old('significado')}}</x-textarea>
+                                    <x-error-message for="culturaCreate.significado" />
+                                </x-fieldset>
+                            </div>
+
+                            {{-- descripcion --}}
                             <x-fieldset>
-                                <x-legend>Significado*</x-legend>
-                                <x-textarea wire:model.live="culturaCreate.significado">{{old('significado')}}</x-textarea>
-                                <x-error-message for="culturaCreate.significado" />
+                                <x-legend>Descripcion*</x-legend>
+                                <x-textarea wire:model.live="culturaCreate.descripcion">{{old('descripcion')}}</x-textarea>
+                                <x-error-message for="culturaCreate.descripcion" />
                             </x-fieldset>
-                        </div>
 
-                        {{-- descripcion --}}
-                        <x-fieldset>
-                            <x-legend>Descripcion*</x-legend>
-                            <x-textarea wire:model.live="culturaCreate.descripcion">{{old('descripcion')}}</x-textarea>
-                            <x-error-message for="culturaCreate.descripcion" />
-                        </x-fieldset>
+                            {{-- aportaciones --}}
+                            <x-fieldset>
+                                <x-legend>Aportaciones*</x-legend>
+                                <x-textarea wire:model.live="culturaCreate.aportaciones">{{old('aportaciones')}}</x-textarea>
+                                <x-error-message for="culturaCreate.aportaciones" />
+                            </x-fieldset>
 
-                        {{-- aportaciones --}}
-                        <x-fieldset>
-                            <x-legend>Aportaciones*</x-legend>
-                            <x-textarea wire:model.live="culturaCreate.aportaciones">{{old('aportaciones')}}</x-textarea>
-                            <x-error-message for="culturaCreate.aportaciones" />
-                        </x-fieldset>
+                            {{-- relacion con tabla estados --}}
+                            <x-fieldset class="mb-5 mt-2">
+                                <x-legend class="normal-case">Estados a los que pertenece esta cultura*</x-legend>
+                                <x-button wire:click="$set('culturaCreate.openStatesSelect', true)">
+                                    Seleccionar
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"/></svg>
+                                </x-button>
+                                <x-error-message for="culturaCreate.estadosID" />
+                            </x-fieldset>
 
-                        {{-- fotos --}}
-                        <x-fieldset>
-                            <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
-                            <input type="file" wire:model.live="culturaCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple max="4">
-                            <x-error-message for="culturaCreate.imagenes" />
-                        </x-fieldset>
+                            {{-- fotos --}}
+                            <x-fieldset>
+                                <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
+                                <input type="file" wire:model.live="culturaCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple max="4">
+                                <x-error-message for="culturaCreate.imagenes" />
+                            </x-fieldset>
 
-                        {{-- boton guardar --}}
-                        <div class="flex justify-end gap-2">
-                            {{-- agregar --}}
-                            <x-button type="submit" tipo="create">
-                                Guardar
-                            </x-button>
-                        </div>
-                    </form>
+                            @if ($culturaCreate->openStatesSelect)
+                                <x-modal openPropiety="culturaCreate.openStatesSelect">
+                                    <x-strong class="!text-xl text-end">Selecciona los estados a los que pertenece esta cultura</x-strong>
+                                    <div class="grid grid-cols-4 gap-x-10 gap-y-8 grid-flow-row w-full">
+                                        @foreach ($estados as $estado)
+                                            <div wire:key="Culturas-Estados-{{$estado->idEstadoRepublica}}" class="flex justify-between bg-zinc-100 hover:bg-stone-200 hover:shadow-lg shadow-md rounded-lg px-4 py-2">
+                                                <x-legend class="text-start">{{$estado->nombre}}</x-legend>
+                                                <x-checkbox
+                                                    class="bg-white"
+                                                    wire:click="saveEstado({{$estado->idEstadoRepublica}})"
+                                                    :checked="in_array($estado->idEstadoRepublica, $culturaCreate->estadosID)"
+                                                />
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    {{-- paginador de estados --}}
+                                    <x-paginador :table="$estados"/>
+
+                                    <x-button tipo="check" class="self-end" wire:click="$set('culturaCreate.openStatesSelect', false)">
+                                        Confirmar
+                                    </x-button>
+                                </x-modal>
+                            @endif
+                            {{-- boton guardar --}}
+                            <div class="flex justify-end gap-2">
+                                {{-- agregar --}}
+                                <x-button type="submit" tipo="create">
+                                    Guardar
+                                </x-button>
+                            </div>
+                        </form>
+                    @endif
                 </div>
             @endif
 
             {{-- CRUD CULTURAS --}}
-            <x-table-grid :table="$culturas" :keys="$keys" key="Culturas">
+            @if ($nEstados < 1)
+                @if (!$culturaCreate->openCreate)
+                    <x-not-found class="rounded-2xl !items-center">
+                        <div class="flex gap-9 items-center">
+                            Hay 0 registros.
+                            <span>¡Ingresa algunos!</span>
+                            <x-button tipo="up" wire:click="$set('culturaCreate.openCreate', true)" />
+                        </div>
+                    </x-not-found>
+                @endif
+            @else
+                <x-table-grid :table="$culturas" :keys="$keys" key="Culturas">
 
-                {{-- slot -> thead --}}
-                <div class=" w-full">
-                    <div class="w-2/3 px-2 flex flex-row justify-start gap-9 items-center mb-4 italic text-gray-400 text-start font-thin">
-                        <x-strong class="border-gray-200 px-4 shadow-md !rounded-3xl border">
-                            ID
-                        </x-strong>
-                        <x-strong class="border-gray-200 px-4 shadow-md !rounded-3xl border">
-                            Nombre de la cultura
-                        </x-strong>
+                    {{-- slot -> thead --}}
+                    <div class=" w-full">
+                        <div class="w-2/3 px-2 flex flex-row justify-start gap-9 items-center mb-4 italic text-gray-400 text-start font-thin">
+                            <x-strong class="border-gray-200 px-4 shadow-md !rounded-3xl border">
+                                ID
+                            </x-strong>
+                            <x-strong class="border-gray-200 px-4 shadow-md !rounded-3xl border">
+                                Nombre de la cultura
+                            </x-strong>
+                        </div>
                     </div>
-                </div>
 
-            </x-table-grid>
+                </x-table-grid>
+            @endif
 
             {{-- modal ver más detalles --}}
             @if ($openShow)
                 <x-modal openPropiety="openShow">
-
                     {{-- fecha de registro --}}
                     <div class="w-full flex flex-row justify-between items-center">
-                        <x-strong>Detalles de la cultura</x-strong>
+                        <x-strong class="!text-xl">Detalles de la cultura</x-strong>
                         {{-- created_at --}}
                         <div class="text-end">
                             <x-strong>Fecha de regstro: </x-strong>
@@ -112,9 +165,9 @@
                     {{-- datos del registro --}}
                     <div class="show-grid">
                         {{-- nombre --}}
-                        <div class="nombre-cultura">
+                        <div class="nombre-cultura mb-2">
                             <x-legend>Nombre: </x-legend>
-                            <h3 class="tracking-widest">{{$this->cultura->nombre}}</h3>
+                            <x-strong>{{$this->cultura->nombre}}</x-strong>
                         </div>
                         {{-- periodo --}}
                         <div>
@@ -146,12 +199,12 @@
                         </div>
                     </div>
 
-                    <x-strong>Imagenes:</x-strong>
+                    <x-legend>Imagenes:</x-legend>
                     {{-- imagenes --}}
                     <div class="flex flex-row flex-wrap w-full justify-between mb-5">
                         @foreach ($this->cultura->fotos as $foto)
                             <div wire:key="cultura-foto-{{$foto->foto}}" class="rounded-md">
-                                <img src="{{img_u_url($foto->foto)}}" width="250px"  alt="img-cultura" class="shadow-lg border border-slate-950 rounded-md">
+                                <img src="{{img_u_url($foto->foto)}}" width="200px" alt="img-cultura" class="shadow-lg rounded-md">
                             </div>
                         @endforeach
                     </div>
@@ -176,7 +229,7 @@
 
                     {{-- nombre cultura y boton de cierre --}}
                     <h2 class="text-4xl text-center flex flex-row justify-between">
-                        <x-strong>Editar Registro</x-strong>
+                        <x-strong class="!text-xl">Editar Registro</x-strong>
                     </h2>
                     {{-- formulario editar --}}
                     <form wire:submit="update" enctype="multipart/form-data" class="py-3 flex flex-col gap-6 text-sm">

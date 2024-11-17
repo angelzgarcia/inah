@@ -3,8 +3,8 @@
 
 {{-- ventana modal --}}
 <div class="modal-container modal-show-container modal-edit-container">
-    <div class="modal ">
-        <div class="flex flex-col overflow-y-auto gap-4 justify-center">
+    <div class="modal">
+        <div class="flex flex-col rounded-md bg-white py-4 overflow-y-auto gap-4 justify-center">
             <div class="form-edit-container flex flex-col gap-4 relative ">
                 {{-- boton cerrar --}}
                 <div class="flex flex-row justify-end sticky top-0 right-0">
