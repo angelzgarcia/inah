@@ -4,8 +4,12 @@
 
     if (!function_exists('getCoordinates')) {
         function getCoordinates($address) {
-            $apiKey = 'AIzaSyCIpIISAV4iA4HQYpwSDnBpgVe2iQFKYig';
-            $url = "https://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($address)."&key={$apiKey}";
+            $addressString = is_array($address) ? implode(", ", $address) : $address;
+
+            $apiKey = config('services.google_maps');
+            $apiString = is_array($apiKey) ? implode(", ", $apiKey) : $apiKey;
+
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($addressString)."&key={$apiString}";
 
             $response = Http::get($url)->json();
 
@@ -22,7 +26,7 @@
 
     if (!function_exists('getAddress')) {
         function getAddress($lat, $lng) {
-            $apiKey = 'AIzaSyCIpIISAV4iA4HQYpwSDnBpgVe2iQFKYig';
+            $apiKey = config('services.google_maps');
             $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$lat},{$lng}&key={$apiKey}";
 
             $response = Http::get($url)->json();

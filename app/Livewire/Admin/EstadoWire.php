@@ -58,10 +58,14 @@ class EstadoWire extends Component
 
     public function save()
     {
-        if ($this -> estadoCreate -> save())
-            $this -> dispatch('est-event', icon: 'success', title: 'Estado agregado con éxito');
-        else
-            $this -> dispatch('est-event', icon: 'error', title: 'Este video ya está registrado');
+        $response = $this -> estadoCreate -> save();
+
+        match ($response) {
+            'video' => $this -> dispatch('est-event', icon: 'info', title: 'Este video ya está registrado'),
+            $this -> estadoCreate -> nombre => $this -> dispatch('est-event', icon: 'warning', title: 'No se pudieron obtener las coordenadas para "'. $response . '"'),
+            true => $this -> dispatch('est-event', icon: 'success', title: 'Estado agregado con éxito'),
+            default => $this -> dispatch('est-event', icon: 'error', title: 'Error inesperado, contacta con soporte por favor'),
+        };
 
         $this -> fotoKey = rand();
         $this -> guiaKey = rand();
@@ -73,6 +77,18 @@ class EstadoWire extends Component
         $this -> estado = $estado;
 
         $this -> cargarCulturasRelacionados($estado -> idEstadoRepublica);
+
+        if ($estado->ubicacion) {
+            $this->dispatch('openModal', [
+                'lat' => $estado->ubicacion->latitud,
+                'lng' => $estado->ubicacion->longitud,
+            ]);
+        } else {
+            $this->dispatch('openModal', [
+                'lat' => 0,
+                'lng' => 0,
+            ]);
+        }
 
         $this -> openShow = true;
     }

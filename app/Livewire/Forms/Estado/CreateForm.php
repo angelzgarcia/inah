@@ -5,6 +5,7 @@ namespace App\Livewire\Forms\Estado;
 use App\Models\CulturaEstado;
 use App\Models\Estado;
 // use Illuminate\Validation\Rule;
+use App\Models\UbicacionEstado;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -46,7 +47,10 @@ class CreateForm extends Form
 
         $video = Estado::where('video',  $this -> cleanYouTubeUrl($this -> video)) -> first();
 
-        if (!empty($video)) return false;
+        if (!empty($video)) return 'video';
+
+        $coords = getCoordinates($this->nombre);
+        if (!$coords) return $this -> nombre;
 
         if (isset($this -> foto, $this -> guia, $this -> triptico)) {
 
@@ -71,6 +75,12 @@ class CreateForm extends Form
                         'idCultura' => $idCultura,
                         'idEstadoRepublica' => $estado -> idEstadoRepublica,
                     ]);
+
+            UbicacionEstado::create([
+                'latitud' => $coords['lat'],
+                'longitud' => $coords['lng'],
+                'idEstadoRepublica' => $estado -> idEstadoRepublica,
+            ]);
 
             $this -> reset();
 

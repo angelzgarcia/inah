@@ -234,6 +234,11 @@
                         </div>
                     @endif
 
+                    {{-- el jodido mapa --}}
+                    <div class="w-full">
+                        <div id="mapaEstado" class="w-full h-96 rounded-lg"></div>
+                    </div>
+
                     {{-- fecha de actualizacion y boton cerrar --}}
                     <div class="flex flex-row justify-between items-center">
                         {{-- updated_at --}}
