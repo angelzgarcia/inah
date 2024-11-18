@@ -71,7 +71,7 @@ class CreateForm extends Form
         }
     }
 
-    // crear y guardar relacion con estados
+    // crear y guardar relacion con estados|
     public function saveEstado($idEstado)
     {
         if (in_array($idEstado, $this -> estadosID))

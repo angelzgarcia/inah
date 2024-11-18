@@ -11,7 +11,7 @@
         ])
     }}
 
-    @if($route) onclick="window.location.href='{{ route($route) }}'" @endif
+    {{-- @if($route) onclick="window.location.href='{{ route($route) }}'" wire:navigate @endif --}}
 >
 
     {!! $svg !!}

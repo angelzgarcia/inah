@@ -71,7 +71,7 @@
                             {{-- boton de relacion con tabla de estados --}}
                             <x-fieldset class="mb-5 mt-2">
                                 <x-legend class="normal-case">Estados a los que pertenece esta cultura*</x-legend>
-                                <div class="flex w-full justify-between">
+                                <div class="flex w-full mt-2 justify-between">
                                     <x-button wire:click="$set('culturaCreate.openStatesSelect', true)">
                                         Seleccionar
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"/></svg>
@@ -87,7 +87,7 @@
                             @if ($culturaCreate->openStatesSelect)
                                 <x-modal openPropiety="culturaCreate.openStatesSelect">
                                     <x-strong class="!text-xl text-end">Selecciona los estados a los que pertenece esta cultura</x-strong>
-                                    <div class="grid grid-cols-auto-fill-200 gap-x-10 my-3 px-6 gap-y-6 content-between grid-flow-row w-full">
+                                    <div class="grid grid-cols-auto-fill-200 gap-x-10 my-3 gap-y-6 content-between grid-flow-row w-full">
                                         @foreach ($estadosRegistrados as $estado)
                                             <div wire:key="Culturas-Estados-{{$estado->idEstadoRepublica}}" class="flex justify-between bg-zinc-100 hover:bg-stone-200 hover:shadow-lg shadow-md rounded-lg px-4 py-2">
                                                 <x-legend class="text-start">{{$estado->nombre}}</x-legend>
@@ -101,7 +101,7 @@
                                     </div>
 
                                     {{-- paginador de estados --}}
-                                    <div class="px-6">
+                                    <div class="">
                                         <x-paginador :table="$estadosRegistrados" />
                                     </div>
 
@@ -232,7 +232,7 @@
                     </div>
 
                     {{-- fecha de actualizacion y boton cerrar --}}
-                    <div class="flex flex-row justify-between items-center">
+                    <div class="flex flex-row justify-between mt-4 items-center">
                         {{-- updated_at --}}
                         <div>
                             <x-strong>Ultima actualización: </x-strong>
@@ -297,7 +297,7 @@
                         {{-- lista de relacion con tabla de estados --}}
                         <x-fieldset class="mb-5 mt-2">
                             <x-legend class="normal-case">Estados a los que pertenece esta cultura</x-legend>
-                            <div class="flex w-full justify-between">
+                            <div class="flex w-full mt-2 justify-between">
                                 {{-- abrir modal de checkboxes --}}
                                 <x-button wire:click="$set('culturaUpdate.openStatesSelect', true)">
                                     Ver Lista
@@ -320,7 +320,7 @@
                                 </x-strong>
 
                                 {{-- checboxes de estados totales y estados relacionados a la cultura actual --}}
-                                <div class="grid grid-cols-auto-fill-200 gap-x-10 my-3 px-6 gap-y-6 content-between grid-flow-row w-full">
+                                <div class="grid grid-cols-auto-fill-200 gap-x-10 my-3 gap-y-6 content-between grid-flow-row w-full">
                                     @foreach ($estadosRegistrados as $estado)
                                         {{-- estado y checkbox --}}
                                         <div wire:key="Estados-actuales-{{$estado->idEstadoRepublica}}" class="flex justify-between bg-zinc-100 hover:bg-stone-200 hover:shadow-lg shadow-md rounded-lg px-4 py-2">
@@ -344,7 +344,7 @@
                                 </div>
 
                                 {{-- paginador de estados --}}
-                                <div class="px-6">
+                                <div class="">
                                     <x-paginador :table="$estadosRegistrados" />
                                 </div>
 
@@ -356,42 +356,51 @@
                         @endif
 
                         {{-- fotos --}}
-                        <x-fieldset>
+                        <x-fieldset class="mb-4 text-center">
                             <x-legend>Imagenes actuales</x-legend>
-                            @foreach ($this->cultura->fotos as $foto)
-                                <div class="my-5 w-full" wire:key="{{$foto->idCulturaFoto}}">
-                                    {{-- actualizar y / o borrar imagen actual --}}
-                                    <div class="flex flex-row justify-between items-center">
-                                        {{-- actualizar imagen --}}
-                                        <div class="flex flex-col">
-                                            <x-label><x-strong>Subir nueva imagen</x-strong></x-label>
-                                            <input
-                                                type="file"
-                                                wire:model="culturaUpdate.imgs_update.{{$foto->idCulturaFoto}}"
-                                                wire:key="{{$culturaUpdate->fotoKey}}"
-                                                name="imgs_update.{{$foto->idCulturaFoto}}"
-                                                accept="image/*"
-                                            >
-                                            <x-error-message for="culturaUpdate.imgs_update.{{$foto->idCulturaFoto}}" />
+                            <div class="grid grid-cols-auto-fill-250 text-start mt-6 justify-between content-between gap-x-10 gap-y-14">
+                                @foreach ($this->cultura->fotos as $foto)
+                                    <div class="flex flex-col gap-3 justify-between p-6 relative overflow-hidden text-ellipsis rounded-md break-all text-nowrap bg-slate-100 items-start w-full" wire:key="{{$foto->idCulturaFoto}}">
+                                        {{-- imagen actual --}}
+                                        <div class="w-full flex justify-center">
+                                            <img src="{{img_u_url($foto->foto)}}" class="shadow-md rounded-md" width="200px" alt="img-cultura">
                                         </div>
-                                        {{-- eliminar imagen --}}
-                                        <div class="flex flex-row gap-5 items-center justify-center">
-                                            <x-label><x-strong>Eliminar imagen</x-strong></x-label>
-                                            <x-checkbox
-                                                wire:model="culturaUpdate.to_eliminate_imgs.{{$foto->idCulturaFoto}}"
-                                                name="to_eliminate_imgs.{{$foto->idCulturaFoto}}"
-                                                onchange="disabled_input('{{$foto->idCulturaFoto}}')"
-                                            />
-                                            <x-error-message for="culturaUpdate.to_eliminate_imgs.{{$foto->idCulturaFoto}}" />
-                                        </div>
-                                    </div>
 
-                                    {{-- imagen actual --}}
-                                    <div class="mt-2">
-                                        <img src="{{img_u_url($foto->foto)}}" class="shadow-md rounded-md" width="150px" alt="img-cultura">
+                                        {{-- actualizar y / o borrar imagen actual --}}
+                                        <div class="flex flex-col justify-between gap-3 !text-xs text-gray-400 items-start align-items-start">
+                                            {{-- eliminar imagen --}}
+                                            <div class="flex absolute top-2 right-3 flex-row gap-5 items-center justify-center">
+                                                <div class="relative flex justify-center items-center">
+                                                    <x-checkbox
+                                                        wire:model="culturaUpdate.to_eliminate_imgs.{{$foto->idCulturaFoto}}"
+                                                        name="to_eliminate_imgs.{{$foto->idCulturaFoto}}"
+                                                        onchange="disabled_input('{{$foto->idCulturaFoto}}')"
+                                                        class="peer bg-white"
+                                                    />
+                                                    <span class="absolute text-center peer-checked:bg-slate-300 peer-checked:rounded-md pointer-events-none p-1 top-0 right-0 left-0 bottom-0">
+                                                        <svg width="100%" fill="#e82721" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M170.5 51.6L151.5 80l145 0-19-28.4c-1.5-2.2-4-3.6-6.7-3.6l-93.7 0c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80 368 80l48 0 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-8 0 0 304c0 44.2-35.8 80-80 80l-224 0c-44.2 0-80-35.8-80-80l0-304-8 0c-13.3 0-24-10.7-24-24S10.7 80 24 80l8 0 48 0 13.8 0 36.7-55.1C140.9 9.4 158.4 0 177.1 0l93.7 0c18.7 0 36.2 9.4 46.6 24.9zM80 128l0 304c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-304L80 128zm80 64l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
+                                                    </span>
+                                                </div>
+                                                {{-- <x-label><x-strong>Eliminar imagen</x-strong></x-label> --}}
+                                                <x-error-message for="culturaUpdate.to_eliminate_imgs.{{$foto->idCulturaFoto}}" />
+                                            </div>
+                                            {{-- actualizar imagen --}}
+                                            <div class="flex text-start gap-2 flex-col">
+                                                <x-label>Actualizar imagen</x-label>
+                                                <input
+                                                    type="file"
+                                                    wire:model="culturaUpdate.imgs_update.{{$foto->idCulturaFoto}}"
+                                                    wire:key="{{$culturaUpdate->fotoKey}}"
+                                                    name="imgs_update.{{$foto->idCulturaFoto}}"
+                                                    accept="image/*"
+                                                    class="text-xs bg-white rounded-sm"
+                                                >
+                                                <x-error-message for="culturaUpdate.imgs_update.{{$foto->idCulturaFoto}}" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </x-fieldset>
 
                         {{-- agregar fotos --}}
@@ -404,7 +413,7 @@
                         @endif
 
                         {{-- botones de actualizar y cancelar --}}
-                        <div class="flex flex-row justify-end gap-4">
+                        <div class="flex flex-row justify-end gap-6">
                             {{-- actualizar --}}
                             <x-button type="submit" tipo="update">
                                 Actualizar

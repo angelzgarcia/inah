@@ -2,7 +2,7 @@
 
 <header class="header-users">
     <nav class="nav-users">
-        <a href="{{route('home')}}">
+        <a href="{{route('home')}}" :active="request()->routeIs('home')" wire:navigate>
             <img src="{{ img_d_url('logo_85.png') }}" alt="logo-85">
         </a>
         <div class="links-nav">

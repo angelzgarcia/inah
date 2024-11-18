@@ -9,7 +9,7 @@
         <x-toast name_event="est-event"/> {{-- SWEET ALERT TOAST --}}
 
         <x-toast-confirm
-            text="Todas las culturas relacionadas a este estado tambien serán elimiandas."
+            {{-- text="Todas las culturas relacionadas a este estado tambien serán elimiandas." --}}
         /> {{-- SWEET ALERT CONMFIRM EVENT --}}
 
     @endpush

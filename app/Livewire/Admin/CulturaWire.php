@@ -73,7 +73,7 @@ class CulturaWire extends Component
     {
         $this -> cultura = $cultura;
 
-        $this -> cargarEstadosRelacionados($cultura);
+        $this -> cargarEstadosRelacionados($cultura -> dCultura);
 
         $this -> openShow = true;
     }
@@ -83,7 +83,7 @@ class CulturaWire extends Component
     {
         $this -> cultura = $cultura;
 
-        $this -> cargarEstadosRelacionados($cultura);
+        $this -> cargarEstadosRelacionados($cultura -> idCultura);
 
         // se envian solo los id de los estados, no los modelos completos
         $this -> culturaUpdate -> estadosActualesID = $this
@@ -145,11 +145,11 @@ class CulturaWire extends Component
     }
 
     // cargar la relacion con estados
-    public function cargarEstadosRelacionados(Cultura $cultura)
+    public function cargarEstadosRelacionados($culturaID)
     {
         // se seleccionan los id de los estados relacionados a la cultura actual consultada. se obtienen los modelos
         $culturasEstados = CulturaEstado::select('idEstadoRepublica')
-                                        -> where('idCultura', $cultura -> idCultura)
+                                        -> where('idCultura', $culturaID)
                                         -> get();
 
         // se extraen solo los ids de los modelos extraidos anteriormente
@@ -159,6 +159,11 @@ class CulturaWire extends Component
         $this -> estadosActuales = Estado::select(['idEstadoRepublica', 'nombre'])
                                         -> whereIn('idEstadoRepublica', $idsEstados)
                                         -> get();
+    }
+
+    public function redirigir($route)
+    {
+        return $this -> redirect($route, navigate: true);
     }
 
 }

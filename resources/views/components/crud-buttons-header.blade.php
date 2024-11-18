@@ -5,7 +5,7 @@
 {{-- botones volver, agregar y cancelar --}}
 <div class="w-full flex justify-between">
     {{-- volver --}}
-    <x-button tipo="back" route="database">
+    <x-button tipo="back" wire:click="redirigir('database')">
         Volver
     </x-button>
 

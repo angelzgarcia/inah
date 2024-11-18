@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms\Estado;
 
+use App\Models\CulturaEstado;
 use App\Models\Estado;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule as ValidationRule;
@@ -30,8 +31,19 @@ class UpdateForm extends Form
     #[Rule('nullable|mimes:pd|max:10500')]
     public $guia;
 
+    // ids de las culturas actuales relacionados al estado actual
+    #[Rule('nullable|array|distinct')]
+    public $culturasActualesID = [];
+
+    #[Rule('nullable|array|distinct')]
+    public $culturasUpdateID = [];
+
+    #[Rule('nullable|array|distinct')]
+    public $culturasRemoveID = [];
+
     public
     $openEdit = false,
+    $openCulturasCheck = false,
     $fotoKey,
     $tripticoKey,
     $guiaKey,
@@ -70,16 +82,55 @@ class UpdateForm extends Form
             $this ->
                 actualizarFichero("guias", $this -> estado -> guia, "guia", $this -> guia);
 
-
         $this -> estado -> update($this -> only(
 'nombre',
             'capital',
             'video',
         ));
 
+        // agregar culturas relacionadas
+        if (!empty($this-> culturasUpdateID))
+            foreach ($this->culturasUpdateID as $idCultura)
+                CulturaEstado::create([
+                    'idCultura' => $idCultura,
+                    'idEstadoRepublica' => $this -> estado -> idEstadoRepublica,
+                ]);
+
+        // eliminar culturas relacionadas
+        if (!empty($this -> culturasRemoveID))
+            foreach ($this -> culturasRemoveID as $idCultura)
+                CulturaEstado::where('idCultura', $idCultura)
+                            -> where('idEstadoRepublica', $this -> estado -> idEstadoRepublica)
+                            -> delete();
+
         $this -> reset();
 
         return true;
+    }
+
+    public function updateCulturas($idCultura)
+    {
+        if (in_array($idCultura, $this->culturasActualesID)):
+            if (in_array($idCultura, $this->culturasRemoveID))
+                $this->culturasRemoveID = array_filter(
+                    $this->culturasRemoveID,
+                    fn($id) => $id !== $idCultura
+                );
+
+            else $this->culturasRemoveID[] = $idCultura;
+
+        else:
+            if (in_array($idCultura, $this->culturasUpdateID))
+                $this->culturasUpdateID = array_filter(
+                    $this->culturasUpdateID,
+                    fn($id) => $id !== $idCultura
+                );
+
+            else $this->culturasUpdateID[] = $idCultura;
+
+        endif;
+
+        $this->validate();
     }
 
     public function actualizarFichero($ruta, $referencia, $campo, $fichero)

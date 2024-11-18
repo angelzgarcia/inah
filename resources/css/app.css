@@ -1,60 +1,22 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-[x-cloak] {
-    display: none;
-}
-
-:root, body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    min-width: 100%;
-    min-height: 100vh;
-    scrollbar-width: thin;
-    scrollbar-color: #ccbcae #9b7c62;
-}
+[x-cloak] { display: none; }
 
 
 /* SWEET ALERTS STYLES */
-.colored-toast.swal2-icon-success {
-    background-color: #a5dc86 !important;
-}
-.colored-toast.swal2-icon-error {
-    background-color: #f27474 !important;
-}
-.colored-toast.swal2-icon-warning {
-    background-color: #f8bb86 !important;
-}
-.colored-toast.swal2-icon-info {
-    background-color: #3fc3ee !important;
-}
-.colored-toast.swal2-icon-question {
-    background-color: #87adbd !important;
-}
-.colored-toast .swal2-title {
-    color: white;
-}
-.colored-toast .swal2-close {
-    color: white;
-}
-.colored-toast .swal2-html-container {
-    color: white;
-}
-
-/* ESTILOS ENLACES REQUEST ROUTES ¿K ES ESTO? NO LO SE BRO NO LO RECUERDO */
-.active {
-    background-color: antiquewhite;
-    color: #816954 !important;
-    box-shadow: 0 0 .5em 0 #816954 inset;
-    border-radius: .5em;
-}
+.colored-toast.swal2-icon-success { background-color: #a5dc86 !important; }
+.colored-toast.swal2-icon-error { background-color: #f27474 !important; }
+.colored-toast.swal2-icon-warning { background-color: #f8bb86 !important; }
+.colored-toast.swal2-icon-info { background-color: #3fc3ee !important; }
+.colored-toast.swal2-icon-question { background-color: #87adbd !important; }
+.colored-toast .swal2-title { color: white; }
+.colored-toast .swal2-close { color: white; }
+.colored-toast .swal2-html-container { color: white; }
 
 
-
-
-/* ESTILOS MAMALONES PARA LOS COMPONENTES BOTON MAMALONES. MAMALÓN */
+/* ESTILOS MAMALONES PARA LOS BOTONES COMPONENTES MAMALONES. MAMALÓN */
 .btn-comp {
     color: #fff;
     font-weight: bold;
@@ -63,7 +25,7 @@
     border-radius: .5em;
     height: 40px;
     min-width: 100px;
-    box-shadow: 0 .2em .2em 0 #8080808c;
+    box-shadow: 0 .2em .2em 0 #8080808c !important;
     transition: all .2s;
 
     &.btn-default{ background-color: #2d2836; }
@@ -86,7 +48,7 @@
 
     &.btn-close { background-color: #2d2836; }
 
-    &.btn-x { background-color: #e61009; }
+    &.btn-x { background-color: #e81123; border-radius: 50%; min-width: 30px; display: flex; justify-content: center; align-items: center; min-height: 30px; max-width: 30px; max-height: 30px; }
 
     &.btn-edit { background-color: #5959e6; }
 
@@ -101,6 +63,33 @@
     & svg { height: 20px; fill: #fff; flex-shrink: 0; }
 
 }
+
+:root, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-width: 100%;
+    min-height: 100vh;
+    scrollbar-width: thin;
+    scrollbar-color: #ccbcae #9b7c62;
+}
+
+/* ESTILOS ENLACES REQUEST ROUTES ¿K ES ESTO? NO LO SE BRO NO LO RECUERDO */
+.active {
+    background-color: antiquewhite;
+    color: #816954 !important;
+    box-shadow: 0 0 .5em 0 #816954 inset;
+    border-radius: .5em;
+}
+
+/* TITULOS CONTENIDO USUARIOS */
+.h1u { color: #374151 }
+
+
+
+
+
+
 
 
 
