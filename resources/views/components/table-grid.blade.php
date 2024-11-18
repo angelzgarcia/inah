@@ -61,7 +61,7 @@
                             </x-button>
 
                             {{-- editar --}}
-                            <x-button tipo="edit" wire:click="edit({{$register}})">
+                            <x-button tipo="edit" wire:click="edit({{ $register->{$keys[0]} }})">
                                 Editar
                             </x-button>
 

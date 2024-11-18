@@ -1001,6 +1001,7 @@ footer {
                 grid-column-end: -1;
             }
             & div {
+                min-width: 100%;
                 height: max-content;
             }
         }

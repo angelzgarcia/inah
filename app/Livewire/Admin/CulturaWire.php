@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Livewire\Forms\Cultura\CreateForm;
 use App\Livewire\Forms\Cultura\UpdateForm;
 use App\Models\Cultura;
+use App\Models\CulturaEstado;
 use App\Models\Estado;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
@@ -25,6 +26,7 @@ class CulturaWire extends Component
     $openShow = false,
     $fotoKey,
     $cultura,
+    $estadosActuales,
     $query = '',
     $perPage = 5;
 
@@ -47,15 +49,10 @@ class CulturaWire extends Component
 
         $nEstados = Estado::count();
 
-        $estados = Estado::select(['idEstadoRepublica', 'nombre']) -> paginate(pageName: 'estadosPage');
+        $estadosRegistrados = Estado::select(['idEstadoRepublica', 'nombre'])
+                                    -> paginate(16, pageName: 'estadosPage');
 
-        return view('livewire.admin.cultura-wire', compact('culturas', 'cols', 'nEstados', 'estados'));
-    }
-
-    // crear y guardar relacion con estados
-    public function saveEstado($idEstado)
-    {
-        $this -> culturaCreate -> saveEstado($idEstado);
+        return view('livewire.admin.cultura-wire', compact('culturas', 'cols', 'nEstados', 'estadosRegistrados'));
     }
 
     // crear y guardar
@@ -75,6 +72,9 @@ class CulturaWire extends Component
     public function show(Cultura $cultura)
     {
         $this -> cultura = $cultura;
+
+        $this -> cargarEstadosRelacionados($cultura);
+
         $this -> openShow = true;
     }
 
@@ -82,6 +82,15 @@ class CulturaWire extends Component
     public function edit(Cultura $cultura)
     {
         $this -> cultura = $cultura;
+
+        $this -> cargarEstadosRelacionados($cultura);
+
+        // se envian solo los id de los estados, no los modelos completos
+        $this -> culturaUpdate -> estadosActualesID = $this
+                                                -> estadosActuales
+                                                -> pluck('idEstadoRepublica')
+                                                -> toArray();
+
         $this -> culturaUpdate -> edit($cultura);
     }
 
@@ -109,18 +118,47 @@ class CulturaWire extends Component
         }
     }
 
-    // confirmar eliminacio
-    public function confirmDestroy($idCultura)
-    {
-        $this -> dispatch('conf-event', $idCultura);
-    }
-
     // eliminar
     public function destroy(Cultura $cultura)
     {
         $cultura -> delete();
 
         $this -> dispatch('cult-event', icon:'success', title:'Cultura eliminada');
+    }
+
+    // confirmar eliminacio
+    public function confirmDestroy($idCultura)
+    {
+        $this -> dispatch('conf-event', $idCultura);
+    }
+
+    // crear y guardar relacion con estados
+    public function saveEstado($idEstado)
+    {
+        $this -> culturaCreate -> saveEstado($idEstado);
+    }
+
+    // crear y guardar relacion con estados
+    public function updateEstado($idEstado)
+    {
+        $this -> culturaUpdate -> updateEstados($idEstado);
+    }
+
+    // cargar la relacion con estados
+    public function cargarEstadosRelacionados(Cultura $cultura)
+    {
+        // se seleccionan los id de los estados relacionados a la cultura actual consultada. se obtienen los modelos
+        $culturasEstados = CulturaEstado::select('idEstadoRepublica')
+                                        -> where('idCultura', $cultura -> idCultura)
+                                        -> get();
+
+        // se extraen solo los ids de los modelos extraidos anteriormente
+        $idsEstados = $culturasEstados -> pluck('idEstadoRepublica');
+
+        // se seleccionan los estados con los ids obtenidos antes
+        $this -> estadosActuales = Estado::select(['idEstadoRepublica', 'nombre'])
+                                        -> whereIn('idEstadoRepublica', $idsEstados)
+                                        -> get();
     }
 
 }
