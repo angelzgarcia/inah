@@ -45,7 +45,52 @@
                                     <x-input wire:model.live="estadoCreate.video" placeholder="https://www.youtube.com/watch?v=" value="{{old('video')}}" />
                                     <x-error-message for="estadoCreate.video" />
                                 </x-fieldset>
+
+                                {{-- boton lista de culturas --}}
+                                @if ($nCulturas > 0)
+                                    <x-fieldset class="mb-5 mt-2">
+                                        <x-legend class="normal-case">Culturas que pertenecen a este estado</x-legend>
+                                        <div class="flex w-full mt-2 justify-between">
+                                            <x-button wire:click="$set('estadoCreate.openCulturasCheck', true)">
+                                                Seleccionar
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"/></svg>
+                                            </x-button>
+                                            <x-strong>
+                                                {{count($estadoCreate->culturasID)}} culturas relacionadas
+                                            </x-strong>
+                                        </div>
+                                        <x-error-message for="estadoCreate.culturasID" />
+                                    </x-fieldset>
+                                @endif
                             </div>
+
+                            {{-- modal checkboxes CULTURAS --}}
+                            @if ($estadoCreate->openCulturasCheck)
+                                <x-modal openPropiety="estadoCreate.openCulturasCheck">
+                                    <x-strong class="!text-xl text-end">Selecciona las culturas que han conformado a este estado</x-strong>
+                                    <div class="grid grid-cols-auto-fill-200 gap-x-10 my-3 gap-y-6 content-between grid-flow-row w-full">
+                                        @foreach ($culturasRegistradas as $cultura)
+                                            <div wire:key="Estado-Cultura-{{$cultura->idCultura}}" class="flex justify-between bg-zinc-100 hover:bg-stone-200 hover:shadow-lg shadow-md rounded-lg px-4 py-2">
+                                                <x-legend class="text-start">{{$cultura->nombre}}</x-legend>
+                                                <x-checkbox
+                                                    class="bg-white"
+                                                    wire:click="saveCultura({{$cultura->idCultura}})"
+                                                    :checked="in_array($cultura->idCultura, $estadoCreate->culturasID)"
+                                                />
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    {{-- paginador de estados --}}
+                                    <div class="">
+                                        <x-paginador :table="$culturasRegistradas" />
+                                    </div>
+
+                                    <x-button tipo="check" class="self-end mt-3" wire:click="$set('estadoCreate.openCulturasCheck', false)">
+                                        Confirmar
+                                    </x-button>
+                                </x-modal>
+                            @endif
 
                             {{-- foto, triptcio y guia --}}
                             <div class="flex flex-col gap-12">
@@ -149,7 +194,7 @@
                                 frameborder="0"
                                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen
-                                class="rounded-md">
+                                class="rounded-md shadow-lg">
                             >
                                 <p>No se puede mostrar el video. URL no válida.</p>
                             </iframe>
@@ -164,15 +209,30 @@
                         {{-- triptico --}}
                         <div>
                             <x-legend>Tríptico informativo:</x-legend>
-                            <iframe src="{{ triptico_url($this->estado->triptico) }}" width="100%" height="500px" class="rounded-md"></iframe>
+                            <iframe src="{{ triptico_url($this->estado->triptico) }}" width="100%" height="500px" class="rounded-md shadow-lg"></iframe>
                         </div>
 
                         {{-- guia --}}
                         <div>
                             <x-legend>Guía informativa:</x-legend>
-                            <iframe src="{{ guia_url($this->estado->guia) }}" width="100%" height="500px" class="rounded-md"></iframe>
+                            <iframe src="{{ guia_url($this->estado->guia) }}" width="100%" height="500px" class="rounded-md shadow-lg"></iframe>
                         </div>
                     </div>
+
+                    {{-- culturas relacionados --}}
+                    @if ($nCulturas > 0)
+                        <div class="my-6">
+                            <x-legend>Culturas relacionadas a este estado:</x-legend>
+                            <div class="flex items-center flex-wrap justify-start mt-2 gap-6">
+                                @foreach ($this->culturasActuales as $cultura)
+                                    <div wire:key="Culturas-Seleccioandos{{$cultura->idCultura}}" class="flex items-center min-w-40 bg-zinc-100 shadow-md px-3 py-1 rounded-md gap-4 justify-between">
+                                        <x-strong>{{$cultura->nombre}}</x-strong>
+                                        <x-checkbox checked disabled class="!bg-green-300 !cursor-default" />
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
 
                     {{-- fecha de actualizacion y boton cerrar --}}
                     <div class="flex flex-row justify-between items-center">
@@ -221,6 +281,72 @@
                                     <x-input wire:model.live="estadoUpdate.video" value="{{old('video')}}" />
                                     <x-error-message for="estadoUpdate.video" />
                                 </x-fieldset>
+
+                                {{-- lista de relacion con tabla de estados --}}
+                                @if ($nCulturas > 0)
+                                    {{-- boton ver lista --}}
+                                    <x-fieldset class="">
+                                        <x-legend class="normal-case">Culturas relacionadas a este estado</x-legend>
+                                        <div class="flex w-full mt-2 justify-between">
+                                            {{-- abrir modal de checkboxes --}}
+                                            <x-button wire:click="$set('estadoUpdate.openCulturasCheck', true)">
+                                                Ver Lista
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"/></svg>
+                                            </x-button>
+                                            {{-- numero de estados seleccionados --}}
+                                            <x-strong>
+                                                {{count(array_diff(array_merge($this->estadoUpdate->culturasActualesID,
+                                                $this->estadoUpdate->culturasUpdateID), $this->estadoUpdate->culturasRemoveID))}}
+                                                culturas seleccionadas
+                                            </x-strong>
+                                        </div>
+                                        <x-error-message for="culturaUpdate.estadosActualesID" />
+                                    </x-fieldset>
+
+                                    {{-- modal lsita checkboxes de estados --}}
+                                    @if ($estadoUpdate->openCulturasCheck)
+                                        <x-modal openPropiety="estadoUpdate.openCulturasCheck">
+                                            <x-strong class="!text-xl text-end">
+                                                Selecciona las culturas que que han conformado a este estado
+                                            </x-strong>
+
+                                            {{-- checboxes de estados totales y estados relacionados a la cultura actual --}}
+                                            <div class="grid grid-cols-auto-fill-200 gap-x-10 my-3 gap-y-6 content-between grid-flow-row w-full">
+                                                @foreach ($culturasRegistradas as $cultura)
+                                                    {{-- estado y checkbox --}}
+                                                    <div wire:key="Culturas-Actuales-{{$cultura->idCultura}}" class="flex justify-between bg-zinc-100 hover:bg-stone-200 hover:shadow-lg shadow-md rounded-lg px-4 py-2">
+                                                        <x-legend class="text-start">{{$cultura->nombre}}</x-legend>
+                                                        {{-- sincronizacion de los checkboxes con los estados relacionados actuales --}}
+                                                        <x-checkbox
+                                                            wire:click="updateCultura({{ $cultura->idCultura }})"
+                                                            :checked="in_array($cultura->idCultura,
+                                                                                array_merge(
+                                                                                    array_diff($this->estadoUpdate->culturasActualesID, $this->estadoUpdate->culturasRemoveID),
+                                                                                    $this->estadoUpdate->culturasUpdateID
+                                                                                ))"
+                                                            :class="in_array($cultura->idCultura, $this->estadoUpdate->culturasActualesID)
+                                                                        ? (in_array($cultura->idCultura, $this->estadoUpdate->culturasRemoveID)
+                                                                            ? 'bg-white border-gray-300'
+                                                                            : '!bg-green-300')
+                                                                        : 'bg-white border-gray-300'"
+                                                        />
+                                                    </div>
+                                                @endforeach
+                                            </div>
+
+                                            {{-- paginador de estados --}}
+                                            <div class="">
+                                                <x-paginador :table="$culturasRegistradas" />
+                                            </div>
+
+                                            {{-- confirmar --}}
+                                            <x-button tipo="check" class="self-end mt-3" wire:click="$set('estadoUpdate.openCulturasCheck', false)">
+                                                Confirmar
+                                            </x-button>
+                                        </x-modal>
+                                    @endif
+                                @endif
+
                             </div>
 
                             {{-- foto, triptcio y guia --}}

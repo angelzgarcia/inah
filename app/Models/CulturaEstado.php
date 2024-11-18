@@ -12,6 +12,8 @@ class CulturaEstado extends Model
     protected $table = 'culturas_estados';
     protected $primaryKey = 'idCulturaEstado';
 
+    protected $guarded = [''];
+
     public function cultura() {
         return $this -> belongsTo(Cultura::class, 'idCultura', 'idCultura');
     }

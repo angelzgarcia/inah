@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms\Cultura;
 
 use App\Models\Cultura;
+use App\Models\CulturaEstado;
 use App\Models\CulturaImagen;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Validate;
@@ -28,7 +29,7 @@ class CreateForm extends Form
     #[Rule('required|array|min:2|max:4|distinct|max:10000')]
     public $imagenes = [];
 
-    #[Rule('required|min:1|array|distinct|unique:estados,idEstadoRepublica')]
+    #[Rule('required|min:1|array|distinct')]
     public $estadosID = [];
 
     public
@@ -52,6 +53,9 @@ class CreateForm extends Form
                 )
             );
             $this -> storeImg($this -> imagenes, $cultura);
+
+            $this -> storeCulturaEstado($this -> estadosID, $cultura->idCultura);
+
             $this -> reset();
 
             return true;
@@ -67,6 +71,17 @@ class CreateForm extends Form
         }
     }
 
+    // crear y guardar relacion con estados|
+    public function saveEstado($idEstado)
+    {
+        if (in_array($idEstado, $this -> estadosID))
+            $this -> estadosID = array_filter($this -> estadosID, fn($id) => $id !== $idEstado);
+        else
+            $this -> estadosID[] = $idEstado;
+
+        $this -> validate();
+    }
+
     // guardar imagenes
     public function storeImg($imgs_arr_name, $cultura) {
         foreach($imgs_arr_name as $foto) {
@@ -77,13 +92,15 @@ class CreateForm extends Form
         }
     }
 
-    // crear y guardar relacion con estados
-    public function saveEstado($idEstado)
+    // guardar cultura estado
+    public function storeCulturaEstado($estadosID, $idCultura)
     {
-        if (in_array($idEstado, $this -> estadosID))
-            $this -> estadosID = array_filter($this -> estadosID, fn($id) => $id !== $idEstado);
-        else
-            $this -> estadosID[] = $idEstado;
+        foreach ($estadosID as $idEstado) {
+            $estadoCultura = new CulturaEstado();
+            $estadoCultura -> idCultura = $idCultura;
+            $estadoCultura -> idEstadoRepublica = $idEstado;
+            $estadoCultura -> save();
+        }
     }
 
     // mensajes para las relgas de validacion de cada atributo

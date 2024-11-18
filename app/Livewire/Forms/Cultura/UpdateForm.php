@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms\Cultura;
 
 use App\Models\Cultura;
+use App\Models\CulturaEstado;
 use App\Models\CulturaImagen;
 use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Rule;
@@ -27,23 +28,42 @@ class UpdateForm extends Form
     #[Rule('required|max:1000|min:50')]
     public $aportaciones;
 
-    #[Rule('nullable|max:4|distinct|max:10000')]
+    #[Rule('nullable|max:4|distinct|array|max:10000')]
     public $imgs_nuevas = [];
+
+    #[Rule('nullable|max:4|distinct|array')]
+    public $imgs_update = [];
+
+    #[Rule('nullable|max:4|distinct|array')]
+    public $to_eliminate_imgs = [];
+
+    // ids de los estados actuales relacionados a la cultura actual
+    #[Rule('required|min:1|array|distinct')]
+    public $estadosActualesID = [];
+
+    #[Rule('nullable|array|distinct')]
+    public $estadosUpdateID = [];
+
+    #[Rule('nullable|array|distinct')]
+    public $estadosRemovedID = [];
+
 
     public
     $openEdit = false,
+    $openStatesSelect = false,
     $imgs_count,
-    $imgs_update = [],
-    $to_eliminate_imgs = [],
     $fotoKey,
     $cultura;
 
     public function edit(Cultura $cultura)
     {
         $this -> openEdit = true;
+
         $this -> cultura = $cultura;
+
         $this -> imgs_count = count($cultura -> fotos);
-        $this -> fill($this -> cultura -> only(
+
+        $this -> fill($cultura -> only(
 [
                 'nombre',
                 'periodo',
@@ -52,8 +72,6 @@ class UpdateForm extends Form
                 'aportaciones',
             ]
         ));
-
-        // $this -> validate() -> reset();
     }
 
     public function update()
@@ -61,7 +79,7 @@ class UpdateForm extends Form
         $this -> validate(
     [
                 'nombre' => ValidationRule::unique('culturas', 'nombre')
-                                            ->ignore($this->cultura->idCultura, 'idCultura')
+                                            -> ignore($this->cultura->idCultura, 'idCultura')
             ]
         );
 
@@ -125,11 +143,58 @@ class UpdateForm extends Form
             // agreagar
             if ($imgs_nuevas_count > 0)
                 foreach($this -> imgs_nuevas as $img) $this -> uploadImage($img);
+
         }
+
+        // agregar nuevas relaciones con estados
+        if(!empty($this->estadosUpdateID))
+            foreach ($this->estadosUpdateID as $estadoID)
+                CulturaEstado::create([
+                    'idCultura' => $this -> cultura -> idCultura,
+                    'idEstadoRepublica' => $estadoID,
+                ]);
+
+        // eliminar relaciones existentes
+        if(!empty($this->estadosRemovedID))
+            foreach ($this->estadosRemovedID as $estadoID)
+                CulturaEstado::where('idCultura', $this -> cultura -> idCultura)
+                                -> where('idEstadoRepublica', $estadoID)
+                                -> delete();
 
         $this -> reset();
 
         return true;
+    }
+
+    public function updateEstados($idEstado)
+    {
+        if (in_array($idEstado, $this->estadosActualesID)) {
+            // Si pertenece a los estados actuales, moverlo a estadosRemovedID
+            if (in_array($idEstado, $this->estadosRemovedID)) {
+                // Si ya estaba en removidos, quitarlo de ahí (volver a seleccionarlo)
+                $this->estadosRemovedID = array_filter(
+                    $this->estadosRemovedID,
+                    fn($id) => $id !== $idEstado
+                );
+            } else {
+                // Si no estaba en removidos, agregarlo
+                $this->estadosRemovedID[] = $idEstado;
+            }
+        } else {
+            // Si no pertenece a los estados actuales, es un nuevo estado
+            if (in_array($idEstado, $this->estadosUpdateID)) {
+                // Quitar de nuevos si ya estaba seleccionado
+                $this->estadosUpdateID = array_filter(
+                    $this->estadosUpdateID,
+                    fn($id) => $id !== $idEstado
+                );
+            } else {
+                // Agregar a nuevos seleccionados
+                $this->estadosUpdateID[] = $idEstado;
+            }
+        }
+
+        $this->validate();
     }
 
     public function uploadElimianteImage()
@@ -173,4 +238,41 @@ class UpdateForm extends Form
         $this -> reset(['to_eliminate_imgs', 'imgs_update', 'imgs_nuevas']);
         $this -> fotoKey = rand();
     }
+
+    // mensajes para las relgas de validacion de cada atributo
+    protected function messages()
+    {
+        return [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.string' => 'El nombre debe ser una cadena de texto.',
+            'nombre.max' => 'El nombre no puede tener más de 50 caracteres.',
+            'nombre.regex' => 'El nombre solo puede contener letras y espacios.',
+
+            'periodo.required' => 'El periodo es obligatorio.',
+            'periodo.max' => 'El periodo no puede exceder de 80 caracteres.',
+            'periodo.min' => 'El periodo debe tener al menos 20 caracteres.',
+
+            'significado.required' => 'El significado es obligatorio.',
+            'significado.max' => 'El significado no puede exceder de 255 caracteres.',
+            'significado.min' => 'El significado debe tener al menos 10 caracteres.',
+
+            'descripcion.required' => 'La descripción es obligatoria.',
+            'descripcion.max' => 'La descripción no puede exceder de 1024 caracteres.',
+            'descripcion.min' => 'La descripción debe tener al menos 200 caracteres.',
+
+            'aportaciones.required' => 'Las aportaciones son obligatorias.',
+            'aportaciones.max' => 'Las aportaciones no pueden exceder de 1000 caracteres.',
+            'aportaciones.min' => 'Las aportaciones deben tener al menos 50 caracteres.',
+
+            'imgs_nuevas.max' => 'No puedes subir más de cuatro imágenes.',
+            'imgs_nuevas.distinct' => 'Las imágenes deben ser diferentes entre sí.',
+            'imgs_nuevas.*.max' => 'Cada imagen no puede exceder los 10 MB.',
+            'imgs_nuevas.*.image' => 'Cada archivo debe ser una imagen.',
+            'imgs_nuevas.*.mimes' => 'Cada imagen debe ser de tipo jpg, jpeg, png o webp.',
+
+            'estadosActualesID.required' => 'La relación con al menos un estado es obligatoria.',
+            'estadosActualesID.min' => 'Debes seleccionar al menos un estado.',
+        ];
+    }
+
 }

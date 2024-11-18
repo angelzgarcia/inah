@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms\Estado;
 
+use App\Models\CulturaEstado;
 use App\Models\Estado;
 // use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -31,16 +32,21 @@ class CreateForm extends Form
     #[Rule('required|mimes:pdf|max:10500')]
     public $guia;
 
-    public $openCreate = false;
+    #[Rule('nullable|array|distinct')]
+    public $culturasID = [];
+
+    public
+    $openCreate = false,
+    $openCulturasCheck = false;
 
 
     public function save()
     {
         $this -> validate();
 
-        $video = Estado::where('video',  $this -> cleanYouTubeUrl($this -> video));
+        $video = Estado::where('video',  $this -> cleanYouTubeUrl($this -> video)) -> first();
 
-        if ($video) return false;
+        if (!empty($video)) return false;
 
         if (isset($this -> foto, $this -> guia, $this -> triptico)) {
 
@@ -48,7 +54,7 @@ class CreateForm extends Form
             $triptico =  $this -> triptico -> storeAs('tripticos', $this -> triptico -> getClientOriginalName() . '-' . time() , 'public');
             $guia =  $this -> guia -> storeAs('guias', $this -> guia -> getClientOriginalName() . '-' . time() ,'public');
 
-            Estado::create(
+            $estado = Estado::create(
     [
                     'nombre' => $this -> nombre,
                     'capital' => $this -> capital,
@@ -59,10 +65,27 @@ class CreateForm extends Form
                 ]
             );
 
+            if (!empty($this -> culturasID))
+                foreach ($this->culturasID as $idCultura)
+                    CulturaEstado::create([
+                        'idCultura' => $idCultura,
+                        'idEstadoRepublica' => $estado -> idEstadoRepublica,
+                    ]);
+
             $this -> reset();
 
             return true;
         }
+    }
+
+    public function saveCulturas($idCultura)
+    {
+        if (in_array($idCultura, $this -> culturasID))
+            $this -> culturasID = array_filter($this -> culturasID, fn($id) => $id !== $idCultura);
+        else
+            $this -> culturasID[] = $idCultura;
+
+        $this -> validate();
     }
 
     public function cleanYouTubeUrl($url)
