@@ -12,6 +12,8 @@ class UbicacionEstado extends Model
     protected $table = 'ubicaciones_estados';
     protected $primaryKey = 'idUbicacionEstado';
 
+    protected $guarded = [''];
+
     public function estado() {
         return $this -> belongsTo(Estado::class, 'idEstadoRepublica', 'idEstadoRepublica');
     }

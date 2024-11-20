@@ -2,16 +2,16 @@
 
 namespace App\Livewire\Forms\Cultura;
 
-use App\Models\Cultura;
 use App\Models\CulturaEstado;
 use App\Models\CulturaImagen;
 use Livewire\Attributes\Rule;
-use Livewire\Attributes\Validate;
+use App\Models\Cultura;
 use Livewire\Form;
+use Livewire\Attributes\Validate;
 
 class CreateForm extends Form
 {
-    #[Rule('required|string|min:5|max:50|unique:culturas,nombre|regex: /^[\pL\s]+$/u')]
+    #[Rule('required|string|min:5|max:30|unique:culturas,nombre|regex: /^[\pL\s]+$/u')]
     public $nombre;
 
     #[Rule('required|max:80|min:20')]
@@ -25,9 +25,12 @@ class CreateForm extends Form
 
     #[Rule('required|max:1000|min:50')]
     public $aportaciones;
-
-    #[Rule('required|array|min:2|max:4|distinct|max:10000')]
+    
+    #[Rule('required|array|min:2|max:4')]
     public $imagenes = [];
+
+    #[Rule('mimes:jpg,png,jpeg,webp|max:10000')]
+    public $imagenesItem = [];
 
     #[Rule('required|min:1|array|distinct')]
     public $estadosID = [];
@@ -42,7 +45,7 @@ class CreateForm extends Form
     {
         $this -> validate();
 
-        if ($this -> imagenes) {
+        if (count($this -> imagenes) > 0) {
             $cultura = Cultura::create(
         $this  -> only(
         'nombre',

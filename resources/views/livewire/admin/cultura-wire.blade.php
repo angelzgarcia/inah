@@ -176,7 +176,7 @@
                         {{-- nombre --}}
                         <div class="nombre-cultura mb-2">
                             <x-legend>Nombre: </x-legend>
-                            <x-strong>{{$this->cultura->nombre}}</x-strong>
+                            <x-strong class="h1u">{{$this->cultura->nombre}}</x-strong>
                         </div>
                         {{-- periodo --}}
                         <div>
@@ -259,7 +259,7 @@
                         {{-- nombre --}}
                         <x-fieldset>
                             <x-legend>Nombre</x-legend>
-                            <x-input wire:model.live="culturaUpdate.nombre" value="{{old('nombre')}}" />
+                            <x-input class="text-gray-500" wire:model.live="culturaUpdate.nombre" value="{{old('nombre')}}" />
                             <x-error-message for="culturaUpdate.nombre" />
                         </x-fieldset>
 

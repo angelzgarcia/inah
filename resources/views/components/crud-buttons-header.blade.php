@@ -1,6 +1,6 @@
 
 
-@props(['form_object', 'name_form'])
+@props(['form_object', 'name_form', 'model'])
 
 {{-- botones volver, agregar y cancelar --}}
 <div class="w-full flex justify-between">
@@ -12,8 +12,8 @@
     {{-- agregar --}}
     @if (!$form_object->openCreate)
         <x-button tipo="aggregate" wire:click="$set('{{$name_form}}.openCreate', true)">
-            Agregar Cultura
-        </x-button>
+            Agregar {{strtoupper(str_replace('Create', '', $name_form))}}
+        </x-button> 
     @else
         {{-- cancelar --}}
         <x-button tipo="cancel" wire:click="$set('{{$name_form}}.openCreate', false)">

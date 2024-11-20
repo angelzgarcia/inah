@@ -14,11 +14,11 @@
         :user="$user"
     />
 
+    @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
+
     <main class="main-admin-container my-8" id="main-admin-container">
         {{$slot}} {{-- CONTENIDO / SLOT PRINCIPAL --}}
     </main>
-
-    @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
 
     @stack('js') {{-- SCRIPTS --}}
 </body>

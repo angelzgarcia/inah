@@ -2,15 +2,15 @@
 
 namespace App\Livewire\Admin;
 
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 use App\Livewire\Forms\Cultura\CreateForm;
 use App\Livewire\Forms\Cultura\UpdateForm;
-use App\Models\Cultura;
-use App\Models\CulturaEstado;
-use App\Models\Estado;
 use Illuminate\Support\Facades\Schema;
-use Livewire\Component;
-use Livewire\Features\SupportFileUploads\WithFileUploads;
+use App\Models\CulturaEstado;
 use Livewire\WithPagination;
+use Livewire\Component;
+use App\Models\Cultura;
+use App\Models\Estado;
 
 class CulturaWire extends Component
 {
@@ -43,7 +43,7 @@ class CulturaWire extends Component
                             -> where('nombre', 'like', "%{$this->query}%")
                             -> orWhere('idCultura', 'like', "%{$this->query}%")
                             -> orderBy('idCultura', 'desc')
-                            -> paginate($this->perPage < 1 ? 5 : $this -> perPage, pageName: 'pageCulturas');
+                            -> paginate($this -> perPage < 1 ? 5 : $this -> perPage, pageName: 'pageCulturas');
 
         $cols = Schema::getColumnListing('culturas');
 
@@ -73,7 +73,7 @@ class CulturaWire extends Component
     {
         $this -> cultura = $cultura;
 
-        $this -> cargarEstadosRelacionados($cultura -> dCultura);
+        $this -> cargarEstadosRelacionados($cultura -> idCultura);
 
         $this -> openShow = true;
     }
@@ -118,18 +118,18 @@ class CulturaWire extends Component
         }
     }
 
+    // confirmar eliminacio
+    public function confirmDestroy($idCultura)
+    {
+        $this -> dispatch('conf-event', $idCultura);
+    }
+
     // eliminar
     public function destroy(Cultura $cultura)
     {
         $cultura -> delete();
 
         $this -> dispatch('cult-event', icon:'success', title:'Cultura eliminada');
-    }
-
-    // confirmar eliminacio
-    public function confirmDestroy($idCultura)
-    {
-        $this -> dispatch('conf-event', $idCultura);
     }
 
     // crear y guardar relacion con estados

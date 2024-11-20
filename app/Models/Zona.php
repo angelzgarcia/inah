@@ -90,6 +90,13 @@ class Zona extends Model
         );
     }
 
+    protected function condicion(): Attribute {
+        return new Attribute(
+            set: fn($condicion) => strtolower($condicion),
+            get: fn($condicion) => ucfirst($condicion)
+        );
+    }
+
     protected function horario(): Attribute {
         return new Attribute(
             set: fn($horario) => strtolower($horario),

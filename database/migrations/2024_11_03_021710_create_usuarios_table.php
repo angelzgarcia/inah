@@ -15,7 +15,7 @@ return new class extends Migration
             $table -> id('idUsuario');
             $table -> string('google_id') -> nullable() -> unique();
             $table -> string('nombre', 80);
-            $table -> string('genero', 10) -> nullable();
+            $table -> enum('genero', ['femenino', 'masculino']) -> nullable();
             $table -> string('foto') -> nullable();
             $table -> string('email', 60) -> unique();
             $table -> unsignedBigInteger('numero') -> nullable() -> unique();

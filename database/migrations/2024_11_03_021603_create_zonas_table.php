@@ -16,12 +16,13 @@ return new class extends Migration
             $table -> string('nombre', 50) -> unique();
             $table -> string('slug') -> unique();
             //MAXIMO 255 CARACTERES
-            $table -> string('significado');
-            $table -> text('descripcion');
+            $table -> text('significado');
+            $table -> longText('relevancia') -> nullable();
             $table -> text('acceso');
+            $table -> enum('condicion', ['abierta', 'no abierta']);
             $table -> string('horario');
             $table -> decimal('costoEntrada', 6, 2);
-            $table -> text('contacto');
+            $table -> text('contacto') -> nullable();
 
             // Si se elimina un estado, ubicacion o cultura todas las zonas asociadas a ellos deberian elimianrse:
             $table -> foreignId('idCultura')
