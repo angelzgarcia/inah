@@ -2,14 +2,14 @@
 
 namespace App\Livewire\Forms\Cultura;
 
-use App\Models\Cultura;
+use Illuminate\Validation\Rule as ValidationRule;
+use Illuminate\Support\Facades\Storage;
 use App\Models\CulturaEstado;
 use App\Models\CulturaImagen;
-use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Rule;
-use Illuminate\Support\Facades\Storage;
-use Livewire\Attributes\Validate;
+use App\Models\Cultura;
 use Livewire\Form;
+// use Livewire\Attributes\Validate;
 
 class UpdateForm extends Form
 {
@@ -78,8 +78,30 @@ class UpdateForm extends Form
     {
         $this -> validate(
     [
-                'nombre' => ValidationRule::unique('culturas', 'nombre')
-                                            -> ignore($this->cultura->idCultura, 'idCultura')
+                'nombre' => [
+                    'required',
+                    'string',
+                    'min:3',
+                    'max:50',
+                    'regex:/^[\pL\s]+$/u',
+                    ValidationRule::unique('culturas', 'nombre')
+                                    -> ignore($this->cultura->idCultura, 'idCultura')
+                ],
+                'periodo' => 'required|max:80|min:20',
+                'significado' => 'required|max:255|min:10',
+                'descripcion' => 'required|max:1024|min:200',
+                'aportaciones' => 'required|max:1000|min:50',
+                'imgs_nuevas' => 'nullable|array|max:4|distinct',
+                // 'imgs_nuevas.*' => 'mimes:jpg,png,jpeg,webp|max:10000',
+                'imgs_update' => 'nullable|array|max:4|distinct',
+                // 'imgs_update.*' => 'mimes:jpg,png,jpeg,webp|max:10000',
+                'to_eliminate_imgs' => 'nullable|array|max:4|distinct',
+                'estadosActualesID' => 'required|array|min:1|distinct',
+                // 'estadosActualesID.*' => 'exists:estados,idEstadoRepublica',
+                'estadosUpdateID' => 'nullable|array|distinct',
+                // 'estadosUpdateID.*' => 'exists:estados,idEstadoRepublica',
+                'estadosRemovedID' => 'nullable|array|distinct',
+                // 'estadosRemovedID.*' => 'exists:estados,idEstadoRepublica',
             ]
         );
 

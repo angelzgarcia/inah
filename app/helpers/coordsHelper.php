@@ -9,7 +9,7 @@
             $apiKey = config('services.google_maps');
             $apiString = is_array($apiKey) ? implode(", ", $apiKey) : $apiKey;
 
-            $url = "https://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($addressString)."&key={$apiString}";
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($addressString)."&key={$apiString}&region=mx";
 
             $response = Http::get($url)->json();
 

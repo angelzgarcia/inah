@@ -11,8 +11,7 @@
             {{-- text="Todas las culturas relacionadas a este estado tambien serán elimiandas." --}}
         /> {{-- SWEET ALERT CONMFIRM EVENT --}}
 
-        <x-src-maps />
-
+        {{-- init map --}}
         <script>
             Livewire.on('openModal', data => {
                 setTimeout(() => {
@@ -29,7 +28,7 @@
                     zoom: 6,
                     center: estado,
                     mapTypeId: 'hybrid',
-                    mapTypeControl: true, // Activa el control para cambiar el tipo de mapa
+                    mapTypeControl: true,
                     mapTypeControlOptions: {
                         style: google.maps.MapTypeControlStyle.DROPDOWN_MENU, // Muestra un menú desplegable
                     },
@@ -198,7 +197,6 @@
                 new google.maps.Marker({
                     position: estado,
                     map: map,
-                    title: "Ubicación del estado",
                 });
 
                 google.maps.event.addListenerOnce(map, 'tilesloaded', () => {

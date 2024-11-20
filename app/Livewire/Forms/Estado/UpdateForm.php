@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Forms\Estado;
 
+use Illuminate\Validation\Rule as ValidationRule;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Rule;
 use App\Models\CulturaEstado;
 use App\Models\Estado;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule as ValidationRule;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
+// use App\Models\UbicacionEstado;
+// use Livewire\Attributes\Validate;
 
 class UpdateForm extends Form
 {
@@ -47,7 +48,8 @@ class UpdateForm extends Form
     $fotoKey,
     $tripticoKey,
     $guiaKey,
-    $estado;
+    $estado,
+    $coords = null;
 
     public function edit(Estado $estado)
     {
@@ -66,7 +68,16 @@ class UpdateForm extends Form
 
     public function update()
     {
-        $this -> validate();
+        $this -> validate([
+            'nombre' => ValidationRule::unique('estados', 'nombre')
+                                        -> ignore($this -> estado -> idEstadoRepublica, 'idEstadoRepublica'),
+            'capital' => [
+                ValidationRule::unique('estados', 'capital' )-> ignore($this -> estado -> idEstadoRepublica, 'idEstadoRepublica'),
+            ],
+            'video' => [
+                ValidationRule::unique('estados', 'video') -> ignore($this -> estado -> idEstadoRepublica, 'idEstadoRepublica'),
+            ],
+        ]);
 
         $this -> estado -> video = $this -> cleanYouTubeUrl($this -> video);
 
@@ -102,6 +113,19 @@ class UpdateForm extends Form
                 CulturaEstado::where('idCultura', $idCultura)
                             -> where('idEstadoRepublica', $this -> estado -> idEstadoRepublica)
                             -> delete();
+
+        // actualizar coordenadas en la tabla ubicaciones
+        if ($this -> estado -> nombre != $this -> nombre) {
+            $this -> coords = getCoordinates($this -> nombre);
+
+            if (!$this->coords)
+                return false;
+            else
+                $this -> estado -> ubicacion -> update([
+                    'latitud' => $this -> coords['lat'],
+                    'longitud' => $this -> coords['lng'],
+                ]);
+        }
 
         $this -> reset();
 
@@ -159,27 +183,34 @@ class UpdateForm extends Form
         return null;
     }
 
-    public function rules()
+    // mensajes para las reglas de validacion
+    public function messages()
     {
         return [
-            'nombre' => [
-                'required','string','min:3','max:50','regex: /^[\pL\s]+$/u',
-                ValidationRule::unique('estados', 'nombre') -> ignore($this -> estado -> idEstadoRepublica, 'idEstadoRepublica')],
-            'capital' => [
-                'required',
-                'string',
-                'max:255',
-                ValidationRule::unique('estados', 'capital' )-> ignore($this -> estado -> idEstadoRepublica, 'idEstadoRepublica'),
-            ],
-            'foto' => 'required|image|mimes:jpeg,jpg,png,webp,svg|max:10000',
-            'video' => [
-                'required',
-                'url',
-                'max:255',
-                ValidationRule::unique('estados', 'video') -> ignore($this -> estado -> idEstadoRepublica, 'idEstadoRepublica'),
-            ],
-            'triptico' => 'required|mimes:pdf|max:10500',
-            'guia' => 'required|mimes:pdf|max:10500',
+            'nombre.required' => 'El  nombre es obligatorio.',
+            'nombre.string' => 'El nombre debe ser un texto.',
+            'nombre.unique' => 'El nombre ya está registrado.',
+            'nombre.max' => 'El nombre no puede tener más de 30 caracteres.',
+            'nombre.min' => 'El nombre debe tener al menos 5 caracteres.',
+            'nombre.regex' => 'El nombre solo puede contener letras y espacios.',
+
+            'capital.required' => 'La  capital es obligatorio.',
+            'capital.string' => 'La capital debe ser un texto.',
+            'capital.unique' => 'La capital ya está registrada.',
+            'capital.max' => 'La capital no puede tener más de 30 caracteres.',
+            'capital.min' => 'La capital debe tener al menos 5 caracteres.',
+            'capital.regex' => 'La capital solo puede contener letras y espacios.',
+
+            'foto.image' => 'El archivo debe ser una imagen.',
+            'foto.mimes' => 'La foto debe ser de tipo: svg, jpeg, jpg, png o webp.',
+            'foto.max' => 'La foto no puede exceder los 10 MB.',
+
+            'video.required' => 'El  video es obligatorio.',
+            'video.url' => 'El video debe ser una URL válida.',
+            'video.unique' => 'Esta URL ya está registrada  .',
+
+            'triptico.mimes' => 'El tríptico debe ser un archivo PDF.',
+            'triptico.max' => 'El tríptico no puede exceder los 15 MB.',
         ];
     }
 

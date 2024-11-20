@@ -30,7 +30,7 @@ class Cultura extends Model
         return $this -> hasMany(Zona::class, 'idCultura', 'idCultura');
     }
 
-    public function culturas() {
+    public function estados() {
         return $this -> belongsToMany(Estado::class);
     }
 

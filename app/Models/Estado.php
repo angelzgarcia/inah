@@ -43,4 +43,12 @@ class Estado extends Model
         );
     }
 
+    protected function video()
+    {
+        return new Attribute(
+            set: fn($video) => strtolower($video),
+            get: fn($video) => strtolower($video),
+        );
+    }
+
 }

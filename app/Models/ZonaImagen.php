@@ -13,6 +13,8 @@ class ZonaImagen extends Model
 
     protected $primaryKey = 'idZonaFoto';
 
+    protected $guarded = [''];
+
     public function zona() {
         return $this -> belongsTo(Zona::class, 'idZonaArqueologica', 'idZonaArqueologica');
     }

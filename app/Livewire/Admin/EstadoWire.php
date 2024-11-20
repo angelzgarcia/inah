@@ -4,12 +4,12 @@ namespace App\Livewire\Admin;
 
 use App\Livewire\Forms\Estado\CreateForm;
 use App\Livewire\Forms\Estado\UpdateForm;
-use App\Models\Cultura;
 use App\Models\CulturaEstado;
-use App\Models\Estado;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use App\Models\Cultura;
+use Livewire\Component;
+use App\Models\Estado;
 
 class EstadoWire extends Component
 {
@@ -116,8 +116,7 @@ class EstadoWire extends Component
             return $this -> dispatch('est-event', icon: 'success', title: 'Estado actualizado con éxito');
 
         else
-            return $this -> dispatch('est-event', icon: 'error', title: 'Contacte con soporte, ocurrió un error');
-
+            return $this -> dispatch('est-event', icon: 'error', title: 'No se pudo obtener una ubicación para "' . $this -> estadoUpdate -> nombre . '"');
     }
 
     public function confirmDestroy($idEstado)

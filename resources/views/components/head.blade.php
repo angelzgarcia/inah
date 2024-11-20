@@ -6,10 +6,11 @@
     <link rel="icon" href="{{ asset('/img/downloads/favicon.ico') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{$src_maps ?? ''}}
     <title>
         {{$title ?? 'Zonas Arqueológicas de México'}}
     </title>
-    @livewireStyles
+
+    @livewireStyles {{-- ESTILOS DE LIVEWIRE --}}
+    <x-src-maps /> {{-- GOOGLE SCRIPTS --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
