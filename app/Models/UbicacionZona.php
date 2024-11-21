@@ -12,6 +12,8 @@ class UbicacionZona extends Model
     protected $table = 'ubicaciones_zonas';
     protected $primaryKey = 'idUbicacionZona';
 
+    protected $guarded = [''];
+
     public function zona() {
         return $this -> belongsTo(Zona::class, 'idZonaArqueologica', 'idZonaArqueologica');
     }

@@ -15,7 +15,7 @@ class ZonaWire extends Component
 {
     use WithFileUploads, WithPagination;
 
-    protected $listeners = ['updateDireccion'];
+    protected $listeners = ['destroy', 'updateDireccion'];
 
     public CreateForm $zonaCreate;
 
@@ -25,32 +25,32 @@ class ZonaWire extends Component
     $openShow = false,
     $fotoKey,
     $zona,
+    $estado,
+    $cultura,
     $query = '',
     $perPage = 5;
 
     public function render()
     {
-        $zonas = Zona::where('nombre', 'like', "%{$this -> query}%")
-                        -> orderBy('nombre', 'asc')
-                        -> paginate($this -> perPage < 1 ? 5 : $this -> perPage, pageName: 'zonasPage');
+        $zonas = Zona::with('fotos')
+                        -> where('nombre', 'like', "%{$this -> query}%")
+                        -> orderBy('idZonaArqueologica', 'desc')
+                        -> paginate($this -> perPage < 1 ? 5 : $this -> perPage, pageName: 'pageZonas');
 
         $culturas = Cultura::select(['idCultura', 'nombre'])
-                            -> orderBy('nombre', 'asc') -> get();
+                            -> orderBy('nombre', 'asc')
+                            -> get();
 
         $estados = Estado::select(['idEstadoRepublica', 'nombre'])
-                            -> orderBy('nombre', 'asc') -> get();
+                            -> orderBy('nombre', 'asc')
+                            -> get();
 
         $nCulturas = Cultura::count();
         $nEstados = Estado::count();
 
-        $this -> dispatch('address', $this->zonaCreate->direccion);
+        $this -> dispatch('address', $this -> zonaCreate -> direccion);
 
         return view('livewire.admin.zona-wire', compact('zonas', 'culturas', 'estados', 'nCulturas', 'nEstados'));
-    }
-
-    public function updateDireccion($direccion)
-    {
-        $this -> zonaCreate -> direccion = $direccion;
     }
 
     public function save()
@@ -68,24 +68,57 @@ class ZonaWire extends Component
         $this -> fotoKey = rand();
     }
 
-    public function show()
+    public function show($zonaID)
     {
+        $this -> cargarEstadoCultura($zonaID);
 
+        $this -> openShow = true;
     }
 
-    public function edit()
+    public function edit($zonaID)
     {
+        $zona = Zona::find($zonaID);
+        $this -> zona = $zona;
 
+        $this -> zonaUpdate -> edit($zonaID);
     }
 
     public function update()
     {
-
+        $this -> zonaUpdate -> update();
     }
 
     public function destroy()
     {
 
+    }
+
+    public function cargarEstadoCultura($zonaID)
+    {
+        $zona = Zona::find($zonaID);
+        $this -> zona = $zona;
+
+        $this -> estado =
+            Estado::select(['idEstadoRepublica', 'nombre'])
+                    -> where('idEstadoRepublica', $this -> zona -> idEstadoRepublica)
+                    -> first();
+
+        $this -> cultura =
+            Cultura::select(['idCultura', 'nombre'])
+                    -> where('idCultura', $this -> zona -> idCultura)
+                    -> first();
+    }
+
+    // reiniciar la paginacion cuando se consulte el buscador
+    public function updatedQuery()
+    {
+        $this->resetPage('pageZonas');
+    }
+
+    // cargar la direccion del buscador de google
+    public function updateDireccion($direccion)
+    {
+        $this -> zonaCreate -> direccion = $direccion;
     }
 
     public function redirigir($route)

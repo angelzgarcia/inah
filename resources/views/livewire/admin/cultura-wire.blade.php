@@ -147,10 +147,10 @@
                     {{-- slot -> thead --}}
                     <div class=" w-full">
                         <div class="w-2/3 px-2 flex flex-row justify-start gap-9 items-center mb-4 italic text-gray-400 text-start font-thin">
-                            <x-strong class="border-gray-200 px-4 shadow-md !rounded-3xl border">
+                            <x-strong class="border-gray-200 text-xs px-4 shadow-md !rounded-3xl border">
                                 ID
                             </x-strong>
-                            <x-strong class="border-gray-200 px-4 shadow-md !rounded-3xl border">
+                            <x-strong class="border-gray-200 px-4 text-xs shadow-md !rounded-3xl border">
                                 Nombre de la cultura
                             </x-strong>
                         </div>
@@ -161,7 +161,8 @@
 
             {{-- modal ver más detalles --}}
             @if ($openShow)
-                <x-modal openPropiety="openShow">
+                <x-modal openPropiety="openShow" :registerUpdateAt="$this->cultura">
+
                     {{-- fecha de registro --}}
                     <div class="w-full flex flex-row justify-between items-center">
                         <x-strong class="!text-xl">Detalles de la cultura</x-strong>
@@ -171,6 +172,7 @@
                             <span>{{$this->cultura->created_at}}</span>
                         </div>
                     </div>
+
                     {{-- datos del registro --}}
                     <div class="show-grid">
                         {{-- nombre --}}
@@ -213,7 +215,7 @@
                     <div class="flex flex-row flex-wrap w-full gap-4 justify-between mb-5">
                         @foreach ($this->cultura->fotos as $foto)
                             <div wire:key="cultura-foto-{{$foto->foto}}" class="rounded-md">
-                                <img src="{{img_u_url($foto->foto)}}" width="200px" alt="img-cultura" class="shadow-lg rounded-md">
+                                <img src="{{img_u_url($foto->foto)}}" width="200px" alt="img-cultura" class="bg-white shadow-lg rounded-md">
                             </div>
                         @endforeach
                     </div>
@@ -231,31 +233,19 @@
                         </div>
                     </div>
 
-                    {{-- fecha de actualizacion y boton cerrar --}}
-                    <div class="flex flex-row justify-between mt-4 items-center">
-                        {{-- updated_at --}}
-                        <div>
-                            <x-strong>Ultima actualización: </x-strong>
-                            <span>{{$this->cultura->updated_at}}</span>
-                        </div>
-                        <x-button tipo="close" wire:click="$set('openShow', false)">
-                            Cerrar
-                        </x-button>
-                    </div>
                 </x-modal>
             @endif
 
             {{-- formulario modal editar y actualizar --}}
             @if ($culturaUpdate->openEdit)
-                <x-modal openPropiety="culturaUpdate.openEdit">
+                <x-modal openPropiety="culturaUpdate.openEdit" :formEdit="true">
 
-                    {{-- nombre cultura y boton de cierre --}}
+                    {{-- nombre cultura  --}}
                     <h2 class="text-4xl text-center flex flex-row justify-between">
                         <x-strong class="!text-xl">Editar Registro</x-strong>
                     </h2>
-                    {{-- formulario editar --}}
-                    <form wire:submit="update" enctype="multipart/form-data" class="py-3 flex flex-col gap-6 text-sm">
-                        @csrf
+
+                    {{-- formulario editar slot start --}}
                         {{-- nombre --}}
                         <x-fieldset>
                             <x-legend>Nombre</x-legend>
@@ -360,10 +350,10 @@
                             <x-legend>Imagenes actuales</x-legend>
                             <div class="grid grid-cols-auto-fill-250 text-start mt-6 justify-between content-between gap-x-10 gap-y-14">
                                 @foreach ($this->cultura->fotos as $foto)
-                                    <div class="flex flex-col gap-3 justify-between p-6 relative overflow-hidden text-ellipsis rounded-md break-all text-nowrap bg-slate-100 items-start w-full" wire:key="{{$foto->idCulturaFoto}}">
+                                    <div wire:key="Culturas-Fotos-{{$foto->idCulturaFoto}}" class="flex flex-col gap-3 justify-between p-6 relative overflow-hidden text-ellipsis rounded-md break-all text-nowrap bg-slate-100 items-start w-full" wire:key="{{$foto->idCulturaFoto}}">
                                         {{-- imagen actual --}}
                                         <div class="w-full flex justify-center">
-                                            <img src="{{img_u_url($foto->foto)}}" class="shadow-md rounded-md" width="200px" alt="img-cultura">
+                                            <img src="{{img_u_url($foto->foto)}}" class="bg-white shadow-md rounded-md" width="200px" alt="img-cultura">
                                         </div>
 
                                         {{-- actualizar y / o borrar imagen actual --}}
@@ -411,20 +401,7 @@
                                 <x-error-message for="culturaUpdate.imgs_nuevas" />
                             </x-fieldset>
                         @endif
-
-                        {{-- botones de actualizar y cancelar --}}
-                        <div class="flex flex-row justify-end gap-6">
-                            {{-- actualizar --}}
-                            <x-button type="submit" tipo="update">
-                                Actualizar
-                            </x-button>
-
-                            {{-- cancelar --}}
-                            <x-button tipo="cancel" wire:click="$set('culturaUpdate.openEdit', false)">
-                                Cancelar
-                            </x-button>
-                        </div>
-                    </form>
+                    {{-- formulario editar slot endd --}}
 
                 </x-modal>
             @endif

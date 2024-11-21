@@ -40,7 +40,7 @@
                     {{-- numero de registros por tabla --}}
                     <x-slot name="count_registers">
                         <span>
-                            <strong>{{$table['count']}} registros</strong>
+                            <x-strong class="text-gray-400">{{$table['count']}} registros</x-strong>
                         </span>
                     </x-slot>
                 </x-admin.table-preview>

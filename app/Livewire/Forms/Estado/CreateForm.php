@@ -118,9 +118,9 @@ class CreateForm extends Form
     public function messages()
     {
         return [
-            'nombre.required' => 'El  nombre es obligatorio.',
+            'nombre.required' => 'El nombre es obligatorio.',
             'nombre.string' => 'El nombre debe ser un texto.',
-            'nombre.unique' => 'El nombre ya está registrado.',
+            'nombre.unique' => 'El estado ya está registrado.',
             'nombre.max' => 'El nombre no puede tener más de 30 caracteres.',
             'nombre.min' => 'El nombre debe tener al menos 5 caracteres.',
             'nombre.regex' => 'El nombre solo puede contener letras y espacios.',

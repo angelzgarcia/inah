@@ -81,8 +81,11 @@ class CreateForm extends Form
             [$de_hora, $de_minutos] = explode(':', $this -> deHora);
             [$a_hora, $a_minutos] = explode(':', $this -> aHora);
 
-            $tiempo_de_hora = "$de_hora:$de_minutos " . (int)$de_hora < 12 ? 'a.m.' : 'p.m.';
-            $tiempo_a_hora = "$a_hora:$a_minutos " . (int)$a_hora < 12 ? 'a.m.' : 'p.m.';
+            $de_periodo = (int)$de_hora < 12 ? 'a.m.' : 'p.m.';
+            $a_periodo =  (int)$a_hora < 12 ? 'a.m.' : 'p.m.';
+
+            $tiempo_de_hora = "$de_hora:$de_minutos $de_periodo";
+            $tiempo_a_hora = "$a_hora:$a_minutos $a_periodo";
 
             $horario = "De {$this -> deDia} a {$this -> aDia} de las $tiempo_de_hora a las $tiempo_a_hora";
 
@@ -103,6 +106,8 @@ class CreateForm extends Form
 
             $this -> storeLocation($coords, $zona -> idZonaArqueologica);
 
+            $this -> reset();
+
             return true;
 
         } else {
@@ -120,16 +125,6 @@ class CreateForm extends Form
 
             return 'imgs_count';
         }
-
-    }
-
-    public function edit()
-    {
-
-    }
-
-    public function update()
-    {
 
     }
 
@@ -159,5 +154,72 @@ class CreateForm extends Form
             'idZonaArqueologica' => $idZona,
         ]);
     }
+
+    public function messages()
+    {
+        return [
+            'nombre.required' => 'El nombre de la zona es obligatorio.',
+            'nombre.unique' => 'El nombre de la zona ya está en uso.',
+            'nombre.string' => 'El nombre de la zona debe ser una cadena de texto.',
+            'nombre.max' => 'El nombre de la zona no puede superar los 50 caracteres.',
+            'nombre.min' => 'El nombre de la zona debe tener al menos 5 caracteres.',
+            'nombre.regex' => 'El nombre de la zona solo puede contener letras y espacios.',
+
+            'costoEntrada.required' => 'El costo de entrada es obligatorio.',
+            'costoEntrada.numeric' => 'Ingresa solo valores numéricos.',
+            'costoEntrada.max' => 'El costo de entrada no puede ser mayor a $1000 MXN.',
+            'costoEntrada.min' => 'El costo de entrada no puede ser menor a $0 MXN.',
+
+            'significado.required' => 'El significado es obligatorio.',
+            'significado.string' => 'El significado debe ser una cadena de texto.',
+            'significado.max' => 'El significado no puede superar los 300 caracteres.',
+            'significado.min' => 'El significado debe tener al menos 10 caracteres.',
+
+            'relevancia.string' => 'La relevancia debe ser una cadena de texto.',
+            'relevancia.max' => 'La relevancia no puede superar los 1600 caracteres.',
+            'relevancia.min' => 'La relevancia debe tener al menos 200 caracteres.',
+
+            'acceso.required' => 'El acceso es obligatorio.',
+            'acceso.string' => 'El acceso debe ser una cadena de texto.',
+            'acceso.max' => 'El acceso no puede superar los 800 caracteres.',
+            'acceso.min' => 'El acceso debe tener al menos 50 caracteres.',
+
+            'condicion.required' => 'La condición es obligatoria.',
+            'condicion.string' => 'La condición debe ser una cadena de texto.',
+            'condicion.in' => 'La condición debe ser "abierta" o "no abierta".',
+
+            'contacto.string' => 'El contacto debe ser una cadena de texto.',
+            'contacto.max' => 'El contacto no puede superar los 300 caracteres.',
+            'contacto.min' => 'El contacto debe tener al menos 10 caracteres.',
+
+            'deDia.required' => 'El día de inicio es obligatorio.',
+            'deDia.string' => 'El día de inicio debe ser una cadena de texto.',
+            'deDia.in' => 'El día de inicio debe ser un día de la semana.',
+
+            'aDia.required' => 'El día de fin es obligatorio.',
+            'aDia.string' => 'El día de fin debe ser una cadena de texto.',
+            'aDia.in' => 'El día de fin debe ser un día de la semana.',
+
+            'deHora.required' => 'La hora de inicio es obligatoria.',
+            'deHora.regex' => 'La hora de inicio debe tener el formato HH:mm.',
+
+            'aHora.required' => 'La hora de fin es obligatoria.',
+            'aHora.regex' => 'La hora de fin debe tener el formato HH:mm.',
+
+            'direccion.required' => 'La dirección es obligatoria.',
+
+            'estadoRelacionado.required' => 'El estado relacionado es obligatorio.',
+            'estadoRelacionado.exists' => 'El estado relacionado seleccionado no es válido.',
+
+            'culturaRelacionada.required' => 'La cultura relacionada es obligatoria.',
+            'culturaRelacionada.exists' => 'La cultura relacionada seleccionada no es válida.',
+
+            'imagenes.required' => 'Debe proporcionar al menos dos imágenes.',
+            'imagenes.array' => 'Las imágenes deben ser enviadas como un arreglo.',
+            'imagenes.min' => 'Debe proporcionar al menos dos imágenes.',
+            'imagenes.max' => 'No puedes sobrepasar más de cuatro imágenes.',
+        ];
+    }
+
 
 }

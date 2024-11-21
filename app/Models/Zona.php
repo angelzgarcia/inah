@@ -15,9 +15,11 @@ class Zona extends Model
 {
     use HasFactory;
 
+    protected $table = 'zonas';
+    
     protected $primaryKey = 'idZonaArqueologica';
 
-    protected $guarded = [];
+    protected $guarded = [''];
 
     public function getRouteKeyName()
     {
