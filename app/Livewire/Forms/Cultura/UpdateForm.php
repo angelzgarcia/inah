@@ -103,7 +103,7 @@ class UpdateForm extends Form
                 'estadosRemovedID' => 'nullable|array|distinct',
                 // 'estadosRemovedID.*' => 'exists:estados,idEstadoRepublica',
             ]
-        );
+    );
 
         $this -> cultura -> update($this -> only(
 'nombre',

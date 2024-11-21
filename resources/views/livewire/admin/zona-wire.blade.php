@@ -1,4 +1,7 @@
-
+@php
+    $first = $zonas -> first();
+    $keys = $first ? array_keys($first -> getAttributes()) : [];
+@endphp
 
 {{-- VISTA DEL COMPONENTE zonas --}}
 <div class="w-full h-full">
@@ -83,7 +86,7 @@
                                 </x-fieldset>
 
                                 {{-- horario --}}
-                                <div class="flex flex-col justify-between gap-4">
+                                <div class="flex flex-col justify-between col-start-1 -col-end-1 gap-4">
                                     <x-label>Horario*</x-label>
                                     <div class="flex flex-row text-xs justify-between gap-12">
                                         {{-- de dia --}}
@@ -129,13 +132,6 @@
                                         </x-fieldset>
                                     </div>
                                 </div>
-
-                                {{-- direccion --}}
-                                <x-fieldset>
-                                    <x-legend>Dirección*</x-legend>
-                                    <x-input wire:model.live="zonaCreate.direccion" id="address" placeholder="Busca una dirección" />
-                                    <x-error-message for="zonaCreate.direccion" />
-                                </x-fieldset>
 
                                 {{-- relacion con estados --}}
                                 <x-fieldset>
@@ -192,6 +188,13 @@
                                     <x-error-message for="zonaCreate.condicion" />
                                 </x-fieldset>
 
+                                {{-- direccion --}}
+                                <x-fieldset>
+                                    <x-legend>Dirección*</x-legend>
+                                    <x-input wire:model.live="zonaCreate.direccion" id="address" placeholder="Busca una dirección" />
+                                    <x-error-message for="zonaCreate.direccion" />
+                                </x-fieldset>
+
                                 {{-- fotos --}}
                                 <x-fieldset>
                                     <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
@@ -211,6 +214,7 @@
                 </div>
             @endif
 
+            {{-- CRUD ZONAS --}}
             @if ($nCulturas < 1 || $nEstados < 1)
                 @if (!$zonaCreate->openCreate)
                     <x-not-found class="rounded-2xl !items-center">
@@ -222,280 +226,357 @@
                     </x-not-found>
                 @endif
             @else
-                {{-- CRUD ZONAS --}}
-                <div class="flex flex-col w-full h-full justify-between rounded-xl">
-                    {{-- titulo, buscador y filtro --}}
-                    <div class="flex my-8 items-center justify-around">
-                        <h1 class="text-4xl text-gray-900 tracking-wider uppercase">
-                            zonas
-                        </h1>
+                <x-table-grid :table="$zonas" :keys="$keys" key="Zonas">
 
-                        {{-- filtro no.registros --}}
-                        <div class="">
-                            <h2>FILTRO</h2>
-                        </div>
-
-                        {{-- BUSCADOR --}}
-                        <div class="searcher-container flex flex-row">
-                            <form action="" method="post" autocomplete="off">
-                                {{-- <fieldset> --}}
-                                    {{-- <legend> --}}
-                                        {{-- </legend> --}}
-                                <input type="text" placeholder="¿Qúe buscabas?">
-                                <button type="submit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
-                                </button>
-                                {{-- </fieldset> --}}
-                            </form>
+                    {{-- slot -> thead --}}
+                    <div class=" w-full">
+                        <div class="w-2/3 px-2 flex flex-row justify-start gap-9 items-center mb-4 italic text-gray-400 text-start font-thin">
+                            <x-strong class="text-xs border-gray-200 px-4 shadow-md !rounded-3xl border">
+                                ID
+                            </x-strong>
+                            <x-strong class="text-xs border-gray-200 px-4 shadow-md !rounded-3xl border">
+                                Nombre de la Zona Arqueológica
+                            </x-strong>
                         </div>
                     </div>
 
-                    {{-- lista, grid de zonas --}}
-                    <div class="flex flex-col mb-5 justify-between">
-                        {{-- thead --}}
-                        <div class="flex flex-row justify-between pl-8 items-center w-1/2 text-center">
-                            <x-strong class="focus:shadow-md border-gray-200 shadow-sm border text-gray-400 mb-4 italic">ID</x-strong>
-                            <x-strong class="focus:shadow-md border-gray-200 shadow-sm border text-gray-400 mb-4 italic">Nombre de la zona</x-strong>
-                        </div>
-
-                        {{-- tbody --}}
-                        <div class="flex flex-col gap-6">
-                            @foreach ($zonas as $zona)
-                                {{-- registro --}}
-                                <div wire:key="zona-{{$zona->idzona}}" class="grid-registro shadow-md p-4 rounded-lg bg-slate-50">
-                                    {{-- BLOQUE con datos id y nombre --}}
-                                    <ul class="flex flex-row justify-between px-8 items-center">
-                                        <li class="italic tracking-widest">{{$zona->idZonaArqueologica}}</li>
-                                        <li class="italic tracking-widest">{{$zona->nombre}}</li>
-                                    </ul>
-
-                                    {{-- BLOQUE botones acciones --}}
-                                    <div class="flex gap-3 flex-row justify-end">
-                                        {{-- ver mas --}}
-                                        <x-button tipo="show" class="btn-btn" wire:click="show({{$zona->idzona}})">
-                                            Ver más
-                                        </x-button>
-
-                                        {{-- editar --}}
-                                        <x-button tipo="edit" wire:click="edit({{$zona}})">
-                                            Editar
-                                        </x-button>
-
-                                        {{-- eliminar --}}
-                                        <x-button tipo="destroy" wire:click="confirmDestroy({{$zona->idzona}})">
-                                            Eliminar
-                                        </x-button>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    {{-- paginador --}}
-                    <div class="paginador w-full">
-                        {{$zonas->links()}}
-                    </div>
-                </div>
+                </x-table-grid>
             @endif
 
             {{-- modal ver más detalles --}}
             @if ($openShow)
-                <div class="modal-container modal-show-container">
-                    <div class="modal ">
-                        <div class="flex flex-col overflow-y-auto gap-4 justify-center">
-                            <div class="form-edit-container flex flex-col gap-4">
-                                {{-- boton cerrar --}}
-                                <div class="flex flex-row justify-end">
-                                    <x-button tipo="x" wire:click="$set('openShow', false)"></x-button>
-                                </div>
-                                {{-- fecha de registro --}}
-                                <div class="w-full flex flex-row justify-between items-center">
-                                    <x-strong>Detalles de la zona</x-strong>
-                                    {{-- created_at --}}
-                                    <div class="text-end">
-                                        <x-strong>Fecha de regstro: </x-strong>
-                                        <span>{{$this->zona->created_at}}</span>
-                                    </div>
-                                </div>
-                                {{-- datos del registro --}}
-                                <div class="show-grid">
-                                    {{-- nombre --}}
-                                    <div class="nombre-zona">
-                                        <x-legend>Nombre: </x-legend>
-                                        <h3 class="tracking-wider">{{$this->zona->nombre}}</h3>
-                                    </div>
-                                    {{-- periodo --}}
-                                    <div>
-                                        <x-legend>Periodo: </x-legend>
-                                        <x-textarea readonly disabled>
-                                            {{$this->zona->periodo}}
-                                        </x-textarea>
-                                    </div>
-                                    {{-- significado --}}
-                                    <div>
-                                        <x-legend>significado: </x-legend>
-                                        <x-textarea readonly disabled>
-                                            {{$this->zona->significado}}
-                                        </x-textarea>
-                                    </div>
-                                    {{-- aportaciones --}}
-                                    <div>
-                                        <x-legend>aportaciones: </x-legend>
-                                        <x-textarea readonly disabled>
-                                            {{$this->zona->aportaciones}}
-                                        </x-textarea>
-                                    </div>
-                                    {{-- relevancia cultural --}}
-                                    <div>
-                                        <x-legend>relevancia cultural: </x-legend>
-                                        <x-textarea readonly disabled>
-                                            {{$this->zona->relevancia}}
-                                        </x-textarea>
-                                    </div>
-                                </div>
+                <x-modal openPropiety="openShow" :registerUpdateAt="$this->zona">
 
-                                <x-strong>Imagenes:</x-strong>
-                                {{-- imagenes --}}
-                                <div class="flex flex-row flex-wrap w-full justify-between mb-5">
-                                    @foreach ($this->zona->fotos as $foto)
-                                        <div wire:key="zona-foto-{{$foto->foto}}" class="rounded-md">
-                                            <img src="{{img_u_url($foto->foto)}}" width="250px"  alt="img-zona" class="shadow-lg border border-slate-950 rounded-md">
-                                        </div>
-                                    @endforeach
-                                </div>
+                    {{-- fecha de registro --}}
+                    <div class="w-full flex flex-row justify-between items-center">
+                        <x-strong class="!text-xl">Detalles de la zona</x-strong>
+                        {{-- created_at --}}
+                        <div class="text-end">
+                            <x-strong>Fecha de regstro: </x-strong>
+                            <span>{{$this->zona->created_at}}</span>
+                        </div>
+                    </div>
 
-                                {{-- fecha de actualizacion y boton cerrar --}}
-                                <div class="flex flex-row justify-between items-center">
-                                    {{-- updated_at --}}
-                                    <div>
-                                        <x-strong>Ultima actualización: </x-strong>
-                                        <span>{{$this->zona->updated_at}}</span>
-                                    </div>
-                                    <x-button tipo="close" wire:click="$set('openShow', false)">
-                                        Cerrar
-                                    </x-button>
+                    {{-- datos del registro --}}
+                    <div class="grid grid-cols-auto-fill-200 gap-8">
+                        {{-- nombre y slug --}}
+                        <div class="nombre-zona mb-2">
+                            {{-- nombre --}}
+                            <div class="flex items-center">
+                                <x-legend>Nombre: </x-legend>
+                                <x-strong class="h1u">{{$this->zona->nombre}}</x-strong>
+                            </div>
+                            {{-- slug --}}
+                            <div class="flex items-center">
+                                <x-legend>Slug: </x-legend>
+                                <x-strong class="!normal-case">{{$this->zona->slug}}</x-strong>
+                            </div>
+                        </div>
+                        {{-- condicion y csoto --}}
+                        <div class="nombre-zona mb-2">
+                            {{-- condicion --}}
+                            <div class="flex items-center">
+                                <x-legend>Condición: </x-legend>
+                                <x-strong class="!normal-case">{{$this->zona->condicion}}</x-strong>
+                            </div>
+                            {{-- costo entrada --}}
+                            <div class="flex items-center">
+                                <x-legend>Costo de entrada: </x-legend>
+                                <x-strong>{{$this->zona->costoEntrada}}</x-strong>
+                            </div>
+                        </div>
+
+                        {{-- significado --}}
+                        <div>
+                            <x-legend>Significado: </x-legend>
+                            <x-textarea readonly disabled>
+                                {{$this->zona->significado}}
+                            </x-textarea>
+                        </div>
+                        {{-- relevancia cultural --}}
+                        <div>
+                            <x-legend>Relevancia cultural: </x-legend>
+                            <x-textarea readonly disabled>
+                                {{$this->zona->relevancia}}
+                            </x-textarea>
+                        </div>
+                        {{-- acceso --}}
+                        <div>
+                            <x-legend>Acceso: </x-legend>
+                            <x-textarea readonly disabled>
+                                {{$this->zona->acceso}}
+                            </x-textarea>
+                        </div>
+                        {{-- contacto --}}
+                        <div>
+                            <x-legend>Contacto: </x-legend>
+                            <x-textarea readonly disabled>
+                                {{$this->zona->contacto}}
+                            </x-textarea>
+                        </div>
+                        {{-- horario --}}
+                        <div class="nombre-zona">
+                            <x-legend>Horario: </x-legend>
+                            <x-strong class="!capitalize">{{$this->zona->horario}}</x-strong>
+                        </div>
+                    </div>
+
+                    {{-- cultura y estado relacionados --}}
+                    <div class="flex justify-between">
+                        {{-- estado relacionado--}}
+                        <div>
+                            <x-legend>Esta zona se encuentra en el estado de:</x-legend>
+                            <div class="flex items-center flex-wrap justify-start mt-2 gap-6">
+                                <div class="flex items-center min-w-40 bg-zinc-100 shadow-md px-3 py-1 rounded-md gap-4 justify-between">
+                                    <x-strong>{{$this->estado->nombre}}</x-strong>
+                                    <x-checkbox checked disabled class="!bg-green-300 !cursor-default" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- cultura relacionada--}}
+                        <div>
+                            <x-legend>Esta zona perteneció a la cultura:</x-legend>
+                            <div class="flex items-center flex-wrap justify-start mt-2 gap-6">
+                                <div class="flex items-center min-w-40 bg-zinc-100 shadow-md px-3 py-1 rounded-md gap-4 justify-between">
+                                    <x-strong>{{$this->cultura->nombre}}</x-strong>
+                                    <x-checkbox checked disabled class="!bg-green-300 !cursor-default" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    {{-- imagenes --}}
+                    <x-legend>Imagenes:</x-legend>
+                    <div class="flex flex-row flex-wrap w-full gap-4 justify-between">
+                        @foreach ($this->zona->fotos as $foto)
+                            <div wire:key="zona-foto-{{$foto->foto}}" class="rounded-md">
+                                <img src="{{img_u_url($foto->foto)}}" width="200px" alt="img-cultura" class="shadow-lg rounded-md">
+                            </div>
+                        @endforeach
+                    </div>
+
+                </x-modal>
             @endif
 
             {{-- formulario modal editar y actualizar --}}
             @if ($zonaUpdate->openEdit)
-                <div class="modal-container modal-edit-container">
-                    <div class="modal">
-                        <div class="form-edit-container flex flex-col gap-4">
-                            {{-- nombre zona y boton de cierre --}}
-                            <h2 class="text-4xl text-center flex flex-row justify-between">
-                                <x-strong>Editar Registro</x-strong>
-                                <x-button tipo="x" wire:click="$set('zonaUpdate.openEdit', false)"></x-button>
-                            </h2>
-                            {{-- formulario editar --}}
-                            <form wire:submit="update" enctype="multipart/form-data" class="py-3 flex flex-col gap-6 text-sm">
-                                @csrf
-                                {{-- nombre --}}
-                                <x-fieldset>
-                                    <x-legend>Nombre</x-legend>
-                                    <x-input wire:model.live="zonaUpdate.nombre" value="{{old('nombre')}}" />
-                                    <x-error-message for="zonaUpdate.nombre" />
-                                </x-fieldset>
+                <x-modal openPropiety="zonaUpdate.openEdit">
 
-                                {{-- periodo --}}
-                                <x-fieldset>
-                                    <x-legend>Periodo</x-legend>
-                                    <x-textarea wire:model.live="zonaUpdate.periodo">{{old('periodo')}}</x-textarea>
-                                    <x-error-message for="zonaUpdate.periodo" />
-                                </x-fieldset>
+                    {{-- nombre zona --}}
+                    <h2 class="text-4xl text-center flex flex-row justify-between">
+                        <x-strong class="!text-xl">Editar Registro</x-strong>
+                    </h2>
 
-                                {{-- significado --}}
-                                <x-fieldset>
-                                    <x-legend>Significado</x-legend>
-                                    <x-textarea wire:model.live="zonaUpdate.significado">{{old('significado')}}</x-textarea>
-                                    <x-error-message for="zonaUpdate.significado" />
-                                </x-fieldset>
+                    {{-- formulario editar slot start --}}
+                        <div class="grid grid-cols-auto-fit-400 gap-10 items-end">
+                            {{-- nombre --}}
+                            <x-fieldset>
+                                <x-legend>Nombre*</x-legend>
+                                <x-input class="!text-gray-500" wire:model.live="zonaUpdate.nombre" />
+                                <x-error-message for="zonaUpdate.nombre" />
+                            </x-fieldset>
 
-                                {{-- descripcion y aportaciones --}}
-                                <div class="flex flex-row w-full justify-between gap-6">
-                                    {{-- descripcion --}}
+                            {{-- costo de entrada --}}
+                            <x-fieldset>
+                                <x-legend>Costo de entrada*</x-legend>
+                                <x-input class="!text-gray-500" wire:model.live="zonaUpdate.costoEntrada" class="!w-1/3" placeholder="$ 00.00 MXN" />
+                                <x-error-message for="zonaUpdate.costoEntrada" />
+                            </x-fieldset>
+
+                            {{-- significado --}}
+                            <x-fieldset>
+                                <x-legend>Significado*</x-legend>
+                                <x-textarea wire:model.live="zonaUpdate.significado"></x-textarea>
+                                <x-error-message for="zonaUpdate.significado" />
+                            </x-fieldset>
+
+                            {{-- relevancia cultural --}}
+                            <x-fieldset>
+                                <x-legend>Relevancia cultural*</x-legend>
+                                <x-textarea wire:model.live="zonaUpdate.relevancia"></x-textarea>
+                                <x-error-message for="zonaUpdate.relevancia" />
+                            </x-fieldset>
+
+                            {{-- acceso --}}
+                            <x-fieldset>
+                                <x-legend>Acceso*</x-legend>
+                                <x-textarea wire:model.live="zonaUpdate.acceso"></x-textarea>
+                                <x-error-message for="zonaUpdate.acceso" />
+                            </x-fieldset>
+
+                            {{-- contacto --}}
+                            <x-fieldset>
+                                <x-legend>Información de contacto*</x-legend>
+                                <x-textarea wire:model.live="zonaUpdate.contacto"></x-textarea>
+                                <x-error-message for="zonaUpdate.contacto" />
+                            </x-fieldset>
+
+                            {{-- horario --}}
+                            <div class="flex flex-col justify-between col-start-1 -col-end-1 gap-4">
+                                <x-label>Horario*</x-label>
+                                <div class="flex flex-row text-xs justify-between gap-12">
+                                    {{-- de dia --}}
                                     <x-fieldset>
-                                        <x-legend>Descripcion</x-legend>
-                                        <x-textarea wire:model.live="zonaUpdate.descripcion">{{old('descripcion')}}</x-textarea>
-                                        <x-error-message for="zonaUpdate.descripcion" />
+                                        <x-legend>De</x-legend>
+                                        <x-select wire:model.live="zonaUpdate.deDia">
+                                            <option value="lunes">Lunes</option>
+                                            <option value="martes">Martes</option>
+                                            <option value="miercoles">Miercoles</option>
+                                            <option value="jueves">Jueves</option>
+                                            <option value="viernes">Viernes</option>
+                                            <option value="sabado">Sabado</option>
+                                            <option value="domingo">Domingo</option>
+                                        </x-select>
+                                        <x-error-message for="zonaUpdate.deDia" />
+                                    </x-fieldset>
+                                    {{-- a dia --}}
+                                    <x-fieldset>
+                                        <x-legend>a</x-legend>
+                                        <x-select wire:model.live="zonaUpdate.aDia">
+                                            <option value="domingo">Domingo</option>
+                                            <option value="lunes">Lunes</option>
+                                            <option value="martes">Martes</option>
+                                            <option value="miercoles">Miercoles</option>
+                                            <option value="jueves">Jueves</option>
+                                            <option value="viernes">Viernes</option>
+                                            <option value="sabado">Sabado</option>
+                                        </x-select>
+                                        <x-error-message for="zonaUpdate.aDia" />
                                     </x-fieldset>
 
-                                    {{-- aportaciones --}}
+                                    {{-- de hora --}}
                                     <x-fieldset>
-                                        <x-legend>Aportaciones</x-legend>
-                                        <x-textarea wire:model.live="zonaUpdate.aportaciones">{{old('aportaciones')}}</x-textarea>
-                                        <x-error-message for="zonaUpdate.aportaciones" />
+                                        <x-legend>De las</x-legend>
+                                        <x-input type="time" wire:model.live="zonaUpdate.deHora" />
+                                        <x-error-message for="zonaUpdate.deHora" />
+                                    </x-fieldset>
+                                    {{-- a hora --}}
+                                    <x-fieldset>
+                                        <x-legend>a las</x-legend>
+                                        <x-input type="time" wire:model.live="zonaUpdate.aHora" />
+                                        <x-error-message for="zonaUpdate.aHora" />
                                     </x-fieldset>
                                 </div>
+                            </div>
 
-                                {{-- fotos --}}
-                                <x-fieldset>
-                                    <x-legend>Imagenes actuales</x-legend>
-                                    @foreach ($this->zona->fotos as $foto)
-                                        <div class="my-5 w-full" wire:key="{{$foto->idzonaFoto}}">
-                                            {{-- actualizar y / o borrar imagen actual --}}
-                                            <div class="flex flex-row justify-between items-center">
-                                                {{-- actualizar imagen --}}
-                                                <div class="flex flex-col">
-                                                    <x-label><x-strong>Subir nueva imagen</x-strong></x-label>
-                                                    <input
-                                                        type="file"
-                                                        wire:model="zonaUpdate.imgs_update.{{$foto->idzonaFoto}}"
-                                                        wire:key="{{$zonaUpdate->fotoKey}}"
-                                                        name="imgs_update.{{$foto->idzonaFoto}}"
-                                                        accept="image/*"
-                                                    >
-                                                    <x-error-message for="zonaUpdate.imgs_update.{{$foto->idzonaFoto}}" />
-                                                </div>
-                                                {{-- eliminar imagen --}}
-                                                <div class="flex flex-row gap-5 items-center justify-center">
-                                                    <x-label><x-strong>Eliminar imagen</x-strong></x-label>
+                            {{-- relacion con estados --}}
+                            <x-fieldset>
+                                <x-legend class="!normal-case">¿En qué estado de la República Mexicana se encuentra esta Zona Arqueológica?*</x-legend>
+                                <x-select wire:model.live="zonaUpdate.estadoRelacionado">
+                                    <option value="" disabled>Selecciona un Estado</option>
+                                    @foreach ($estados as $estado)
+                                        <option
+                                            value="{{$estado->idEstadoRepublica}}"
+                                            {{$zonaUpdate->estadoRelacionado == $estado->idEstadoRepublica ? 'selected' : ''}}
+                                        >
+                                            {{$estado->nombre}}
+                                        </option>
+                                    @endforeach
+                                </x-select>
+                                <x-error-message for="zonaUpdate.estado" />
+                            </x-fieldset>
+
+                            {{-- relacion con culturas --}}
+                            <x-fieldset>
+                                <x-legend class="normal-case">¿A qué cultura de Mexico pertenece esta Zona Arqueológica?*</x-legend>
+                                <x-select wire:model.live="zonaUpdate.culturaRelacionada">
+                                    <option value="" disabled>Selecciona una Cultura</option>
+                                    @foreach ($culturas as $cultura)
+                                        <option
+                                            value="{{$cultura->idCultura}}"
+                                            {{$zonaUpdate->culturaRelacionada == $cultura->idCultura ? 'selected' : ''}}
+                                        >
+                                            {{$cultura->nombre}}
+                                        </option>
+                                    @endforeach
+                                </x-select>
+                                <x-error-message for="zonaUpdate.cultura" />
+                            </x-fieldset>
+
+                            {{-- condicion o status --}}
+                            <x-fieldset>
+                                <x-legend>Condición*</x-legend>
+                                <x-select wire:model.live="zonaUpdate.condicion">
+                                    <option
+                                        value="Abierta"
+                                    >
+                                        Abierta
+                                    </option>
+                                    <option
+                                        value="No abierta"
+                                    >
+                                        No abierta
+                                    </option>
+                                </x-select>
+                                <x-error-message for="zonaUpdate.condicion" />
+                            </x-fieldset>
+
+                            {{-- direccion --}}
+                            <x-fieldset>
+                                <x-legend>Dirección*</x-legend>
+                                <x-input wire:model.live="zonaUpdate.direccion" id="address" placeholder="Busca una dirección" />
+                                <x-error-message for="zonaUpdate.direccion" />
+                            </x-fieldset>
+                        </div>
+
+                        {{-- fotos actuales --}}
+                        <x-fieldset class="mb-4 text-center">
+                            <x-legend>Imagenes actuales</x-legend>
+                            <div class="grid grid-cols-auto-fill-250 text-start mt-6 justify-between content-between gap-x-10 gap-y-14">
+                                @foreach ($this->zona->fotos as $foto)
+                                    <div wire:key="Zonas-Foto-{{$foto->idZonaFoto}}" class="flex flex-col gap-3 justify-between p-6 relative overflow-hidden text-ellipsis rounded-md break-all text-nowrap bg-slate-100 items-start w-full" wire:key="{{$foto->idCulturaFoto}}">
+                                        {{-- imagen actual --}}
+                                        <div class="w-full flex justify-center">
+                                            <img src="{{img_u_url($foto->foto)}}" class="bg-white shadow-md rounded-md" width="200px" alt="img-cultura">
+                                        </div>
+
+                                        {{-- actualizar y / o borrar imagen actual --}}
+                                        <div class="flex flex-col justify-between gap-3 !text-xs text-gray-400 items-start align-items-start">
+                                            {{-- eliminar imagen --}}
+                                            <div class="flex absolute top-2 right-3 flex-row gap-5 items-center justify-center">
+                                                <div class="relative flex justify-center items-center">
                                                     <x-checkbox
-                                                        wire:model="zonaUpdate.to_eliminate_imgs.{{$foto->idzonaFoto}}"
-                                                        name="to_eliminate_imgs.{{$foto->idzonaFoto}}"
-                                                        onchange="disabled_input('{{$foto->idzonaFoto}}')"
+                                                        wire:model="zonaUpdate.to_eliminate_imgs.{{$foto->idZonaFoto}}"
+                                                        name="to_eliminate_imgs.{{$foto->idZonaFoto}}"
+                                                        onchange="disabled_input('{{$foto->idZonaFoto}}')"
+                                                        class="peer bg-white"
                                                     />
-                                                    <x-error-message for="zonaUpdate.to_eliminate_imgs.{{$foto->idzonaFoto}}" />
+                                                    <span class="absolute text-center peer-checked:bg-slate-300 peer-checked:rounded-md pointer-events-none p-1 top-0 right-0 left-0 bottom-0">
+                                                        <svg width="100%" fill="#e82721" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M170.5 51.6L151.5 80l145 0-19-28.4c-1.5-2.2-4-3.6-6.7-3.6l-93.7 0c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80 368 80l48 0 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-8 0 0 304c0 44.2-35.8 80-80 80l-224 0c-44.2 0-80-35.8-80-80l0-304-8 0c-13.3 0-24-10.7-24-24S10.7 80 24 80l8 0 48 0 13.8 0 36.7-55.1C140.9 9.4 158.4 0 177.1 0l93.7 0c18.7 0 36.2 9.4 46.6 24.9zM80 128l0 304c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-304L80 128zm80 64l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
+                                                    </span>
                                                 </div>
+                                                {{-- <x-label><x-strong>Eliminar imagen</x-strong></x-label> --}}
+                                                <x-error-message for="zonaUpdate.to_eliminate_imgs.{{$foto->idZonaFoto}}" />
                                             </div>
-
-                                            {{-- imagen actual --}}
-                                            <div class="mt-2">
-                                                <img src="{{img_u_url($foto->foto)}}" class="shadow-md rounded-md" width="150px" alt="img-zona">
+                                            {{-- actualizar imagen --}}
+                                            <div class="flex text-start gap-2 flex-col">
+                                                <x-label>Actualizar imagen</x-label>
+                                                <input
+                                                    type="file"
+                                                    wire:model="zonaUpdate.imgs_update.{{$foto->idZonaFoto}}"
+                                                    wire:key="{{$zonaUpdate->fotoKey}}"
+                                                    name="imgs_update.{{$foto->idZonaFoto}}"
+                                                    accept="image/*"
+                                                    class="text-xs bg-white rounded-sm"
+                                                >
+                                                <x-error-message for="zonaUpdate.imgs_update.{{$foto->idZonaFoto}}" />
                                             </div>
                                         </div>
-                                    @endforeach
-                                </x-fieldset>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </x-fieldset>
 
-                                {{-- agregar fotos --}}
-                                @if ($zonaUpdate->imgs_count < 4)
-                                    <x-fieldset>
-                                        <x-legend><x-strong>Agregar imagenes</x-strong></x-legend>
-                                        <input type="file" wire:model="zonaUpdate.imgs_nuevas" wire:key="{{$zonaUpdate->fotoKey}}" accept="image/*" multiple max="4">
-                                        <x-error-message for="zonaUpdate.imgs_nuevas" />
-                                    </x-fieldset>
-                                @endif
+                        {{-- agregar fotos --}}
+                        <x-fieldset>
+                            <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
+                            <input type="file" wire:model.live="zonaUpdate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple>
+                            <x-error-message for="zonaUpdate.imagenes" />
+                        </x-fieldset>
+                    {{-- formulario editar slot end --}}
 
-                                {{-- botones de actualizar y cancelar --}}
-                                <div class="flex flex-row justify-end gap-4">
-                                    {{-- actualizar --}}
-                                    <x-button type="submit" tipo="update">
-                                        Actualizar
-                                    </x-button>
-
-                                    {{-- cancelar --}}
-                                    <x-button tipo="cancel" wire:click="$set('zonaUpdate.openEdit', false)">
-                                        Cancelar
-                                    </x-button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                </x-modal>
             @endif
 
         </div>

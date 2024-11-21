@@ -27,7 +27,9 @@
     if (!function_exists('getAddress')) {
         function getAddress($lat, $lng) {
             $apiKey = config('services.google_maps');
-            $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$lat},{$lng}&key={$apiKey}";
+            $apiString = is_array($apiKey) ? implode(", ", $apiKey) : $apiKey;
+
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$lat},{$lng}&key={$apiString}";
 
             $response = Http::get($url)->json();
 

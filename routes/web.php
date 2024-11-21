@@ -158,6 +158,6 @@ Route::controller(UsuarioController::class) -> prefix('admin/usuarios')-> group(
 });
 
 
-Route::fallback(function () {
-    return response()->view('errors.404', [], 404);
-});
+// Route::fallback(function () {
+//     return response()->view('errors.404', [], 404);
+// });

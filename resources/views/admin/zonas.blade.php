@@ -31,8 +31,17 @@
         });
     </script>
 
-    <x-toast  name_event="zona-event" />
+    <x-toast name_event="zona-event" />  {{-- SWEET ALERTS CRUD --}}
 
-    <x-toast-confirm />
+    <x-toast-confirm /> {{-- SWEET ALERT CONFIRMAR ELIMIANCION --}}
+
+    <script>
+        function disabled_input(idImg) {
+            var fileInput = document.querySelector(`input[name="imgs_update.${idImg}"]`);
+            var checkbox = document.querySelector(`input[name="to_eliminate_imgs.${idImg}"]`);
+
+            checkbox.checked ? fileInput.disabled = true : fileInput.disabled = false;
+        }
+    </script> {{-- CHECKBOXES ELIMINAR IMAGENES --}}
 
 </x-admin-main>
