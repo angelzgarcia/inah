@@ -19,13 +19,24 @@ use App\Http\Controllers\Usuario\ReseniaController;
 use App\Http\Controllers\Usuario\ZonaController;
 use App\Livewire\Admin\CulturaWire;
 use App\Livewire\Admin\EstadoWire;
+use App\Livewire\Auth\LogginComponent;
+use App\Livewire\Auth\LoginComponent;
+use App\Livewire\Auth\RegisterComponent;
+use App\Livewire\Usuario\Culturas\CulturasComponent;
+use App\Livewire\Usuario\Estados\EstadosComponent;
+use App\Livewire\Usuario\Foro\ForoComponent;
+use App\Livewire\Usuario\Quizz\QuizzComponent;
+use App\Livewire\Usuario\Zonas\ZonasComponent;
 use Illuminate\Support\Facades\Route;
 
 
 
-/*______________________ RUTAS   DEL    USUARIO ____________________*/
+/*
+    ______________________
+                            RUTAS   DEL    USUARIO
+                                                    ____________________
+                                                                            */
 
-// grupo de ruts para el index / home
 Route::controller(HomeController::class) -> prefix('/') -> group(function() {
     Route::get('', 'index') -> name('home');
     Route::get('mapa-estados', 'mapa_estados_index') -> name('mapa_estados.index');
@@ -33,40 +44,52 @@ Route::controller(HomeController::class) -> prefix('/') -> group(function() {
     Route::get('nosotros', 'nosotros_index') -> name('nosotros.index');
 });
 
-// grupo de rutas para la seccion de zonas
-Route::controller(ZonaController::class) -> prefix('zonas') -> group(function() {
-    Route::get('', 'index') -> name('zonas.index');
-    Route::get('{zona}', 'show') -> name('zonas.show');
-});
+// rutas componente perfil
+Route::get('perfil', function(){
+    return view('usuario.perfil.perfil');
+}) -> middleware(['role:1']) -> name('perfil');
 
-// grupo de rutas para la seccion de estados de la republica
-Route::controller(EstadoController::class) -> prefix('estados') -> group(function() {
-    Route::get('', 'index') -> name('estados.index');
-    Route::get('{estado}', 'show') -> name('estados.show');
-});
+// rutas componentes culturas
+Route::get('culturas', function(){
+    return view('usuario.culturas.culturas');
+}) -> name('culturas');
 
-// grupo de rutas para la seccion de culturas de mexico
-Route::controller(CulturaController::class) -> prefix('culturas') -> group(function() {
-    Route::get('', 'index') -> name('culturas.index');
-    Route::get('{cultura}', 'show') -> name('culturas.show');
-});
+Route::get('cultura/{id}', function($id){
+    return view('usuario.culturas.culturas-show', compact('id'));
+}) -> name('cultura.show');
 
-// grupo de rutas para la seccion del foro / reseñas
-Route::controller(ReseniaController::class) -> prefix('foro') -> group(function() {
-    Route::get('', 'index') -> name('foro.index');
-    Route::get('{resenia}', 'show') -> name('foro.show');
-});
+// rutas componentes estados
+Route::get('estados', function(){
+    return view('usuario.estados.estados');
+}) -> name('estados');
 
-// grupo de rutas para el formulario de contacto
-Route::controller(ContactanosController::class) -> prefix('contactanos') -> group(function() {
-    Route::get('', 'index') -> name('contactanos.index');
-    Route::post('', 'store') -> name('contactanos.store');
-});
+Route::get('estados/{id}', function($id){
+    return view('usuario.estados.estados-show');
+}) -> name('estado.show');
 
-// grupo de rutas para la seccion del quizz
-Route::controller(QuizzController::class) -> prefix('quizz') -> group(function() {
-    Route::get('', 'index') -> name('quizz.index');
-});
+// rutas componentes zonas
+Route::get('zonas', function(){
+    return view('usuario.zonas.zonas');
+}) -> name('zonas');
+
+Route::get('zonas/{id}', function($id){
+    return view('usuario.zonas.zonas-show');
+}) -> name('zona.show');
+
+// rutas componentes quizz
+Route::get('quizz', function(){
+    return view('usuario.quizz.quizz');
+}) -> name('quizz');
+
+// rutas componentes foro
+Route::get('foro', function(){
+    return view('usuario.foro.foro');
+}) -> name('foro');
+
+// rutas componentes contactanos
+Route::get('contactanos', function(){
+    return view('usuario.contactanos');
+}) -> name('contactanos');
 
 
 
@@ -74,19 +97,25 @@ Route::controller(QuizzController::class) -> prefix('quizz') -> group(function()
 
 
 
+/*
+    _____________________
+                            RUTAS   PARA    AUTH
+                                                    __________________
+                                                                            */
 
-
-
-
-/* _____________________ RUTAS   PARA    AUTH __________________*/
-
-// AUTH LOGIN
-Route::get('login', [LoginController::class, 'index']) -> name('login');
-
-// AUTH GOOGLE
+// auth google
 Route::get('auth/google', [GoogleAuthController::class, 'redirect']) -> name('google-auth');
 Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
 
+// ruta del componente loggin
+Route::get('login', function() {
+    return view('auth.login');
+}) -> middleware('guest') -> name('login');
+
+// ruta del componente de registro
+Route::get('register', function() {
+    return view('auth.register');
+}) -> name('register');
 
 
 
@@ -99,65 +128,59 @@ Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogl
 
 
 
-/*______________________ RUTAS   DEL    ADMIM ____________________*/
 
-// grupo de rutas para el dashboard
-Route::controller(AdminHomeController::class) -> prefix('admin') -> group(function () {
-    Route::get('dashboard', 'index') -> name('dashboard');
-    Route::get('database',  'database') -> name('database');
-    Route::get('migraciones',  'migraciones') -> name('admin.migrations');
-    Route::get('roles',  'roles') -> name('admin.roles');
-    Route::get('culturas-estados',  'culturas_estados') -> name('admin.culturas_estados');
-    Route::get('zonas-imagenes', 'zonas_imagenes') -> name('admin.zonas_fotos');
-    Route::get('resenias-imagenes', 'resenias_imagenes') -> name('admin.resenias_fotos');
-    Route::get('culturas-imagenes', 'culturas_imagenes') -> name('admin.culturas_fotos');
-    Route::get('ubicaciones-zonas', 'ubicaciones_zonas') -> name('admin.ubicaciones_zonas');
-    Route::get('ubicaciones-estados', 'ubicaciones_estados') -> name('admin.ubicaciones_estados');
-});
+/*
+    ______________________
+                            RUTAS   DEL    ADMIM
+                                                    ____________________
+                                                                            */
+Route::prefix('admin')
+    -> middleware(['role:2'])
+    -> group(function () {
 
-//
-Route::controller(VerificarCuentaController::class) -> prefix('verificar-administrador') -> group(function() {
-    Route::get('', 'index') -> name('admin.verificar_cuenta.index');
-    Route::put('',  'verify') -> name('admin.verificar_cuenta.verify');
-    Route::put('update', 'update') -> name('admin.verificar_cuenta.update');
-});
+        Route::controller(AdminHomeController::class)->group(function () {
+            Route::get('dashboard', 'index')->name('dashboard');
+            Route::get('database', 'database')->name('database');
+            Route::get('migraciones', 'migraciones')->name('admin.migrations');
+            Route::get('roles', 'roles')->name('admin.roles');
+            Route::get('culturas-estados', 'culturas_estados')->name('admin.culturas_estados');
+            Route::get('zonas-imagenes', 'zonas_imagenes')->name('admin.zonas_fotos');
+            Route::get('resenias-imagenes', 'resenias_imagenes')->name('admin.resenias_fotos');
+            Route::get('culturas-imagenes', 'culturas_imagenes')->name('admin.culturas_fotos');
+            Route::get('ubicaciones-zonas', 'ubicaciones_zonas')->name('admin.ubicaciones_zonas');
+            Route::get('ubicaciones-estados', 'ubicaciones_estados')->name('admin.ubicaciones_estados');
+        });
 
-// ruta para el componente de las culturas
-Route::get('admin/culturas', function(){
-    return view('admin.culturas');
-}) -> name('admin.culturas');
+        Route::get('culturas', function () {
+            return view('admin.culturas');
+        })->name('admin.culturas');
 
-// ruta para el componente de los estados
-Route::get('admin/estados', function() {
-    return view('admin.estados');
-}) -> name('admin.estados');
+        Route::get('estados', function () {
+            return view('admin.estados');
+        })->name('admin.estados');
 
-// ruta para el componente de las zonas
-Route::get('admin/zonas', function() {
-    return view('admin.zonas');
-}) -> name('admin.zonas');
+        Route::get('zonas', function () {
+            return view('admin.zonas');
+        })->name('admin.zonas');
 
-// ruta para las reseñas
-Route::controller(AdminReseniaController::class) -> prefix('resenias') -> group(function() {
-    Route::get('', 'index') -> name('admin.resenias');
-});
+        Route::get('resenias', function () {
+            return view('admin.resenias');
+        })->name('admin.resenias');
 
-// ruta para el componente de los administradores
-Route::controller(AdminController::class) -> prefix('admin')-> group(function () {
-    Route::get('create', 'create') -> name('admin.create');
-    Route::post('', 'store') -> name('admin.store');
-    Route::get('{admin}', 'show') -> name('admin.show');
-    Route::get('{admin}/edit', 'edit') -> name('admin.edit');
-    Route::put('{admin}', 'update') -> name('admin.update');
-    Route::delete('{admin}', 'destroy') -> name('admin.delete');
-});
+        Route::get('usuarios', function () {
+            return view('admin.usuarios');
+        })->name('admin.usuarios');
 
-// grupo de rutas para los usuarios
-Route::controller(UsuarioController::class) -> prefix('admin/usuarios')-> group(function () {
-    Route::get('', 'index')-> name('admin.usuarios');
-});
+        Route::controller(VerificarCuentaController::class) -> prefix('verificar-administrador') -> group(function() {
+            Route::get('', 'index') -> name('admin.verificar_cuenta.index');
+            Route::put('',  'verify') -> name('admin.verificar_cuenta.verify');
+            Route::put('update', 'update') -> name('admin.verificar_cuenta.update');
+        });
+
+        // Route::fallback(function () {
+        //     return response()->view('errors.404', [], 404);
+        // });
+    });
 
 
-// Route::fallback(function () {
-//     return response()->view('errors.404', [], 404);
-// });
+

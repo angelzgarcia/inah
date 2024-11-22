@@ -140,6 +140,11 @@
             @else
                 <x-table-grid :table="$estados" :keys="$keys" key="Estados" attribute3="fd">
 
+                    {{-- ordenador de registros --}}
+                    <x-slot name="ordenable">
+                        <x-ordenable :keys="$keys"  />
+                    </x-slot>
+
                     {{-- slot -> thead --}}
                     <div class=" w-full">
                         <div class="w-2/3 px-2 flex flex-row justify-start gap-9 items-center mb-4 italic text-gray-400 text-start font-thin">

@@ -11,9 +11,11 @@ use App\Models\Rol;
 use App\Models\UbicacionEstado;
 use App\Models\UbicacionZona;
 use App\Models\ZonaImagen;
+use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
+    public $query = '';
     /**
      * Display a listing of the resource.
      */
@@ -69,51 +71,56 @@ class HomeController extends Controller
         ]);
     }
 
+    public function migraciones() {
+        $migrations = DB::table('migrations')
+                        -> paginate(5, pageName:'pageMigrations');
 
-    public function migrations() {
-        return view('admin.database');
+        $keys = Schema::getColumnListing('migrations');
+        // dd($keys);
+        return view('admin.migrations', compact('migrations', 'keys'));
     }
 
     public function roles() {
         $roles = Rol::paginate();
 
-        return view('admin.roles.index', compact('roles'));
+        return view('admin.roles', compact('roles'));
     }
 
-    public function cultures_states() {
+    public function culturas_estados() {
         $cultures_states = CulturaEstado::paginate();
 
-        return view('admin.culturas-estados.index', compact('cultures_states'));
+        return view('admin.culturas-estados', compact('cultures_states'));
     }
 
-    public function zones_images() {
+    public function zonas_imagenes() {
         $zones_images = ZonaImagen::paginate();
 
-        return view('admin.zonas-imagenes.index', compact('zones_images'));
+        return view('admin.zonas-imagenes', compact('zones_images'));
     }
 
-    public function reviews_images() {
+    public function resenias_imagenes() {
         $reviews_images = ReseniaImagen::paginate();
 
-        return view('admin.resenias-imagenes.index', compact('reviews_images'));
+        return view('admin.resenias-imagenes', compact('reviews_images'));
     }
 
-    public function cultures_images() {
+    public function culturas_imagenes() {
         $cultures_images = CulturaImagen::paginate();
 
-        return view('admin.culturas-imagenes.index', compact('cultures_images'));
+        return view('admin.culturas-imagenes', compact('cultures_images'));
     }
 
-    public function zones_locations() {
+    public function ubicaciones_zonas() {
         $zones_locations = UbicacionZona::paginate();
 
-        return view('admin.ubicaciones-zonas.index', compact('zones_locations'));
+        return view('admin.ubicaciones-zonas', compact('zones_locations'));
     }
 
-    public function states_locations() {
+    public function ubicaciones_estados() {
         $states_locations = UbicacionEstado::paginate();
 
-        return view('admin.ubicaciones-estados.index', compact('states_locations'));
+        return view('admin.ubicaciones-estados', compact('states_locations'));
     }
 
 }
+

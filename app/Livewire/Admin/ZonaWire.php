@@ -28,13 +28,15 @@ class ZonaWire extends Component
     $estado,
     $cultura,
     $query = '',
-    $perPage = 5;
+    $perPage = 5,
+    $sortColumn = 'idZonaArqueologica',
+    $sortDirection = 'desc';
 
     public function render()
     {
         $zonas = Zona::with('fotos')
                         -> where('nombre', 'like', "%{$this -> query}%")
-                        -> orderBy('idZonaArqueologica', 'desc')
+                        -> orderBy($this -> sortColumn, $this -> sortDirection)
                         -> paginate($this -> perPage < 1 ? 5 : $this -> perPage, pageName: 'pageZonas');
 
         $culturas = Cultura::select(['idCultura', 'nombre'])
@@ -48,13 +50,13 @@ class ZonaWire extends Component
         $nCulturas = Cultura::count();
         $nEstados = Estado::count();
 
-        $this -> dispatch('address', $this -> zonaCreate -> direccion);
-
         return view('livewire.admin.zona-wire', compact('zonas', 'culturas', 'estados', 'nCulturas', 'nEstados'));
     }
 
     public function save()
     {
+        $this -> dispatch('address', $this -> zonaCreate -> direccion);
+
         $validate = $this -> zonaCreate -> save();
 
         match ($validate) {
@@ -80,17 +82,49 @@ class ZonaWire extends Component
         $zona = Zona::find($zonaID);
         $this -> zona = $zona;
 
+        $this -> dispatch('address', $this -> zonaUpdate -> direccion);
+
         $this -> zonaUpdate -> edit($zonaID);
     }
 
     public function update()
     {
-        $this -> zonaUpdate -> update();
+        $validate = $this -> zonaUpdate -> update();
+
+        if (isset($validate)) {
+            $data = match ($validate) {
+                'max-img' => [
+                    'icon' => 'info',
+                    'title' => 'Máximo 4 imagenes',
+                ],
+                'min-img' => [
+                    'icon' => 'info',
+                    'title' => 'Deja al menos 2 imagenes',
+                ],
+                'location' => [
+                    'icon' => 'warning',
+                    'title' => 'No se pudo obtener una ubicación para esa dirección',
+                ],
+                true => [
+                    'icon' => 'success',
+                    'title' => 'Zona actualizada'
+                ]
+            };
+            $this -> dispatch('zona-event', icon: $data['icon'], title: $data['title']);
+        }
     }
 
-    public function destroy()
+    public function confirmDestroy($zonaID)
     {
+        $this -> dispatch('conf-event', $zonaID);
+    }
 
+    public function destroy($zonaID)
+    {
+        $zona = Zona::find($zonaID);
+        $zona -> delete();
+
+        $this -> dispatch('zona-event', icon: 'success', title: 'Zona Arqueológica eliminada');
     }
 
     public function cargarEstadoCultura($zonaID)
@@ -109,6 +143,17 @@ class ZonaWire extends Component
                     -> first();
     }
 
+    // ordenar registros
+    public function sortBy($idColumnName)
+    {
+        if ($this -> sortColumn == $idColumnName) {
+            $this -> sortDirection = $this -> sortDirection == 'desc' ? 'asc' : 'desc';
+        } else {
+            $this -> sortColumn = $idColumnName;
+            $this -> sortDirection = 'desc';
+        }
+    }
+
     // reiniciar la paginacion cuando se consulte el buscador
     public function updatedQuery()
     {
@@ -119,6 +164,8 @@ class ZonaWire extends Component
     public function updateDireccion($direccion)
     {
         $this -> zonaCreate -> direccion = $direccion;
+
+        $this -> zonaUpdate -> direccion = $direccion;
     }
 
     public function redirigir($route)

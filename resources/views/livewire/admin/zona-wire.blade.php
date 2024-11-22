@@ -228,6 +228,11 @@
             @else
                 <x-table-grid :table="$zonas" :keys="$keys" key="Zonas">
 
+                    {{-- ordenador de registros --}}
+                    <x-slot name="ordenable">
+                        <x-ordenable :keys="$keys"  />
+                    </x-slot>
+
                     {{-- slot -> thead --}}
                     <div class=" w-full">
                         <div class="w-2/3 px-2 flex flex-row justify-start gap-9 items-center mb-4 italic text-gray-400 text-start font-thin">
@@ -277,12 +282,12 @@
                             {{-- condicion --}}
                             <div class="flex items-center">
                                 <x-legend>Condición: </x-legend>
-                                <x-strong class="!normal-case">{{$this->zona->condicion}}</x-strong>
+                                <x-strong class="!normal-case">{{ucfirst($this->zona->condicion)}}</x-strong>
                             </div>
                             {{-- costo entrada --}}
                             <div class="flex items-center">
                                 <x-legend>Costo de entrada: </x-legend>
-                                <x-strong>{{$this->zona->costoEntrada}}</x-strong>
+                                <x-strong>{{$this->zona->costoEntrada == 0 ? "GRATIS": '$' . $this->zona->costoEntrada . ' MXN' }}</x-strong>
                             </div>
                         </div>
 
@@ -361,7 +366,7 @@
 
             {{-- formulario modal editar y actualizar --}}
             @if ($zonaUpdate->openEdit)
-                <x-modal openPropiety="zonaUpdate.openEdit">
+                <x-modal openPropiety="zonaUpdate.openEdit" :formEdit="true">
 
                     {{-- nombre zona --}}
                     <h2 class="text-4xl text-center flex flex-row justify-between">
@@ -499,12 +504,12 @@
                                 <x-legend>Condición*</x-legend>
                                 <x-select wire:model.live="zonaUpdate.condicion">
                                     <option
-                                        value="Abierta"
+                                        value="abierta"
                                     >
                                         Abierta
                                     </option>
                                     <option
-                                        value="No abierta"
+                                        value="no abierta"
                                     >
                                         No abierta
                                     </option>
@@ -571,8 +576,8 @@
                         {{-- agregar fotos --}}
                         <x-fieldset>
                             <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
-                            <input type="file" wire:model.live="zonaUpdate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple>
-                            <x-error-message for="zonaUpdate.imagenes" />
+                            <input type="file" wire:model.live="zonaUpdate.imgs_nuevas" wire:key="{{$fotoKey}}" accept="image/*" multiple>
+                            <x-error-message for="zonaUpdate.imgs_nuevas" />
                         </x-fieldset>
                     {{-- formulario editar slot end --}}
 

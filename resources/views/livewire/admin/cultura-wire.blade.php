@@ -33,7 +33,7 @@
                             {{-- nombre --}}
                             <x-fieldset>
                                 <x-legend>Nombre*</x-legend>
-                                <x-input wire:model.live="culturaCreate.nombre" value="{{old('nombre')}}" />
+                                <x-input wire:model.live="culturaCreate.nombre" />
                                 <x-error-message for="culturaCreate.nombre" />
                             </x-fieldset>
 
@@ -143,6 +143,11 @@
                 @endif
             @else
                 <x-table-grid :table="$culturas" :keys="$keys" key="Culturas">
+
+                    {{-- ordenador de registros --}}
+                    <x-slot name="ordenable">
+                        <x-ordenable :keys="$keys"  />
+                    </x-slot>
 
                     {{-- slot -> thead --}}
                     <div class=" w-full">

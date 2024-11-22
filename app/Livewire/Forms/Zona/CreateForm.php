@@ -66,7 +66,7 @@ class CreateForm extends Form
 
     public function save()
     {
-        $this->validate();
+        $this -> validate();
 
         if (count($this -> imagenes) > 0) {
 
@@ -89,6 +89,7 @@ class CreateForm extends Form
 
             $horario = "De {$this -> deDia} a {$this -> aDia} de las $tiempo_de_hora a las $tiempo_a_hora";
 
+            
             $zona = Zona::create([
                 'nombre' => $this -> nombre,
                 'significado' => $this -> significado,

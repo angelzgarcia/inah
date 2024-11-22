@@ -32,6 +32,10 @@
 
     &.btn-up { background-color: #a7886c; }
 
+    &.btn-asc { background-color: #a7886c; }
+
+    &.btn-desc { background-color: #a7886c; }
+
     &.btn-back { background-color: #1f2937; }
 
     &.btn-go { background-color: #ffc300; }
@@ -72,6 +76,7 @@
     min-height: 100vh;
     scrollbar-width: thin;
     scrollbar-color: #ccbcae #9b7c62;
+    background-color: #f3f4f6;
 }
 
 /* ESTILOS ENLACES REQUEST ROUTES ¿K ES ESTO? NO LO SE BRO NO LO RECUERDO */

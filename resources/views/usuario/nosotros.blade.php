@@ -1,7 +1,7 @@
-@extends('layouts.main')
 
-@section('titulo', 'Acerca de nosotors | Ollin Code')
 
-@section('users-content')
+<x-user-main title="Conócenos | Ollin Code | INAH">
+
     <h1>Acerca de nosotros</h1>
-@endsection
+
+</x-user-main>

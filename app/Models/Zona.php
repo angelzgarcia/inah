@@ -16,7 +16,7 @@ class Zona extends Model
     use HasFactory;
 
     protected $table = 'zonas';
-    
+
     protected $primaryKey = 'idZonaArqueologica';
 
     protected $guarded = [''];
@@ -95,7 +95,7 @@ class Zona extends Model
     protected function condicion(): Attribute {
         return new Attribute(
             set: fn($condicion) => strtolower($condicion),
-            get: fn($condicion) => ucfirst($condicion)
+            get: fn($condicion) => strtolower($condicion)
         );
     }
 
