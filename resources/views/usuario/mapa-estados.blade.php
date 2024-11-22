@@ -1,7 +1,5 @@
-@extends('layouts.main')
 
-@section('titulo', 'Mapas | INAH')
 
-@section('users-content')
+<x-user-main title="Mapa de los estados de la Repúblca Mexicana | INAH">
     <h1>MAPA DE ESTADOS DE LA REPUBLICA</h1>
-@endsection
+</x-user-main>

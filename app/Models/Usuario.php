@@ -13,7 +13,7 @@ class Usuario extends Authenticatable
     use HasFactory;
 
     protected $primaryKey = 'idUsuario';
-    protected $guarded = [];
+    protected $guarded = [''];
 
     public function rol() {
         return $this -> belongsTo(Rol::class, 'idRol', 'idRol');

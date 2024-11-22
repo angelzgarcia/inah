@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'layout' => 'layouts.admin-main',
+    'layout' => 'components.layouts.app',
 
     /*
     |---------------------------------------------------------------------------

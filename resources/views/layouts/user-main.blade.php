@@ -4,18 +4,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <x-head {{-- HEAD --}}
-    :title="$title"
-    :src-maps="$src_maps"
+    :title="$title ?? 'Zonas Arqueológicas de México | INAH'"
+    {{-- :src-maps="$src_maps" --}}
 />
 <body class="body-users">
-    <x-usuario.header /> {{-- HEADER --}}
+    @if ($hiddenNav == false)
+        <x-usuario.header /> {{-- HEADER --}}
+    @endif
+
+    @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
 
     <main class="main-container">
         {{$slot}} {{-- SLOT O CONTENIDO PRINCIPAL --}}
     </main>
 
-    <x-usuario.footer /> {{-- FOOTER --}}
-    @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
+    @if ($hiddenFoot == false)
+        <x-usuario.footer /> {{-- FOOTER --}}
+    @endif
+
     @stack('js')
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="en">
 <x-head {{-- HEAD --}}
     :title="$title"
-    :src-maps="$src_maps"
+    {{-- :src-maps="$src_maps" --}}
 />
 <body id="body-admin">
     <x-admin.sidebar /> {{-- SIDEBAR ADMIN --}}

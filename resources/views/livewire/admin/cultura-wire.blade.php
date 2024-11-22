@@ -33,7 +33,7 @@
                             {{-- nombre --}}
                             <x-fieldset>
                                 <x-legend>Nombre*</x-legend>
-                                <x-input wire:model.live="culturaCreate.nombre" value="{{old('nombre')}}" />
+                                <x-input wire:model.live="culturaCreate.nombre" />
                                 <x-error-message for="culturaCreate.nombre" />
                             </x-fieldset>
 
@@ -148,7 +148,7 @@
                     <x-slot name="ordenable">
                         <x-ordenable :keys="$keys"  />
                     </x-slot>
-                    
+
                     {{-- slot -> thead --}}
                     <div class=" w-full">
                         <div class="w-2/3 px-2 flex flex-row justify-start gap-9 items-center mb-4 italic text-gray-400 text-start font-thin">

@@ -77,6 +77,9 @@ class UpdateForm extends Form
 
     public function edit($zonaID)
     {
+        $zona = Zona::find($zonaID);
+        $this -> zona = $zona;
+
         $this -> cargarEstadoCultura($zonaID);
 
         $horario = explode(' ', $this -> zona -> horario);
@@ -87,8 +90,10 @@ class UpdateForm extends Form
         $this -> deHora = $horario[6];
         $this -> aHora = $horario[count($horario)-2];
 
-        // $direccion = getAddress($this -> zona -> ubicacion -> latitud, $this -> zona -> ubicacion -> longitud);
-        // $this -> direccion = $direccion;
+        $direccion = getAddress($this -> zona -> ubicacion -> latitud, $this -> zona -> ubicacion -> longitud);
+        $this -> direccion = $direccion;
+
+        $this -> imgs_count = count($this -> zona -> fotos);
 
         $this -> fill($this -> zona -> only([
             'nombre',
@@ -105,8 +110,9 @@ class UpdateForm extends Form
 
     public function update()
     {
-        $this -> validate([
-            'nombre' => [
+        $this -> validate(
+    [
+                'nombre' => [
                 'required',
                 'string',
                 'min:5',
@@ -138,7 +144,6 @@ class UpdateForm extends Form
         $imgs_update_count = count($this -> imgs_update);
 
         if ($imgs_nuevas_count > 0) $this -> validateImagesExtension($this -> imgs_nuevas);
-        if ($imgs_to_el_count > 0) $this -> validateImagesExtension($this -> to_eliminate_imgs);
         if ($imgs_update_count > 0) $this -> validateImagesExtension($this -> imgs_update);
 
         if ($imgs_nuevas_count  > 0 || $imgs_to_el_count  > 0 || $imgs_update_count > 0 ) {
@@ -200,14 +205,16 @@ class UpdateForm extends Form
                                     -> first();
 
         $coords = getCoordinates($this -> direccion);
-        if (!$coords) {
-            $this -> validate();
-            return 'location';
-        }
+        if (!$coords) return 'location';
 
         if ($coords['lat'] != $zonaLocation['latitud'] && $coords['lng'] != $zonaLocation['longitud']) {
             $this -> zona -> ubicacion -> latitud = $coords['lat'];
             $this -> zona -> ubicacion -> longitud = $coords['lng'];
+
+            $this -> zona -> ubicacion -> update([
+                'latitud' => $coords['lat'],
+                'longitud' => $coords['lng'],
+            ]);
         }
 
         $this -> zona -> update($this -> only([
@@ -223,8 +230,9 @@ class UpdateForm extends Form
             'idEstadoRepublica' => $this -> estadoRelacionado,
         ]));
 
+        $this -> reset();
 
-
+        return true;
     }
 
     public function cargarEstadoCultura($zonaID)

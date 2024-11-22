@@ -1,7 +1,7 @@
-@extends('layouts.main')
 
-@section('titulo', 'Mapas | INAH')
 
-@section('users-content')
+<x-user-main title="Mapa de las Zonas Arqueológica de México | INAH">
+
     <h1>MAPA DE ZONAS ARQUEOLÓGICAS </h1>
-@endsection
+
+</x-user-main>

@@ -85,7 +85,7 @@ class UpdateForm extends Form
                     'max:50',
                     'regex:/^[\pL\s]+$/u',
                     ValidationRule::unique('culturas', 'nombre')
-                                    -> ignore($this->cultura->idCultura, 'idCultura')
+                                    -> ignore($this -> cultura ->idCultura, 'idCultura')
                 ],
                 'periodo' => 'required|max:80|min:20',
                 'significado' => 'required|max:255|min:10',
@@ -113,7 +113,6 @@ class UpdateForm extends Form
         $imgs_update_count = count($this -> imgs_update);
 
         if ($imgs_nuevas_count > 0) $this -> validateImagesExtension($this -> imgs_nuevas);
-        if ($imgs_to_el_count > 0) $this -> validateImagesExtension($this -> to_eliminate_imgs);
         if ($imgs_update_count > 0) $this -> validateImagesExtension($this -> imgs_update);
 
         if ($imgs_nuevas_count  > 0 || $imgs_to_el_count  > 0 || $imgs_update_count > 0 ) {

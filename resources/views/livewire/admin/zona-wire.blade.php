@@ -576,8 +576,8 @@
                         {{-- agregar fotos --}}
                         <x-fieldset>
                             <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
-                            <input type="file" wire:model.live="zonaUpdate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple>
-                            <x-error-message for="zonaUpdate.imagenes" />
+                            <input type="file" wire:model.live="zonaUpdate.imgs_nuevas" wire:key="{{$fotoKey}}" accept="image/*" multiple>
+                            <x-error-message for="zonaUpdate.imgs_nuevas" />
                         </x-fieldset>
                     {{-- formulario editar slot end --}}
 
