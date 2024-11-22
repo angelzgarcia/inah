@@ -92,18 +92,13 @@ class UpdateForm extends Form
                 'descripcion' => 'required|max:1024|min:200',
                 'aportaciones' => 'required|max:1000|min:50',
                 'imgs_nuevas' => 'nullable|array|max:4|distinct',
-                // 'imgs_nuevas.*' => 'mimes:jpg,png,jpeg,webp|max:10000',
                 'imgs_update' => 'nullable|array|max:4|distinct',
-                // 'imgs_update.*' => 'mimes:jpg,png,jpeg,webp|max:10000',
                 'to_eliminate_imgs' => 'nullable|array|max:4|distinct',
                 'estadosActualesID' => 'required|array|min:1|distinct',
-                // 'estadosActualesID.*' => 'exists:estados,idEstadoRepublica',
                 'estadosUpdateID' => 'nullable|array|distinct',
-                // 'estadosUpdateID.*' => 'exists:estados,idEstadoRepublica',
                 'estadosRemovedID' => 'nullable|array|distinct',
-                // 'estadosRemovedID.*' => 'exists:estados,idEstadoRepublica',
             ]
-    );
+        );
 
         $this -> cultura -> update($this -> only(
 'nombre',
@@ -116,6 +111,10 @@ class UpdateForm extends Form
         $imgs_nuevas_count = count($this -> imgs_nuevas);
         $imgs_to_el_count = count($this -> to_eliminate_imgs);
         $imgs_update_count = count($this -> imgs_update);
+
+        if ($imgs_nuevas_count > 0) $this -> validateImagesExtension($this -> imgs_nuevas);
+        if ($imgs_to_el_count > 0) $this -> validateImagesExtension($this -> to_eliminate_imgs);
+        if ($imgs_update_count > 0) $this -> validateImagesExtension($this -> imgs_update);
 
         if ($imgs_nuevas_count  > 0 || $imgs_to_el_count  > 0 || $imgs_update_count > 0 ) {
 
@@ -219,6 +218,15 @@ class UpdateForm extends Form
         $this->validate();
     }
 
+    public function validateImagesExtension($imgs)
+    {
+        foreach ($imgs as $img) {
+            if (!in_array($img -> extension(), ['jpg', 'png', 'jpeg', 'webp'])) {
+                return 'imgs_extension';
+            }
+        }
+    }
+
     public function uploadElimianteImage()
     {
         foreach ($this -> imgs_nuevas as $clave => $new_img)
@@ -240,8 +248,12 @@ class UpdateForm extends Form
 
     public function updateImage($id, $new_img)
     {
-        $img = CulturaImagen::where('idCulturaFoto', $id) -> first();
-        Storage::disk('public') -> delete("img/uploads/{$img -> foto}");
+        $img = CulturaImagen::where('idCulturaFoto', $id)
+                            -> first();
+
+        Storage::disk('public')
+                -> delete("img/uploads/{$img -> foto}");
+
         $img -> foto = basename(time() . '-' . $new_img -> store('img/uploads', 'public'));
         $img -> update();
     }

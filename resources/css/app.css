@@ -32,6 +32,10 @@
 
     &.btn-up { background-color: #a7886c; }
 
+    &.btn-asc { background-color: #a7886c; }
+
+    &.btn-desc { background-color: #a7886c; }
+
     &.btn-back { background-color: #1f2937; }
 
     &.btn-go { background-color: #ffc300; }

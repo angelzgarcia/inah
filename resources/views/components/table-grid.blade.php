@@ -17,6 +17,8 @@
         {{-- filtro de no.registros por pagina --}}
         <x-filter />
 
+        {{$ordenable ?? ''}}
+
         {{-- buscador --}}
         <x-searcher />
 
@@ -26,7 +28,7 @@
     {{$slot}}
 
     {{-- grid de registros y operaciones crud --}}
-    <div class="flex flex-col mb-5 justify-between">
+    <div class="flex flex-col mb-10 justify-between">
         {{-- tbody --}}
         <div class="flex flex-col gap-6">
             {{-- registros --}}

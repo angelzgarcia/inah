@@ -28,7 +28,9 @@ class CulturaWire extends Component
     $cultura,
     $estadosActuales,
     $query = '',
-    $perPage = 5;
+    $perPage = 5,
+    $sortColumn = 'idCultura',
+    $sortDirection = 'desc';
 
     // reiniciar la paginacion cuando se consulte el buscador
     public function updatedQuery()
@@ -42,7 +44,7 @@ class CulturaWire extends Component
         $culturas = Cultura::with('fotos')
                             -> where('nombre', 'like', "%{$this->query}%")
                             -> orWhere('idCultura', 'like', "%{$this->query}%")
-                            -> orderBy('idCultura', 'desc')
+                            -> orderBy($this -> sortColumn, $this -> sortDirection)
                             -> paginate($this -> perPage < 1 ? 5 : $this -> perPage, pageName: 'pageCulturas');
 
         $cols = Schema::getColumnListing('culturas');
@@ -159,6 +161,17 @@ class CulturaWire extends Component
         $this -> estadosActuales = Estado::select(['idEstadoRepublica', 'nombre'])
                                         -> whereIn('idEstadoRepublica', $idsEstados)
                                         -> get();
+    }
+
+    // ordenar registros
+    public function sortBy($idColumnName)
+    {
+        if ($this -> sortColumn == $idColumnName) {
+            $this -> sortDirection = $this -> sortDirection == 'desc' ? 'asc' : 'desc';
+        } else {
+            $this -> sortColumn = $idColumnName;
+            $this -> sortDirection = 'desc';
+        }
     }
 
     public function redirigir($route)

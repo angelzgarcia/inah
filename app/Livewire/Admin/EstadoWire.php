@@ -29,7 +29,9 @@ class EstadoWire extends Component
     $tripticoKey,
     $culturasActuales,
     $query = '',
-    $perPage = 5;
+    $perPage = 5,
+    $sortColumn = 'idEstadoRepublica',
+    $sortDirection = 'desc';
 
     // reinicia la paginacion cuando se consulte el buscador en cualquir pagina
     public function updatedQuery()
@@ -40,7 +42,7 @@ class EstadoWire extends Component
     // renderizar la vista del componente
     public function render()
     {
-        $estados = Estado::orderBy('idEstadoRepublica', 'desc')
+        $estados = Estado::orderBy($this -> sortColumn, $this -> sortDirection)
                             -> where('nombre', 'like', "%{$this -> query}%")
                             -> orWhere('capital', 'like', "%{$this -> query}%")
                             -> orWhere('idEstadoRepublica', 'like', "%{$this -> query}%")
@@ -156,6 +158,17 @@ class EstadoWire extends Component
         $this -> culturasActuales = Cultura::select(['idCultura', 'nombre'])
                                         -> whereIn('idCultura', $idsCulturas)
                                         -> get();
+    }
+
+    // ordenar registros
+    public function sortBy($idColumnName)
+    {
+        if ($this -> sortColumn == $idColumnName) {
+            $this -> sortDirection = $this -> sortDirection == 'desc' ? 'asc' : 'desc';
+        } else {
+            $this -> sortColumn = $idColumnName;
+            $this -> sortDirection = 'desc';
+        }
     }
 
     public function redirigir($route)

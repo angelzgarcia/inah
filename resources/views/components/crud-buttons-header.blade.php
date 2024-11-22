@@ -13,7 +13,7 @@
     @if (!$form_object->openCreate)
         <x-button tipo="aggregate" wire:click="$set('{{$name_form}}.openCreate', true)">
             Agregar {{strtoupper(str_replace('Create', '', $name_form))}}
-        </x-button> 
+        </x-button>
     @else
         {{-- cancelar --}}
         <x-button tipo="cancel" wire:click="$set('{{$name_form}}.openCreate', false)">

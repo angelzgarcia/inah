@@ -11,10 +11,10 @@
         ])
     }}
 
-    {{-- @if($route) onclick="window.location.href='{{ route($route) }}'" wire:navigate @endif --}}
+    @if($route) onclick="window.location.href='{{ route($route) }}'" wire:navigate @endif
 >
 
-    {!! $svg !!}
+    {!! $svg ?? '' !!}
 
     {{$slot}}
 </button>

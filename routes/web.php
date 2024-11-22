@@ -115,7 +115,7 @@ Route::controller(AdminHomeController::class) -> prefix('admin') -> group(functi
     Route::get('ubicaciones-estados', 'ubicaciones_estados') -> name('admin.ubicaciones_estados');
 });
 
-//
+// ruta para el proceso de verificacion de cuentas de administador
 Route::controller(VerificarCuentaController::class) -> prefix('verificar-administrador') -> group(function() {
     Route::get('', 'index') -> name('admin.verificar_cuenta.index');
     Route::put('',  'verify') -> name('admin.verificar_cuenta.verify');
@@ -138,25 +138,14 @@ Route::get('admin/zonas', function() {
 }) -> name('admin.zonas');
 
 // ruta para las reseñas
-Route::controller(AdminReseniaController::class) -> prefix('resenias') -> group(function() {
-    Route::get('', 'index') -> name('admin.resenias');
-});
+Route::get('admin/resenias', function() {
+    return view('admin.resenias');
+}) -> name('admin.resenias');
 
-// ruta para el componente de los administradores
-Route::controller(AdminController::class) -> prefix('admin')-> group(function () {
-    Route::get('create', 'create') -> name('admin.create');
-    Route::post('', 'store') -> name('admin.store');
-    Route::get('{admin}', 'show') -> name('admin.show');
-    Route::get('{admin}/edit', 'edit') -> name('admin.edit');
-    Route::put('{admin}', 'update') -> name('admin.update');
-    Route::delete('{admin}', 'destroy') -> name('admin.delete');
-});
-
-// grupo de rutas para los usuarios
-Route::controller(UsuarioController::class) -> prefix('admin/usuarios')-> group(function () {
-    Route::get('', 'index')-> name('admin.usuarios');
-});
-
+// ruta para el componente de los usuarios
+Route::get('admin/usuarios', function() {
+    return view('admin.usuarios');
+}) -> name('admin.usuarios');
 
 // Route::fallback(function () {
 //     return response()->view('errors.404', [], 404);

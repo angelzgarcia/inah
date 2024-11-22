@@ -28,13 +28,15 @@ class ZonaWire extends Component
     $estado,
     $cultura,
     $query = '',
-    $perPage = 5;
+    $perPage = 5,
+    $sortColumn = 'idZonaArqueologica',
+    $sortDirection = 'desc';
 
     public function render()
     {
         $zonas = Zona::with('fotos')
                         -> where('nombre', 'like', "%{$this -> query}%")
-                        -> orderBy('idZonaArqueologica', 'desc')
+                        -> orderBy($this -> sortColumn, $this -> sortDirection)
                         -> paginate($this -> perPage < 1 ? 5 : $this -> perPage, pageName: 'pageZonas');
 
         $culturas = Cultura::select(['idCultura', 'nombre'])
@@ -88,9 +90,17 @@ class ZonaWire extends Component
         $this -> zonaUpdate -> update();
     }
 
-    public function destroy()
+    public function confirmDestroy($zonaID)
     {
+        $this -> dispatch('conf-event', $zonaID);
+    }
 
+    public function destroy($zonaID)
+    {
+        $zona = Zona::find($zonaID);
+        $zona -> delete();
+
+        $this -> dispatch('zona-event', icon: 'success', title: 'Zona Arqueológica eliminada');
     }
 
     public function cargarEstadoCultura($zonaID)
@@ -107,6 +117,17 @@ class ZonaWire extends Component
             Cultura::select(['idCultura', 'nombre'])
                     -> where('idCultura', $this -> zona -> idCultura)
                     -> first();
+    }
+
+    // ordenar registros
+    public function sortBy($idColumnName)
+    {
+        if ($this -> sortColumn == $idColumnName) {
+            $this -> sortDirection = $this -> sortDirection == 'desc' ? 'asc' : 'desc';
+        } else {
+            $this -> sortColumn = $idColumnName;
+            $this -> sortDirection = 'desc';
+        }
     }
 
     // reiniciar la paginacion cuando se consulte el buscador
