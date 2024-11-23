@@ -1,6 +1,6 @@
 
 
-<x-user-main title="Estados de la República Mexicana">
+<x-user-main title="Estados de la República Mexicana" :usarMapa="true">
 
     @livewire('usuario.estados.estados-component')
 

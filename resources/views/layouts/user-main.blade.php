@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <x-head
     :title="$title ?? 'Zonas Arqueológicas de México | INAH'"
 /> {{-- HEAD --}}
@@ -13,7 +13,7 @@
 
     @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
 
-    <main class="main-container">
+    <main class="main-container" style="width:{{$mainW}}%">
         {{$slot}} {{-- SLOT O CONTENIDO PRINCIPAL --}}
     </main>
 
@@ -22,6 +22,10 @@
     @endif
 
     @stack('js')
+
+    @if ($usarMapa)
+        <x-src-maps /> {{-- GOOGLE SCRIPTS --}}
+    @endif
 </body>
 </html>
 

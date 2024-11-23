@@ -1,7 +1,5 @@
 
 <x-admin-main title="Database | INAH">
-    {{-- BUSCADOR --}}
-
 
     <section class="database-section">
         {{-- nombre de la base de datos --}}

@@ -50,13 +50,14 @@ class HomeController extends Controller
     public function database() {
         $tables = DB::select('SHOW TABLES');
         $database_name = env('DB_DATABASE');
+        $Tables_in = "Tables_in_{$database_name}";
 
         $tables_with_counts = [];
 
         foreach ($tables as $table) {
-            $table_name = $table->Tables_in_inah;
+            $table_name = $table -> $Tables_in;
 
-            $table_count = DB::table($table_name)->count();
+            $table_count = DB::table($table_name) -> count();
 
             $tables_with_counts[] = [
                 'name' => $table_name,
