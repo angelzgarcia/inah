@@ -1,12 +1,11 @@
 
 
-{{-- componentes de blade --}}
+
 <!DOCTYPE html>
-<html lang="en">
-<x-head {{-- HEAD --}}
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<x-head
     :title="$title ?? 'Zonas Arqueológicas de México | INAH'"
-    {{-- :src-maps="$src_maps" --}}
-/>
+/> {{-- HEAD --}}
 <body class="body-users">
     @if ($hiddenNav == false)
         <x-usuario.header /> {{-- HEADER --}}
