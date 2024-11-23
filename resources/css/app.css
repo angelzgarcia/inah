@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 [x-cloak] { display: none; }
 
 
@@ -166,7 +167,7 @@
                 border-radius: 50%;
                 & a {
                     border-radius: 50%; display: flex; justify-content: center; align-items: center; width: inherit; height: inherit;
-                    & svg { fill: #fff; width: 100%; height: 100%;}
+                    & svg {  width: 100%; height: 100%;}
                 }
             }
         }
@@ -573,26 +574,26 @@ footer {
             top: 0;
             height: 8vh;
             display: flex;
-            justify-content: end;
+            padding: 0 1em;
+            justify-content: space-between;
             align-items: center;
             gap: 1em;
-            background-color: #611232;
-            & .welcome-respect { color: #c4baae; font-size: 1.3em; }
+            /* background-color: #b0abab9e; */
             & .profile-acces-container {
                 /* background-color: #611232; */
                 border-radius: 2em 0 0 2em;
                 /* height: 9vh; */
                 min-width: 20%;
                 display: flex;
-                padding: 0 1em;
+                /* padding: 0 1em; */
                 align-items: center;
                 gap: 1em;
                 justify-content: space-around;
                 & h2 {
                     text-transform: uppercase;
                     margin: 0;
-                    color: #fff;
-                    font-size: 1em;
+                    color: #000;
+                    font-size: 1.3em;
                 }
                 & .avatar-admin  {
                     display: flex;
@@ -600,7 +601,7 @@ footer {
                     justify-content: center;
                     border-radius: 50%;
                     min-height: 30px;
-                    background-color: #611232;
+                    /* background-color: #611232; */
                     min-width: 30px;
                     cursor: pointer;
                     & svg {
@@ -616,13 +617,14 @@ footer {
 
     /* profile ingo */
     & .profile-info {
-        height: 100vh;
-        width: 35%;
+        height: 50vh;
+        width: 25%;
         text-align: center;
         position: fixed;
         top: 0;
         right: 0;
-        background-color: #a3856a;
+        border-radius: 0 0 0 4em;
+        background-color: #611232;
         /* background-color: #611232; */
         color: #fff;
         /* display: flex; */
@@ -630,7 +632,9 @@ footer {
         opacity: 0;
         flex-direction: column;
         z-index: 10000;
-        box-shadow: -1em 0 1em 0 rgba(0,0,0,0.2);
+        display: flex;
+        justify-content: space-between;
+        box-shadow: -.6em 0 .5em 0 rgba(0,0,0,0.2);
         & .close-profile-info {
             /* background-color: #64503e; */
             width: max-content;
@@ -639,36 +643,38 @@ footer {
             align-items: center;
             justify-content: center;
             position: absolute;
-            left: 7px;
-            top: 7px;
+            left: 10px;
+            top: 10px;
             cursor: pointer;
             & svg {
                 width: 25px;
                 height: 25px;
-                fill: #64503e;
+                fill: #7d644e;
             }
             &:hover svg{
-                fill: #554435;
+                transition: all .3s;
+                fill: #aa8769;
             }
         }
         & .name-user-avatar {
-            flex-basis: 35%;
+            /* flex-basis: 35%; */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-top: 1em;
+            padding: 1em 0;
             background-color: #fff;
             border-radius: 0 0 0 4em;
             & .avatar-user {
                 background-color: #a3856a;
                 border-radius: 50%;
-                min-width: 100px;
-                min-height: 100px;
+                /* min-width: 100px; */
+                /* min-height: 100px; */
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 & svg {
+                    width: 50px;
                     fill: #fff;
                 }
             }
@@ -697,6 +703,7 @@ footer {
             display: flex;
             flex-direction: column;
             /* flex-basis: 65%; */
+            text-align: center;
             justify-content: center;
             & p {
                 font-style: italic;
@@ -718,6 +725,15 @@ footer {
             /* background-color: #000000c4; */
             /* height: auto; */
             & a svg {
+                fill: #fff;
+                width: 30px;
+                height: 30px;
+                transition: all .2s;
+                &:hover {
+                    transform: scale(107%);
+                }
+            }
+            & button svg {
                 fill: #fff;
                 width: 30px;
                 height: 30px;
@@ -750,44 +766,17 @@ footer {
     /* min-height: calc(100vh - 9vh); */
     /* min-height: 100vh; */
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(365px, 1fr));
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
     /* grid-template-rows: auto; */
-    gap: 2em 1em;
+    gap: 4em 1em;
     padding: 2em 0;
     justify-content: center;
     justify-items: center;
 
-    & .registers-tables-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: baseline;
-        align-items: center;
+    & div {
         width: 70%;
-        background-color: #fff;
-        border-radius: 3em;
-        box-shadow: 0 0 .5em rgba(0,0,0,0.3);
-        color: #111111dc;
-        text-align: center;
-        overflow: hidden;
-        transition: all .2s ease;
-        text-decoration: none;
-        & h3 {
-            text-transform: uppercase;
-            width: 90%;
-            margin-bottom: 0;
-            font-size: 1.2em;
-            text-overflow: ellipsis;
-        }
-        & h4 {
-            font-style: italic;
-            font-size: small;
-        }
-
-        &:hover {
-            background-color: #f7f2f2;
-            /* transform: scale(105%); */
-        }
     }
 }
 

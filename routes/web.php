@@ -27,6 +27,7 @@ use App\Livewire\Usuario\Estados\EstadosComponent;
 use App\Livewire\Usuario\Foro\ForoComponent;
 use App\Livewire\Usuario\Quizz\QuizzComponent;
 use App\Livewire\Usuario\Zonas\ZonasComponent;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,7 +39,7 @@ use Illuminate\Support\Facades\Route;
                                                                             */
 
 Route::controller(HomeController::class) -> prefix('/') -> group(function() {
-    Route::get('', 'index') -> name('home');
+    Route::get('/', 'index') -> name('home');
     Route::get('mapa-estados', 'mapa_estados_index') -> name('mapa_estados.index');
     Route::get('mapa-zonas', 'mapa_zonas_index') -> name('mapa_zonas.index');
     Route::get('nosotros', 'nosotros_index') -> name('nosotros.index');
@@ -115,7 +116,7 @@ Route::get('login', function() {
 // ruta del componente de registro
 Route::get('register', function() {
     return view('auth.register');
-}) -> name('register');
+}) -> middleware('guest') -> name('register');
 
 
 
@@ -135,7 +136,7 @@ Route::get('register', function() {
                                                     ____________________
                                                                             */
 Route::prefix('admin')
-    -> middleware(['role:2'])
+    -> middleware(['auth', 'role:2'])
     -> group(function () {
 
         Route::controller(AdminHomeController::class)->group(function () {
@@ -177,10 +178,18 @@ Route::prefix('admin')
             Route::put('update', 'update') -> name('admin.verificar_cuenta.update');
         });
 
+        Route::post('logout',  function() {
+            Auth::logout();
+            session() -> invalidate();
+            session() -> regenerateToken();
+
+            return redirect() -> route('login');
+        }) -> name('logout');
+
+
         // Route::fallback(function () {
         //     return response()->view('errors.404', [], 404);
         // });
     });
-
 
 

@@ -2,6 +2,6 @@
 
 <x-user-main>
 
-    @livewire('component', ['user' => $user], key($user->id))
+    @livewire('usuario.culturas.culturas-component')
 
 </x-user-main>

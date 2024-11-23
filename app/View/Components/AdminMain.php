@@ -4,23 +4,40 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class AdminMain extends Component
 {
 
-    public $title, $user, $src_maps, $js;
+    public
+    $title,
+    $usuario;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($title = null, $user = null, $src_maps = null, $js = null)
+    public function __construct($title = null, $usuario = null)
     {
-        $this->title = $title;
-        $this->user = $user;
-        $this->src_maps = $src_maps;
-        $this->js = $js;
+        $this -> title = $title;
+        $this -> usuario = $usuario;
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        session() -> invalidate();
+        session() -> regenerateToken();
+
+        return $this -> redirigir('login');
+    }
+
+    public function redirigir($route)
+    {
+
+        return redirect() -> route($route);
+    }
+
 
     /**
      * Get the view / contents that represent the component.
