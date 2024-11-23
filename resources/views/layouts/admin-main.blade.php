@@ -5,7 +5,7 @@
         @php $usuario = Auth::user() @endphp
 
         <!DOCTYPE html>
-        <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+        <html lang="en">
         <x-head {{-- HEAD --}}
             :title="$title ?? 'Dashboard Admin | INAH'"
         />
@@ -27,6 +27,8 @@
             </main>
 
             @stack('js') {{-- SCRIPTS --}}
+
+            @if ($usarMapa) <x-src-maps /> {{-- GOOGLE SCRIPTS --}} @endif
         </body>
         </html>
     @endif

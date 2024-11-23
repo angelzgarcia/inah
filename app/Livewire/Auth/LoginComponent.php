@@ -21,13 +21,12 @@ class LoginComponent extends Component
         $this -> validate();
 
         if (Auth::attempt(['email' => $this -> email, 'password' => $this -> password, 'idRol' => 2], $this->remember))
-            return redirect() -> route('dashboard');
+            return $this -> redirect('admin/dashboard');
 
         elseif(Auth::attempt(['email' => $this -> email, 'password' => $this -> password, 'idRol' => 1], $this->remember) )
-            return redirect() -> route('perfil');
+            return $this -> redirect('perfil');
 
-
-        $this->addError('email', 'Credenciales inválidas.');
+        session() -> flash('login-unsuccess', 'Credenciales no validas.');
     }
 
     public function render()

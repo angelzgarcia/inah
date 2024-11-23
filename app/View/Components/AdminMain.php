@@ -12,15 +12,17 @@ class AdminMain extends Component
 
     public
     $title,
-    $usuario;
+    $usuario,
+    $usarMapa;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($title = null, $usuario = null)
+    public function __construct($title = null, $usuario = null, $usarMapa = false)
     {
         $this -> title = $title;
         $this -> usuario = $usuario;
+        $this -> usarMapa = $usarMapa;
     }
 
     public function logout()

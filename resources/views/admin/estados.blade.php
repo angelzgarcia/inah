@@ -1,10 +1,10 @@
 
-<x-admin-main title="Estados de la República Mexicana | Admin | INAH">
+<x-admin-main title="Estados de la República Mexicana | Admin | INAH" :usarMap="true">
 
     @livewire('admin.estado-wire')
 
+    @push('js')
 
-    @push('js') {{-- STACK JS ESTADOS --}}
         <x-toast name_event="est-event"/> {{-- SWEET ALERT TOAST --}}
 
         <x-toast-confirm
@@ -206,6 +206,6 @@
 
         </script>
 
-    @endpush
+    @endpush {{-- STACK JS ESTADOS --}}
 
 </x-admin-main>

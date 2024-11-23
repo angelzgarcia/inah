@@ -1,33 +1,46 @@
 
 
 <div class="flex !min-h-screen max-w-md mx-auto">
-    <div class=" flex flex-col justify-start my-auto gap-2">
-        {{-- logo --}}
-        <div class="opacity-80">
-            <a href="{{route('home')}}">
-                <img src="{{img_d_url('logo_85.png')}}" alt="inah_logo">
-            </a>
-        </div>
+    <div class=" ">
 
-        <x-strong class="text-center tracking-widest">¡Bienvenido de nuevo!</x-strong>
+        <div class="bg-white flex flex-col justify-start gap-2 rounded-lg shadow-md shadow-gray-300 py-5 px-6">
+            {{-- logo --}}
+            <div class="opacity-80">
+                <a href="{{route('home')}}">
+                    <img src="{{img_d_url('logo_85.png')}}" alt="inah_logo">
+                </a>
+            </div>
 
-        <div class="bg-white rounded-lg shadow-md shadow-gray-300 py-5 px-6">
+            <x-strong class="text-center tracking-widest">¡Bienvenido de nuevo!</x-strong>
+
             <form wire:submit="login" autocomplete="off">
                 @csrf
                 {{-- mensaje de confiramcion de registro exitoso --}}
-                @if (session()->has('message'))
-                    <div class="text-green-500 mb-4">{{ session('message') }}</div>
+                @if (session()->has('login-success'))
+                    <div class="flex items-center gap-0 capitalize mb-6 text-sm text-green-800 rounded-lg" role="alert">
+                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" fill="#166534" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <span class="font-medium">{{ session('login-success') }}</span>
+                    </div>
+                @elseif(session()->has('login-unsuccess'))
+                    <div class="flex items-center gap-0 capitalize mb-4 text-sm text-red-800 rounded-lg" role="alert">
+                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" fill="#991b1b" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <span class="font-medium">{{ session('login-unsuccess') }}</span>
+                    </div>
                 @endif
 
                 <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium">Correo electrónico</label>
-                    <input type="email" id="email" wire:model.live="email" class="border px-4 py-2 w-full">
+                    <label for="email" class="block mb-2 text-sm font-normal text-gray-800">Correo electrónico</label>
+                    <x-input type="text" wire:model.live="email" autocomplete="off" class="border px-4 py-2 w-full" />
                     <x-error-message for="email" />
                 </div>
 
                 <div class="mb-4">
-                    <label for="password" class="block text-sm font-medium">Contraseña</label>
-                    <input type="password" id="password" wire:model.live="password" class="border px-4 py-2 w-full">
+                    <label for="password" class="block mb-2 text-sm font-normal text-gray-800">Contraseña</label>
+                    <x-input type="text" wire:model.live="password" autocomplete="off" class="border px-4 py-2 w-full" />
                     <x-error-message for="password" />
                 </div>
 
@@ -62,7 +75,7 @@
                     </svg>
                 </div>
 
-                <span class="w-5/6 px-4 py-3 font-semibold text-center">Inicia sesión con Google</span>
+                <span class="px-4 py-3 font-semibold text-center">Inicia sesión con Google</span>
             </a>
         </div>
 

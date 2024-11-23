@@ -9,24 +9,24 @@ use Illuminate\View\Component;
 class UserMain extends Component
 {
     public
+    $mainW,
     $title,
     $user,
-    $src_maps,
-    $js,
     $hiddenNav,
-    $hiddenFoot;
+    $hiddenFoot,
+    $usarMapa;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($title = null, $user = null, $src_maps = null, $js = null, $hiddenNav = false, $hiddenFoot = false)
+    public function __construct($mainW = 95, $title = null, $user = null, $hiddenNav = false, $hiddenFoot = false, $usarMapa = false )
     {
-        $this->title = $title;
-        $this->user = $user;
-        $this->src_maps = $src_maps;
-        $this->js = $js;
-        $this->hiddenNav = $hiddenNav;
-        $this->hiddenFoot = $hiddenFoot;
+        $this -> mainW = $mainW;
+        $this -> title = $title;
+        $this -> user = $user;
+        $this -> hiddenNav = $hiddenNav;
+        $this -> hiddenFoot = $hiddenFoot;
+        $this -> usarMapa = $usarMapa;
     }
 
     /**

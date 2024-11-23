@@ -18,6 +18,4 @@
         <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
         <script src="{{ asset('build/assets/app.js') }}" defer></script>
     @endif
-
-    <x-src-maps /> {{-- GOOGLE SCRIPTS --}}
 </head>

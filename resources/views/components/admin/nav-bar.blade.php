@@ -5,16 +5,18 @@
         <nav class="navbar-admin bg-gray-300 shadow-sm shadow-gray-400">
             <div class="flex text-zinc-700">
                 <x-strong>
-                    @if ($usuario->genero == 'masculino')
-                        Bienvenido
-                    @elseif($usuario->genero == 'femenino')
-                        Bienvenida
+                    @if ($usuario->genero)
+                        @if ($usuario->genero == 'masculino')
+                            Bienvenido
+                        @elseif ($usuario->genero == 'femenino')
+                            Bienvenida
+                        @endif
                     @else
                         Bienvenid@
                     @endif
                 </x-strong>
                 <x-strong>
-                    {{$usuario->nombre}}
+                    {{$usuario->nombre ?? 'Administrador'}}
                 </x-strong>
             </div>
             <div id="avatar-admin" class="cursor-pointer mr-3 bg-zinc-400 shadow-md rounded-full">

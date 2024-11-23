@@ -21,6 +21,7 @@ class RegisterComponent extends Component
     #[Rule('required|string|min:8|max:20|same:password|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/')]
     public $password_confirmation;
 
+    public $terminos = false;
 
     public function register()
     {
@@ -35,9 +36,9 @@ class RegisterComponent extends Component
             'idRol' => 1,
         ]);
 
-        session() -> flash('message', 'Registro exitoso.  Por favor inicia sesión.');
+        session() -> flash('login-success', '¡Registro exitoso! Por favor inicia sesión.');
 
-        return redirect() -> route('login');
+        return $this -> redirect('login');
     }
 
     public function render()
