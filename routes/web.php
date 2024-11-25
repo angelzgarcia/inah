@@ -1,34 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\CulturaController as AdminCulturaController;
-use App\Http\Controllers\Admin\EstadoController as AdminEstadoController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
-use App\Http\Controllers\Admin\ReseniaController as AdminReseniaController;
-use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\VerificarCuentaController;
-use App\Http\Controllers\Admin\ZonaController as AdminZonaController;
 use App\Http\Controllers\Auth\GoogleAuthController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Usuario\ContactanosController;
-use App\Http\Controllers\Usuario\CulturaController;
-use App\Http\Controllers\Usuario\EstadoController;
 use App\Http\Controllers\Usuario\HomeController;
-use App\Http\Controllers\Usuario\QuizzController;
-use App\Http\Controllers\Usuario\ReseniaController;
-use App\Http\Controllers\Usuario\ZonaController;
-use App\Livewire\Admin\CulturaWire;
-use App\Livewire\Admin\EstadoWire;
-use App\Livewire\Auth\LogginComponent;
-use App\Livewire\Auth\LoginComponent;
-use App\Livewire\Auth\RegisterComponent;
-use App\Livewire\Usuario\Culturas\CulturasComponent;
-use App\Livewire\Usuario\Estados\EstadosComponent;
-use App\Livewire\Usuario\Foro\ForoComponent;
-use App\Livewire\Usuario\Quizz\QuizzComponent;
-use App\Livewire\Usuario\Zonas\ZonasComponent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 
 
 
@@ -111,7 +89,7 @@ Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogl
 // ruta del componente loggin
 Route::get('login', function() {
     return view('auth.login');
-}) -> middleware('guest') -> name('login');
+}) -> name('login');
 
 // ruta del componente de registro
 Route::get('register', function() {
@@ -186,10 +164,18 @@ Route::prefix('admin')
             return redirect() -> route('login');
         }) -> name('logout');
 
-
-        // Route::fallback(function () {
-        //     return response()->view('errors.404', [], 404);
-        // });
     });
 
 
+    Route::fallback(function () {
+        return response()->json([
+            'error' => 'Resource not found.'
+        ], 404);
+    });
+
+
+
+
+Livewire::setUpdateRoute(function ($handle) {
+    return Route::post('/livewire/update', $handle);
+});

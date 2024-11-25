@@ -38,7 +38,14 @@ return [
     |
     */
 
+    // 'layout' => 'components.layouts.user-main',
     'layout' => 'components.layouts.app',
+
+    /*
+        depuracion
+    */
+
+    'debug' => true,
 
     /*
     |---------------------------------------------------------------------------
