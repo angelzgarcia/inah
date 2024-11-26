@@ -156,18 +156,18 @@
                             <x-strong class="h1u">{{$this->usuario->nombre}}</x-strong>
                         </div>
 
-                        {{-- google_id --}}
-                        <div>
-                            <x-legend>Google ID: </x-legend>
-                            @if ($this->usuario->google_id) <x-strong>{{$this->usuario->google_id }}</x-strong>
-                            @else <x-strong class="text-gray-500">NULL</x-strong>
-                            @endif
-                        </div>
-
                         {{-- genero --}}
                         <div>
                             <x-legend>Género: </x-legend>
                             @if ($this->usuario->genero) <x-strong>{{$this->usuario->genero }}</x-strong>
+                            @else <x-strong class="text-gray-500">NULL</x-strong>
+                            @endif
+                        </div>
+
+                        {{-- numero --}}
+                        <div>
+                            <x-legend>Número: </x-legend>
+                            @if ($this->usuario->numero) <x-strong>{{$this->usuario->numero }}</x-strong>
                             @else <x-strong class="text-gray-500">NULL</x-strong>
                             @endif
                         </div>
@@ -178,12 +178,38 @@
                             <x-strong>{{$this->usuario->email }}</x-strong>
                         </div>
 
-                        {{-- numero --}}
+                        {{-- google_id --}}
                         <div>
-                            <x-legend>Número: </x-legend>
-                            @if ($this->usuario->numero) <x-strong>{{$this->usuario->numero }}</x-strong>
+                            <x-legend>Google ID: </x-legend>
+                            @if ($this->usuario->google_id) <x-strong>{{$this->usuario->google_id }}</x-strong>
                             @else <x-strong class="text-gray-500">NULL</x-strong>
                             @endif
+                        </div>
+
+                        {{-- token de confiramcion --}}
+                        <div>
+                            <x-legend>Toekn de confirmación: </x-legend>
+                            @if ($this->usuario->token) <x-strong>{{$this->usuario->token }}</x-strong>
+                            @else <x-strong class="text-gray-500">NULL</x-strong>
+                            @endif
+                        </div>
+
+                        {{-- token de confiramcion --}}
+                        <div>
+                            <x-legend>Estatus de confirmación: </x-legend>
+                            <x-strong>{{$this->usuario->confirmado == 1 ? 'Confirmado' : 'Pendiente' }}</x-strong>
+                        </div>
+
+                        {{-- token de confiramcion --}}
+                        <div>
+                            <x-legend>Estatus de la cuenta: </x-legend>
+                            <x-strong>{{$this->usuario->status == 'activo' ? 'activa' : 'inactiva' }}</x-strong>
+                        </div>
+
+                        {{-- token de confiramcion --}}
+                        <div>
+                            <x-legend>Rol: </x-legend>
+                            <x-strong>{{$this->usuario->idRol == 1 ? 'Usuario' : 'Administrador' }}</x-strong>
                         </div>
 
                     </div>
@@ -200,44 +226,48 @@
                         <x-strong class="!text-xl">Editar Registro</x-strong>
                     </h2>
 
-                    {{-- formulario editar slot start --}}
-                        {{-- nombre --}}
-                        <x-fieldset>
-                            <x-legend>Nombre</x-legend>
-                            <x-input class="text-gray-500" wire:model.live="usuarioUpdate.nombre" value="{{old('nombre')}}" />
-                            <x-error-message for="usuarioUpdate.nombre" />
-                        </x-fieldset>
-
-                        {{-- periodo --}}
-                        <x-fieldset>
-                            <x-legend>Periodo</x-legend>
-                            <x-textarea wire:model.live="usuarioUpdate.periodo">{{old('periodo')}}</x-textarea>
-                            <x-error-message for="usuarioUpdate.periodo" />
-                        </x-fieldset>
-
-                        {{-- significado --}}
-                        <x-fieldset>
-                            <x-legend>Significado</x-legend>
-                            <x-textarea wire:model.live="usuarioUpdate.significado">{{old('significado')}}</x-textarea>
-                            <x-error-message for="usuarioUpdate.significado" />
-                        </x-fieldset>
-
-                        {{-- descripcion y aportaciones --}}
-                        <div class="flex flex-row w-full justify-between gap-6">
-                            {{-- descripcion --}}
-                            <x-fieldset>
-                                <x-legend>Descripcion</x-legend>
-                                <x-textarea wire:model.live="usuarioUpdate.descripcion">{{old('descripcion')}}</x-textarea>
-                                <x-error-message for="usuarioUpdate.descripcion" />
-                            </x-fieldset>
-
-                            {{-- aportaciones --}}
-                            <x-fieldset>
-                                <x-legend>Aportaciones</x-legend>
-                                <x-textarea wire:model.live="usuarioUpdate.aportaciones">{{old('aportaciones')}}</x-textarea>
-                                <x-error-message for="usuarioUpdate.aportaciones" />
-                            </x-fieldset>
+                    {{-- datos del registro --}}
+                    <div class="show-grid">
+                        {{-- foto --}}
+                        <div>
+                            <x-legend>Avatar: </x-legend>
+                            @if (img_u_url($this->usuarioUpdate->usuario->foto))
+                                {{-- <img src="{{ img_u_url($this->usuario->foto) }}" width="200px" height="200px" class="text-center flex justify-center shadow-lg border border-gray-300 items-center italic text-xs font-bold underline rounded-full bg-slate-200" alt="user-avatar"> --}}
+                                <img src="{{ img_a_url('avatar-m5.jpg') }}" width="200px" height="200px" class="text-center flex justify-center shadow-lg border border-gray-300 items-center italic text-xs font-bold underline rounded-full bg-slate-200" alt="user-avatar">
+                            @else
+                            @endif
                         </div>
+
+                        {{-- email --}}
+                        <div>
+                            <x-legend>Email: </x-legend>
+                            <x-strong>{{$this->usuarioUpdate->usuario->email }}</x-strong>
+                        </div>
+
+                        {{-- token de confiramcion --}}
+                        <div>
+                            <x-legend>Rol: </x-legend>
+                            <x-strong>{{$this->usuarioUpdate->usuario->idRol == 1 ? 'Usuario' : 'Administrador' }}</x-strong>
+                        </div>
+
+                        {{-- estatus de la cuenta --}}
+                        <div>
+                            <x-legend>Estatus de la cuenta: </x-legend>
+                            <x-select wire:model.live="usuarioUpdate.statusCuenta">
+                                @foreach ($this->usuarioUpdate->enumValues as $value)
+                                    <option value="{{ $value }}" {{ $this->usuarioUpdate->statusCuenta === $value ? 'selected' : '' }}>
+                                        {{ $value == 'activo' ? 'ACTIVA' : 'INACTIVA' }}
+                                    </option>
+                                @endforeach
+                            </x-select>
+
+
+
+                            {{-- {{$this->usuarioUpdate->enumValues[0]}} --}}
+                            {{-- <x-strong>{{$this->usuarioUpdate->usuario->status == 'activo' ? 'activa' : 'inactiva' }}</x-strong> --}}
+                        </div>
+
+                    </div>
                 </x-modal>
             @endif
 

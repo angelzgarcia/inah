@@ -13,7 +13,7 @@
 
     @livewireScripts {{-- SCRIPTS DE LIVEWIRE --}}
 
-    <main class="main-container" style="width:{{$mainW}}%">
+    <main class="main-container " style="width:{{$mainW}}%">
         {{$slot}} {{-- SLOT O CONTENIDO PRINCIPAL --}}
     </main>
 

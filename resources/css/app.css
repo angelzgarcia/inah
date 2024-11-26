@@ -112,7 +112,7 @@
                                  */
 .body-users { padding-top: 1em; }
 
-.main-container { min-height: 100vh; margin: auto; }
+.main-container { min-height: 100vh; margin: auto;}
 
 .header-users {
     max-width: 95vw;

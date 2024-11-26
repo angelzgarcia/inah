@@ -31,9 +31,10 @@ class UsuarioComponent extends Component
     public function render()
     {
         $usuarios = Usuario::orderBy($this -> sortColumn, $this -> sortDirection)
-                            -> where('idUsuario', 'like', "%{$this->sortColumn}%")
+                            -> where('idUsuario', 'like', "%{$this->query}%")
                             -> orWhere('nombre', 'like', "%{$this->query}%")
                             -> orWhere('email', 'like', "%{$this->query}%")
+                            -> orWhere('status', 'like', "%{$this->query}%")
                             -> paginate($this -> perPage, pageName:'pageUsuarios');
 
         $nUsuarios = Usuario::count();
@@ -44,8 +45,13 @@ class UsuarioComponent extends Component
     public function show($idUsuario)
     {
         $this -> usuario = Usuario::find($idUsuario);
-        
+
         $this -> openShow = true;
+    }
+
+    public function edit($idUsuario)
+    {
+        $this -> usuarioUpdate -> edit($idUsuario);
     }
 
     // ordenar registros

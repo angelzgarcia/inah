@@ -1,10 +1,10 @@
 
 
 
-<div class="flex !min-h-screen max-w-md mx-auto">
-    <div class=" flex flex-col mb-14 justify-start my-auto gap-4">
+<div class="flex justify-evenly items-center flex-wrap w-screen h-screen bg-slate-200 -mt-4">
+    {{-- <div class=" flex flex-col mb-14 justify-start my-auto gap-4"> --}}
         {{-- logo --}}
-        <div class="opacity-80 bg-white rounded-lg shadow-md shadow-gray-300 ">
+        <div class="opacity-80 bg-white p-2 rounded-lg shadow-md shadow-gray-300 ">
             <a href="{{route('home')}}">
                 <img src="{{img_d_url('logo_85.png')}}" alt="inah_logo ">
             </a>
@@ -53,5 +53,5 @@
         @if (session()->has('message'))
             <div class="text-green-500 mt-4">{{ session('message') }}</div>
         @endif
-    </div>
+    {{-- </div> --}}
 </div>
