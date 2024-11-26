@@ -25,12 +25,12 @@ class CreateForm extends Form
 
     #[Rule('required|max:1000|min:50')]
     public $aportaciones;
-    
+
     #[Rule('required|array|min:2|max:4')]
     public $imagenes = [];
 
-    #[Rule('mimes:jpg,png,jpeg,webp|max:10000')]
-    public $imagenesItem = [];
+    // #[Rule('nullable|mimes:jpg,png,jpeg,web')]
+    // public $imagenesItem = [];
 
     #[Rule('required|min:1|array|distinct')]
     public $estadosID = [];
@@ -45,16 +45,19 @@ class CreateForm extends Form
     {
         $this -> validate();
 
+        // dd(count($this -> imagenes));
         if (count($this -> imagenes) > 0) {
+
             $cultura = Cultura::create(
         $this  -> only(
-        'nombre',
+                    'nombre',
                     'periodo',
                     'significado',
                     'descripcion',
                     'aportaciones',
                 )
             );
+
             $this -> storeImg($this -> imagenes, $cultura);
 
             $this -> storeCulturaEstado($this -> estadosID, $cultura->idCultura);
@@ -71,6 +74,8 @@ class CreateForm extends Form
                 'descripcion',
                 'aportaciones',
             ]);
+
+            return false;
         }
     }
 
@@ -136,9 +141,6 @@ class CreateForm extends Form
             'imagenes.min' => 'Debes subir al menos dos imágenes.',
             'imagenes.max' => 'No puedes subir más de cuatro imágenes.',
             'imagenes.distinct' => 'Las imágenes deben ser diferentes entre sí.',
-            'imagenes.*.max' => 'Cada imagen no puede exceder los 10 MB.',
-            'imagenes.*.image' => 'Cada archivo debe ser una imagen.',
-            'imagenes.*.mimes' => 'Cada imagen debe ser de tipo jpg, jpeg, png o webp.',
 
             'estadosID.required' => 'La relación con al menos un estado es obligatoria.',
             'estadosID.min' => 'Debes seleccionar al menos un estado.',

@@ -229,7 +229,6 @@
                     ]
                 });
 
-                // Coordenadas de los estados de la República Mexicana
                 const estados = [
                     { name: 'Aguascalientes', lat: 21.8823, lng: -102.2826 },
                     { name: 'Baja California', lat: 32.7157, lng: -115.4550 },
@@ -265,7 +264,6 @@
                     { name: 'Zacatecas', lat: 22.7709, lng: -102.5832 }
                 ];
 
-                // Crear un marcador para cada estado
                 estados.forEach(estado => {
                     const marker = new google.maps.Marker({
                         position: { lat: estado.lat, lng: estado.lng },
@@ -273,9 +271,8 @@
                         title: estado.name
                     });
 
-                    // Información que se muestra al hacer clic en el marcador
                     const infoWindow = new google.maps.InfoWindow({
-                        content: `<h3>${estado.name}</h3><p>Información relevante sobre las zonas arqueológicas de ${estado.name}.</p>`
+                        content: `<h3>${estado.name}</h3>`
                     });
 
                     marker.addListener('click', () => {

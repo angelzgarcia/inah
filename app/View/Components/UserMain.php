@@ -34,6 +34,6 @@ class UserMain extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('layouts.user-main');
+        return view('components.layouts.user-main');
     }
 }

@@ -28,6 +28,8 @@ return [
 
     'view_path' => resource_path('views/livewire'),
 
+    'use_turbo_native' => false,
+
     /*
     |---------------------------------------------------------------------------
     | Layout
@@ -38,14 +40,7 @@ return [
     |
     */
 
-    // 'layout' => 'components.layouts.user-main',
     'layout' => 'components.layouts.app',
-
-    /*
-        depuracion
-    */
-
-    'debug' => true,
 
     /*
     |---------------------------------------------------------------------------

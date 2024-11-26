@@ -15,7 +15,7 @@
 
             <form wire:submit="login" autocomplete="off">
                 @csrf
-                
+
                 {{-- mensaje de confiramcion de registro exitoso --}}
                 @if (session()->has('login-success'))
                     <div class="flex items-center gap-0 capitalize mb-6 text-sm text-green-800 rounded-lg" role="alert">

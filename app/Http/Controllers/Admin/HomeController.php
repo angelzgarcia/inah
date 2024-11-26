@@ -15,14 +15,18 @@ use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
-    public $query = '';
-    /**
-     * Display a listing of the resource.
-     */
-    public function index() {
-        return view('admin.dashboard');
+    public
+    $query = '',
+    $sortColumn = 'id',
+    $sortDirection = 'desc';
+
+
+    // vista principal dashboard
+    public function dashboard() {
+        return view('admin.statics.dashboard');
     }
 
+    // vista dashboard
     // public function database() {
     //     $tables = DB::select('SHOW TABLES');
     //     $database_name = env('DB_DATABASE');
@@ -40,7 +44,7 @@ class HomeController extends Controller
     //         ];
     //     endforeach;
 
-    //     return view('admin.database', [
+    //     return view('admin.statics.database', [
     //         'tables_and_counts' => $tables_with_counts,
     //         'tables_count' => count($tables_with_counts),
     //         'database_name' => $database_name
@@ -65,62 +69,53 @@ class HomeController extends Controller
             ];
         }
 
-        return view('admin.database', [
+        return view('admin.statics.database', [
             'tables_and_counts' => $tables_with_counts,
             'tables_count' => count($tables_with_counts),
             'database_name' => $database_name,
         ]);
     }
 
-    public function migraciones() {
-        $migrations = DB::table('migrations')
-                        -> paginate(5, pageName:'pageMigrations');
-
-        $keys = Schema::getColumnListing('migrations');
-        // dd($keys);
-        return view('admin.migrations', compact('migrations', 'keys'));
-    }
-
+    // vista roles
     public function roles() {
         $roles = Rol::paginate();
 
-        return view('admin.roles', compact('roles'));
+        return view('admin.statics.roles', compact('roles'));
     }
 
-    public function culturas_estados() {
-        $cultures_states = CulturaEstado::paginate();
-
-        return view('admin.culturas-estados', compact('cultures_states'));
-    }
-
+    // zonas imagenes
     public function zonas_imagenes() {
         $zones_images = ZonaImagen::paginate();
 
-        return view('admin.zonas-imagenes', compact('zones_images'));
+        return view('admin.statics.zonas-imagenes', compact('zones_images'));
     }
 
+    // resenias imagenes
     public function resenias_imagenes() {
         $reviews_images = ReseniaImagen::paginate();
 
-        return view('admin.resenias-imagenes', compact('reviews_images'));
+        return view('admin.statics.resenias-imagenes', compact('reviews_images'));
     }
 
+    // culturas imagenes
     public function culturas_imagenes() {
         $cultures_images = CulturaImagen::paginate();
 
-        return view('admin.culturas-imagenes', compact('cultures_images'));
+        return view('admin.statics.culturas-imagenes', compact('cultures_images'));
     }
 
+    // ubicaciones zonas
     public function ubicaciones_zonas() {
         $zones_locations = UbicacionZona::paginate();
 
-        return view('admin.ubicaciones-zonas', compact('zones_locations'));
+        return view('admin.statics.ubicaciones-zonas', compact('zones_locations'));
     }
 
+    // ubicaciones estados
     public function ubicaciones_estados() {
         $states_locations = UbicacionEstado::paginate();
 
-        return view('admin.ubicaciones-estados', compact('states_locations'));
+        return view('admin.statics.ubicaciones-estados', compact('states_locations'));
     }
 
 }

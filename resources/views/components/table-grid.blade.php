@@ -1,6 +1,6 @@
 
 
-@props(['table', 'keys' => [], 'key' => 'Table Name Unknown', 'attribute3' => false,  'attribute4' => false])
+@props(['table', 'keys' => [], 'key' => 'Table Name Unknown', 'ver_mas' => true, 'editar' => true, 'ocultarEliminar' => false, 'attribute2' => true, 'attribute3' => false,  'attribute4' => false, 'attribute5' => false, 'attribute6' => false])
 
 
 {{-- contenedor del crud --}}
@@ -45,12 +45,21 @@
                         <div class="flex">
                             <div class="flex flex-row justify-start items-center w-full gap-14">
                                 <x-p class="!max-w-max !min-w-max text-xs p-1.5 shadow-md bg-white rounded-full">{{ $register->{$keys[0]} }}</x-p>
-                                <x-p>{{ $register->{$keys[1]} }}</x-p>
+                                @if ($attribute2)
+                                    @if ($register->{$keys[1]})
+                                        <x-p>{{ $register->{$keys[1]} }}</x-p>
+                                    @else
+                                        <x-p class="text-gray-500">NULL</x-p>
+                                    @endif
+                                @endif
                                 @if ($attribute3)
                                     <x-p>{{ $register->{$keys[2]} }}</x-p>
                                 @endif
                                 @if ($attribute4)
                                     <x-p>{{ $register->{$keys[3]} }}</x-p>
+                                @endif
+                                @if ($attribute5)
+                                    <x-p>{{ $register->{$keys[5]} }}</x-p>
                                 @endif
                             </div>
                         </div>
@@ -58,19 +67,25 @@
                         {{-- operaciones crud --}}
                         <div class="flex gap-3 flex-row justify-self-end">
                             {{-- ver mas --}}
-                            <x-button tipo="show" class="btn-btn" wire:click="show({{ $register->{$keys[0]} }})">
-                                Ver más
-                            </x-button>
+                            @if ($ver_mas)
+                                <x-button tipo="show" class="btn-btn" wire:click="show({{ $register->{$keys[0]} }})">
+                                    Ver más
+                                </x-button>
+                            @endif
 
                             {{-- editar --}}
-                            <x-button tipo="edit" wire:click="edit({{ $register->{$keys[0]} }})">
-                                Editar
-                            </x-button>
+                            @if ($editar)
+                                <x-button tipo="edit" wire:click="edit({{ $register->{$keys[0]} }})">
+                                    Editar
+                                </x-button>
+                            @endif
 
                             {{-- eliminar --}}
-                            <x-button tipo="destroy" wire:click="confirmDestroy({{ $register->{$keys[0]} }})">
-                                Eliminar
-                            </x-button>
+                            @if (!$ocultarEliminar)
+                                <x-button tipo="destroy" wire:click="confirmDestroy({{ $register->{$keys[0]} }})">
+                                    Eliminar
+                                </x-button>
+                            @endif
                         </div>
                     </div>
                 @endforeach

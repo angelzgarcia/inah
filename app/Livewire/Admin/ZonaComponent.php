@@ -11,7 +11,7 @@ use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\Zona;
 
-class ZonaWire extends Component
+class ZonaComponent extends Component
 {
     use WithFileUploads, WithPagination;
 
@@ -50,7 +50,7 @@ class ZonaWire extends Component
         $nCulturas = Cultura::count();
         $nEstados = Estado::count();
 
-        return view('livewire.admin.zona-wire', compact('zonas', 'culturas', 'estados', 'nCulturas', 'nEstados'));
+        return view('livewire.admin.zona-component', compact('zonas', 'culturas', 'estados', 'nCulturas', 'nEstados'));
     }
 
     public function save()

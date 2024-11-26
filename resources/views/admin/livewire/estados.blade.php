@@ -1,7 +1,7 @@
 
 <x-admin-main title="Estados de la República Mexicana | Admin | INAH" :usarMap="true">
 
-    @livewire('admin.estado-wire')
+    @livewire('admin.estado-component')
 
     @push('js')
 

@@ -236,10 +236,10 @@
                     {{-- slot -> thead --}}
                     <div class=" w-full">
                         <div class="w-2/3 px-2 flex flex-row justify-start gap-9 items-center mb-4 italic text-gray-400 text-start font-thin">
-                            <x-strong class="text-xs border-gray-200 px-4 shadow-md !rounded-3xl border">
+                            <x-strong class="text-xs bg-white border-gray-200 px-4 shadow-md !rounded-3xl border">
                                 ID
                             </x-strong>
-                            <x-strong class="text-xs border-gray-200 px-4 shadow-md !rounded-3xl border">
+                            <x-strong class="text-xs bg-white border-gray-200 px-4 shadow-md !rounded-3xl border">
                                 Nombre de la Zona Arqueológica
                             </x-strong>
                         </div>
