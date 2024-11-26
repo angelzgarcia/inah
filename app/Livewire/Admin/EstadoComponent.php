@@ -11,7 +11,7 @@ use App\Models\Cultura;
 use Livewire\Component;
 use App\Models\Estado;
 
-class EstadoWire extends Component
+class EstadoComponent extends Component
 {
     use WithFileUploads, WithPagination;
 
@@ -55,7 +55,7 @@ class EstadoWire extends Component
         $culturasRegistradas = Cultura::select(['idCultura', 'nombre'])
                                         -> paginate(16, pageName: 'pageCulturas');
 
-        return view('livewire.admin.estado-wire', compact('estados', 'nCulturas', 'nEstados', 'culturasRegistradas'));
+        return view('livewire.admin.estado-component', compact('estados', 'nCulturas', 'nEstados', 'culturasRegistradas'));
     }
 
     public function save()
@@ -173,7 +173,7 @@ class EstadoWire extends Component
 
     public function redirigir($route)
     {
-        return $this -> redirect($route, navigate: true);
+        return $this -> redirect(route($route), navigate: true);
     }
 
 }

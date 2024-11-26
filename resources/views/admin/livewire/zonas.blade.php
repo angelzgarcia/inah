@@ -2,7 +2,7 @@
 
 <x-admin-main title="Zonas Arqueológicas de México | Admin | INAH">
 
-    @livewire('admin.zona-wire')
+    @livewire('admin.zona-component')
 
     @push('js')
 

@@ -2,7 +2,7 @@
 
 <x-admin-main title="Culturas | Admin | INAH">
 
-    @livewire('admin.cultura-wire')
+    @livewire('admin.cultura-component')
 
     @push('js') {{-- STACK JS CULTURAS --}}
 
