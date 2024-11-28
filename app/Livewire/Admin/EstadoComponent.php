@@ -36,16 +36,16 @@ class EstadoComponent extends Component
     // reinicia la paginacion cuando se consulte el buscador en cualquir pagina
     public function updatedQuery()
     {
-        $this->resetPage('pageEstados');
+        $this -> resetPage('pageEstados');
     }
 
     // renderizar la vista del componente
     public function render()
     {
-        $estados = Estado::orderBy($this -> sortColumn, $this -> sortDirection)
-                            -> where('nombre', 'like', "%{$this -> query}%")
+        $estados = Estado::where('nombre', 'like', "%{$this -> query}%")
                             -> orWhere('capital', 'like', "%{$this -> query}%")
                             -> orWhere('idEstadoRepublica', 'like', "%{$this -> query}%")
+                            -> orderBy($this -> sortColumn, $this -> sortDirection)
                             -> paginate($this -> perPage < 1 ? 5 : $this -> perPage, pageName: 'pageEstados');
 
         $nEstados = Estado::count();

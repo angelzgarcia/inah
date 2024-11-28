@@ -1,9 +1,9 @@
 
 
-<div class="flex !min-h-screen max-w-md mx-auto">
-    <div class=" ">
+<div class="flex justify-center items-center w-screen h-screen bg-slate-200 -mt-4">
+    {{-- <div class=" max-w-md flex bg-gray-500 flex-col mb-14 justify-center items-center my-auto gap-4"> --}}
 
-        <div class="bg-white flex flex-col justify-start gap-2 rounded-lg shadow-md shadow-gray-300 py-5 px-6">
+        <div class="bg-white max-w-md flex flex-col justify-start gap-2 rounded-lg shadow-md shadow-gray-300 py-5 px-6">
             {{-- logo --}}
             <div class="opacity-80">
                 <a href="{{route('home')}}">
@@ -13,6 +13,7 @@
 
             <x-strong class="text-center tracking-widest">¡Bienvenido de nuevo!</x-strong>
 
+            {{-- formulario --}}
             <form wire:submit="login" autocomplete="off">
                 @csrf
 
@@ -80,5 +81,5 @@
             </a>
         </div>
 
-    </div>
+    {{-- </div> --}}
 </div>

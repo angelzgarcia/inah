@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
 
+Route::get('mail', function() {
+    return view('admin.emails.emailVerificarCuenta');
+});
 
 /*
     ______________________
@@ -172,13 +175,15 @@ Route::prefix('admin')
             return view('admin.livewire.culturas-estados');
         }) -> name('admin.culturas_estados');
 
+        Route::get('culturas-fotos', function () {
+            return view('admin.livewire.culturas-fotos');
+        }) -> name('admin.culturas_fotos');
+
         // vistas sin reactibidad
         Route::controller(AdminHomeController::class) -> group(function () {
             Route::get('dashboard', 'dashboard') -> name('dashboard');
 
             Route::get('database', 'database') -> name('database');
-
-            Route::get('culturas-imagenes', 'culturas_imagenes')-> name('admin.culturas_fotos');
 
             Route::get('ubicaciones-zonas', 'ubicaciones_zonas')-> name('admin.ubicaciones_zonas');
 

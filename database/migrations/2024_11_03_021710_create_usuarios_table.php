@@ -18,11 +18,11 @@ return new class extends Migration
             $table -> enum('genero', ['femenino', 'masculino']) -> nullable();
             $table -> string('foto') -> nullable();
             $table -> string('email', 60) -> unique();
-            $table -> unsignedBigInteger('numero') -> nullable() -> unique();
+            $table -> string('numero') -> nullable() -> unique();
             $table -> string('password') -> nullable();
             $table -> string('token', 10) -> nullable();
             $table -> boolean('confirmado') -> default(0);
-            $table -> enum('status', ['activo', 'inactivo']);
+            $table -> enum('status', ['activo', 'inactivo']) -> default('inactivo');
 
             $table -> foreignId('idRol')
                     -> constrained('roles', 'idRol')
