@@ -1,6 +1,6 @@
 
 
-@props(['table', 'keys' => [], 'key' => 'Table Name Unknown', 'ver_mas' => true, 'editar' => true, 'ocultarEliminar' => false, 'attribute2' => true, 'attribute3' => false,  'attribute4' => false, 'attribute5' => false, 'attribute6' => false])
+@props(['table', 'keys' => [], 'key' => 'Table Name Unknown', 'ver_mas' => true, 'editar' => true, 'ocultarEliminar' => false, 'attribute2' => true, 'attribute3' => false,  'attribute4' => false, 'attribute5' => false, 'attribute6' => false, 'attribute11' => false])
 
 
 {{-- contenedor del crud --}}
@@ -59,7 +59,13 @@
                                     <x-p>{{ $register->{$keys[3]} }}</x-p>
                                 @endif
                                 @if ($attribute5)
+                                    <x-p>{{ $register->{$keys[4]} }}</x-p>
+                                @endif
+                                @if ($attribute6)
                                     <x-p>{{ $register->{$keys[5]} }}</x-p>
+                                @endif
+                                @if ($attribute11)
+                                    <x-p>{{ $register->{$keys[10]} }}</x-p>
                                 @endif
                             </div>
                         </div>

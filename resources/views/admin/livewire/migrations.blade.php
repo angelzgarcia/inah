@@ -1,6 +1,6 @@
 
 
-<x-admin-main>
+<x-admin-main title="Migraciones | INAH">
 
     @livewire('admin.migration-component')
 

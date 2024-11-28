@@ -25,11 +25,12 @@
                     @else
                         {{-- titulo --}}
                         <h1 class="text-3xl">
-                            <x-strong>Agregar Usuario</x-strong>
+                            <x-strong>Agregar Administrador</x-strong>
                         </h1>
                         {{-- formulario --}}
-                        <form wire:submit="save" enctype="multipart/form-data" class="w-full italic flex flex-col gap-2">
+                        <form wire:submit="save" enctype="multipart/form-data" class="w-full italic flex flex-col gap-6">
                             @csrf
+
                             {{-- nombre --}}
                             <x-fieldset>
                                 <x-legend>Nombre*</x-legend>
@@ -37,43 +38,38 @@
                                 <x-error-message for="usuarioCreate.nombre" />
                             </x-fieldset>
 
-                            {{-- periodo y significado --}}
-                            <div class="flex flex-row justify-between gap-12">
-                                {{-- periodo --}}
-                                <x-fieldset>
-                                    <x-legend>Periodo*</x-legend>
-                                    <x-textarea wire:model.live="usuarioCreate.periodo">{{old('periodo')}}</x-textarea>
-                                    <x-error-message for="usuarioCreate.periodo" />
+                            {{-- email --}}
+                            <x-fieldset>
+                                <x-legend>Email*</x-legend>
+                                <x-input wire:model.live="usuarioCreate.email" />
+                                <x-error-message for="usuarioCreate.email" />
+                            </x-fieldset>
+
+                            {{-- numero celular y genero --}}
+                            <div class="flex justify-between gap-9">
+                                {{-- telefono --}}
+                                <x-fieldset class="w-1/2">
+                                    <x-legend>Número Celular*</x-legend>
+                                    <div class="flex relative gap-2 items-center">
+                                        <img src="{{img_d_url('mexico-icon-512x384-tng9bcfk.png')}}" width="30px" height="20px" alt="lada">
+                                        <span class="absolute left-9 bg-gray-200 rounded-md px-2 flex items-center text-center h-full text-gray-500">+52</span>
+                                        <x-input id="telefono" oninput="formatearTelefono(this)" wire:model.live="usuarioCreate.numero" class="pl-12" />
+                                    </div>
+                                    <x-error-message for="usuarioCreate.numero" />
                                 </x-fieldset>
 
-                                {{-- significado --}}
-                                <x-fieldset>
-                                    <x-legend>Significado*</x-legend>
-                                    <x-textarea wire:model.live="usuarioCreate.significado">{{old('significado')}}</x-textarea>
-                                    <x-error-message for="usuarioCreate.significado" />
-                                </x-fieldset>
+                                {{-- genero --}}
+                                <div class="flex flex-row w-1/2 justify-between gap-12">
+                                    <x-fieldset wire:model.live="usuarioCreate.genero">
+                                        <x-legend>Género*</x-legend>
+                                        <x-select>
+                                            <option value="masculino">Masculino</option>
+                                            <option value="femenino">Femenino</option>
+                                        </x-select>
+                                        <x-error-message for="usuarioCreate.genero" />
+                                    </x-fieldset>
+                                </div>
                             </div>
-
-                            {{-- descripcion --}}
-                            <x-fieldset>
-                                <x-legend>Descripcion*</x-legend>
-                                <x-textarea wire:model.live="usuarioCreate.descripcion">{{old('descripcion')}}</x-textarea>
-                                <x-error-message for="usuarioCreate.descripcion" />
-                            </x-fieldset>
-
-                            {{-- aportaciones --}}
-                            <x-fieldset>
-                                <x-legend>Aportaciones*</x-legend>
-                                <x-textarea wire:model.live="usuarioCreate.aportaciones">{{old('aportaciones')}}</x-textarea>
-                                <x-error-message for="usuarioCreate.aportaciones" />
-                            </x-fieldset>
-
-                            {{-- fotos --}}
-                            <x-fieldset>
-                                <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
-                                <input type="file" wire:model.live="usuarioCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple max="4">
-                                <x-error-message for="usuarioCreate.imagenes" />
-                            </x-fieldset>
 
                             {{-- boton guardar --}}
                             <div class="flex justify-end gap-2">
@@ -99,11 +95,11 @@
                     </x-not-found>
                 @endif
             @else
-                <x-table-grid :table="$usuarios" :keys="$keys" key="Usuarios" :ocultarEliminar="true" :attribute2="false" :attribute3="true" :attribute5="true">
+                <x-table-grid :table="$usuarios" :keys="$keys" key="Usuarios" :ocultarEliminar="true" :attribute2="false" :attribute3="true" :attribute6="true" :attribute11="true">
 
                     {{-- ordenador de registros --}}
                     <x-slot name="ordenable">
-                        <x-ordenable :keys="$keys"  />
+                        <x-ordenable :keys="$keys" :nK=[0,2,10] />
                     </x-slot>
 
                     {{-- slot -> thead --}}
@@ -117,6 +113,9 @@
                             </x-strong>
                             <x-strong class="border-gray-200 !min-w-32 px-4 text-xs bg-white shadow-md !rounded-3xl border">
                                 Email
+                            </x-strong>
+                            <x-strong class="border-gray-200 !min-w-32 px-4 text-xs bg-white shadow-md !rounded-3xl border">
+                                Stattus
                             </x-strong>
                         </div>
                     </div>
@@ -138,10 +137,9 @@
                         </div>
                     </div>
 
-                    {{-- datos del registro --}}
-                    <div class="show-grid">
+                    <div class="flex flex-wrap gap-10">
                         {{-- foto --}}
-                        <div>
+                        <div class="basis-1/5 flex justify-center items-center flex-col">
                             <x-legend>Avatar: </x-legend>
                             @if (img_u_url($this->usuario->foto))
                                 {{-- <img src="{{ img_u_url($this->usuario->foto) }}" width="200px" height="200px" class="text-center flex justify-center shadow-lg border border-gray-300 items-center italic text-xs font-bold underline rounded-full bg-slate-200" alt="user-avatar"> --}}
@@ -150,68 +148,70 @@
                             @endif
                         </div>
 
-                        {{-- nombre --}}
-                        <div class="nombre-usuario mb-2">
-                            <x-legend>Nombre: </x-legend>
-                            <x-strong class="h1u">{{$this->usuario->nombre}}</x-strong>
-                        </div>
+                        {{-- datos --}}
+                        <div class="w-3/4 grid grid-cols-auto-fill-200 gap-11 justify-between items-center flex-wrap">
+                            {{-- nombre --}}
+                            <div class="nombre-usuario mb-2">
+                                <x-legend>Nombre: </x-legend>
+                                <x-strong class="h1u">{{$this->usuario->nombre}}</x-strong>
+                            </div>
 
-                        {{-- genero --}}
-                        <div>
-                            <x-legend>Género: </x-legend>
-                            @if ($this->usuario->genero) <x-strong>{{$this->usuario->genero }}</x-strong>
-                            @else <x-strong class="text-gray-500">NULL</x-strong>
-                            @endif
-                        </div>
+                            {{-- genero --}}
+                            <div>
+                                <x-legend>Género: </x-legend>
+                                @if ($this->usuario->genero) <x-strong>{{$this->usuario->genero }}</x-strong>
+                                @else <x-strong class="text-gray-500">NULL</x-strong>
+                                @endif
+                            </div>
 
-                        {{-- numero --}}
-                        <div>
-                            <x-legend>Número: </x-legend>
-                            @if ($this->usuario->numero) <x-strong>{{$this->usuario->numero }}</x-strong>
-                            @else <x-strong class="text-gray-500">NULL</x-strong>
-                            @endif
-                        </div>
+                            {{-- numero --}}
+                            <div>
+                                <x-legend>Número: </x-legend>
+                                @if ($this->usuario->numero) <x-strong><span class="italic">+52</span> {{$this->usuario->numero }}</x-strong>
+                                @else <x-strong class="text-gray-500">NULL</x-strong>
+                                @endif
+                            </div>
 
-                        {{-- email --}}
-                        <div>
-                            <x-legend>Email: </x-legend>
-                            <x-strong>{{$this->usuario->email }}</x-strong>
-                        </div>
+                            {{-- email --}}
+                            <div>
+                                <x-legend>Email: </x-legend>
+                                <x-strong>{{$this->usuario->email }}</x-strong>
+                            </div>
 
-                        {{-- google_id --}}
-                        <div>
-                            <x-legend>Google ID: </x-legend>
-                            @if ($this->usuario->google_id) <x-strong>{{$this->usuario->google_id }}</x-strong>
-                            @else <x-strong class="text-gray-500">NULL</x-strong>
-                            @endif
-                        </div>
+                            {{-- google_id --}}
+                            <div>
+                                <x-legend>Google ID: </x-legend>
+                                @if ($this->usuario->google_id) <x-strong>{{$this->usuario->google_id }}</x-strong>
+                                @else <x-strong class="text-gray-500">NULL</x-strong>
+                                @endif
+                            </div>
 
-                        {{-- token de confiramcion --}}
-                        <div>
-                            <x-legend>Toekn de confirmación: </x-legend>
-                            @if ($this->usuario->token) <x-strong>{{$this->usuario->token }}</x-strong>
-                            @else <x-strong class="text-gray-500">NULL</x-strong>
-                            @endif
-                        </div>
+                            {{-- token de confiramcion --}}
+                            <div>
+                                <x-legend>Toekn de confirmación: </x-legend>
+                                @if ($this->usuario->token) <x-strong>{{$this->usuario->token }}</x-strong>
+                                @else <x-strong class="text-gray-500">NULL</x-strong>
+                                @endif
+                            </div>
 
-                        {{-- token de confiramcion --}}
-                        <div>
-                            <x-legend>Estatus de confirmación: </x-legend>
-                            <x-strong>{{$this->usuario->confirmado == 1 ? 'Confirmado' : 'Pendiente' }}</x-strong>
-                        </div>
+                            {{-- token de confiramcion --}}
+                            <div>
+                                <x-legend>Estatus de confirmación: </x-legend>
+                                <x-strong>{{$this->usuario->confirmado == 1 ? 'Confirmado' : 'Pendiente' }}</x-strong>
+                            </div>
 
-                        {{-- token de confiramcion --}}
-                        <div>
-                            <x-legend>Estatus de la cuenta: </x-legend>
-                            <x-strong>{{$this->usuario->status == 'activo' ? 'activa' : 'inactiva' }}</x-strong>
-                        </div>
+                            {{-- token de confiramcion --}}
+                            <div>
+                                <x-legend>Estatus de la cuenta: </x-legend>
+                                <x-strong>{{$this->usuario->status == 'activo' ? 'activa' : 'inactiva' }}</x-strong>
+                            </div>
 
-                        {{-- token de confiramcion --}}
-                        <div>
-                            <x-legend>Rol: </x-legend>
-                            <x-strong>{{$this->usuario->idRol == 1 ? 'Usuario' : 'Administrador' }}</x-strong>
+                            {{-- token de confiramcion --}}
+                            <div>
+                                <x-legend>Rol: </x-legend>
+                                <x-strong>{{$this->usuario->idRol == 1 ? 'Usuario' : 'Administrador' }}</x-strong>
+                            </div>
                         </div>
-
                     </div>
 
                 </x-modal>
@@ -227,9 +227,10 @@
                     </h2>
 
                     {{-- datos del registro --}}
-                    <div class="show-grid">
+                    <div class="flex justify-between gap-20">
+
                         {{-- foto --}}
-                        <div>
+                        <div class="basis-3/12 flex justify-center items-center flex-col">
                             <x-legend>Avatar: </x-legend>
                             @if (img_u_url($this->usuarioUpdate->usuario->foto))
                                 {{-- <img src="{{ img_u_url($this->usuario->foto) }}" width="200px" height="200px" class="text-center flex justify-center shadow-lg border border-gray-300 items-center italic text-xs font-bold underline rounded-full bg-slate-200" alt="user-avatar"> --}}
@@ -238,33 +239,33 @@
                             @endif
                         </div>
 
-                        {{-- email --}}
-                        <div>
-                            <x-legend>Email: </x-legend>
-                            <x-strong>{{$this->usuarioUpdate->usuario->email }}</x-strong>
-                        </div>
+                        <div class="flex basis-9/12 gap-11 justify-between items-center flex-wrap">
+                            {{-- email --}}
+                            <div>
+                                <x-legend>Email: </x-legend>
+                                <x-strong>{{$this->usuarioUpdate->usuario->email }}</x-strong>
+                            </div>
 
-                        {{-- token de confiramcion --}}
-                        <div>
-                            <x-legend>Rol: </x-legend>
-                            <x-strong>{{$this->usuarioUpdate->usuario->idRol == 1 ? 'Usuario' : 'Administrador' }}</x-strong>
-                        </div>
+                            {{-- token de confiramcion --}}
+                            <div>
+                                <x-legend>Rol: </x-legend>
+                                <x-strong>{{$this->usuarioUpdate->usuario->idRol == 1 ? 'Usuario' : 'Administrador' }}</x-strong>
+                            </div>
 
-                        {{-- estatus de la cuenta --}}
-                        <div>
-                            <x-legend>Estatus de la cuenta: </x-legend>
-                            <x-select wire:model.live="usuarioUpdate.statusCuenta">
-                                @foreach ($this->usuarioUpdate->enumValues as $value)
-                                    <option value="{{ $value }}" {{ $this->usuarioUpdate->statusCuenta === $value ? 'selected' : '' }}>
-                                        {{ $value == 'activo' ? 'ACTIVA' : 'INACTIVA' }}
-                                    </option>
-                                @endforeach
-                            </x-select>
+                            {{-- estatus de la cuenta --}}
+                            <div>
+                                <x-legend>Estatus de la cuenta: </x-legend>
+                                <x-select wire:model="usuarioUpdate.statusCuenta">
+                                    @foreach ($this->usuarioUpdate->enumValues as $value)
+                                        <option value="{{ $value }}" {{ $this->usuarioUpdate->statusCuenta === $value ? 'selected' : '' }}>
+                                            {{ $value == 'activo' ? 'A C T I V A' : 'I N A C T I V A' }}
+                                        </option>
+                                    @endforeach
+                                </x-select>
 
-
-
-                            {{-- {{$this->usuarioUpdate->enumValues[0]}} --}}
-                            {{-- <x-strong>{{$this->usuarioUpdate->usuario->status == 'activo' ? 'activa' : 'inactiva' }}</x-strong> --}}
+                                {{-- {{$this->usuarioUpdate->enumValues[0]}} --}}
+                                {{-- <x-strong>{{$this->usuarioUpdate->usuario->status == 'activo' ? 'activa' : 'inactiva' }}</x-strong> --}}
+                            </div>
                         </div>
 
                     </div>

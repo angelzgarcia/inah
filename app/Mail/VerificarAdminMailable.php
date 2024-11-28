@@ -14,16 +14,21 @@ class VerificarAdminMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $password;
-    public $token;
+    public
+    $password,
+    $token,
+    $nombre,
+    $saludo;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($password, $token)
+    public function __construct($password, $token, $nombre, $saludo)
     {
         $this -> password = $password;
         $this -> token = $token;
+        $this -> nombre = ucfirst($nombre);
+        $this -> saludo = $saludo;
     }
 
     /**
@@ -32,7 +37,7 @@ class VerificarAdminMailable extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verificar Cuenta de Administrador',
+            subject: 'INAH | Verificación de Cuenta para la Administración del Sitio',
         );
     }
 
@@ -42,7 +47,7 @@ class VerificarAdminMailable extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'admin.Emails.emailVerificarCuenta',
+            view: 'admin.emails.emailVerificarCuenta',
         );
     }
 
