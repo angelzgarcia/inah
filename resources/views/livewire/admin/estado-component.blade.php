@@ -97,19 +97,19 @@
                                 {{-- foto --}}
                                 <x-fieldset>
                                     <x-legend>Portada*</x-legend>
-                                    <input type="file" wire:model.live="estadoCreate.foto" wire:key="{{$fotoKey}}" accept="image/*">
+                                    <input type="file" wire:model="estadoCreate.foto" wire:key="{{$fotoKey}}" accept="image/*">
                                     <x-error-message for="estadoCreate.foto" />
                                 </x-fieldset>
                                 {{-- triptico --}}
                                 <x-fieldset>
                                     <x-legend>Triptico* <small class="text-xs font-bold lowercase"> solo archivos pdf</small></x-legend>
-                                    <input type="file" wire:model.live="estadoCreate.triptico" wire:key="{{$tripticoKey}}" accept=".pdf">
+                                    <input type="file" wire:model="estadoCreate.triptico" wire:key="{{$tripticoKey}}" accept=".pdf">
                                     <x-error-message for="estadoCreate.triptico" />
                                 </x-fieldset>
                                 {{-- guia --}}
                                 <x-fieldset>
                                     <x-legend>Guia informativa* <small class="text-xs font-bold lowercase"> Solo archivos PDF</small></x-legend>
-                                    <input type="file" wire:model.live="estadoCreate.guia" wire:key="{{$guiaKey}}" accept=".pdf">
+                                    <input type="file" wire:model="estadoCreate.guia" wire:key="{{$guiaKey}}" accept=".pdf">
                                     <x-error-message for="estadoCreate.guia" />
                                 </x-fieldset>
                             </div>
@@ -364,14 +364,14 @@
                                 {{-- foto --}}
                                 <x-fieldset>
                                     <x-legend>Portada</x-legend>
-                                    <input type="file" wire:model.live="estadoUpdate.foto" wire:key="{{$fotoKey}}" accept="image/*">
+                                    <input type="file" wire:model="estadoUpdate.foto" wire:key="{{$fotoKey}}" accept="image/*">
                                     <img src="{{img_u_url($this->estado->foto)}}" width="60%" class="rounded-md shadow-md shadow-slate-400 mt-2" alt="{{$this->estado->foto}}">
                                     <x-error-message for="estadoUpdate.foto" />
                                 </x-fieldset>
                                 {{-- triptico --}}
                                 <x-fieldset>
                                     <x-legend>Triptico <small class="text-xs font-normal underline lowercase"> solo archivos pdf</small></x-legend>
-                                    <input type="file" class="block" wire:model.live="estadoUpdate.triptico" wire:key="{{$tripticoKey}}" accept=".pdf">
+                                    <input type="file" class="block" wire:model="estadoUpdate.triptico" wire:key="{{$tripticoKey}}" accept=".pdf">
                                     <x-label class="text-xs">
                                         Fichero actual:
                                         <em class="font-normal underline">{{$this->estado->triptico}}</em>
@@ -381,7 +381,7 @@
                                 {{-- guia --}}
                                 <x-fieldset>
                                     <x-legend>Guia informativa <small class="text-xs font-normal underline lowercase"> Solo archivos PDF</small></x-legend>
-                                    <input type="file" class="block"  wire:model.live="estadoUpdate.guia" wire:key="{{$guiaKey}}" accept=".pdf">
+                                    <input type="file" class="block" wire:model="estadoUpdate.guia" wire:key="{{$guiaKey}}" accept=".pdf">
                                     <x-label class="text-xs">
                                         Fichero actual:
                                         <em class="font-normal underline">{{$this->estado->guia}}</em>

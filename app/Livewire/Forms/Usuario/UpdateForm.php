@@ -13,22 +13,32 @@ class UpdateForm extends Form
     $openEdit = false,
     $usuario,
     $enumValues,
-    $statusCuenta;
+    $statusCuenta = '';
 
     public function edit($idUsuario)
     {
         $this -> usuario = Usuario::find($idUsuario);
 
-        $this -> statusCuenta = $this -> usuario -> status;
-
         $enumValues = DB::select('SHOW COLUMNS FROM usuarios LIKE "status"');
-
         $enumValues = $enumValues[0] -> Type;
-
         preg_match_all("/'(.*?)'/", $enumValues, $matches);
 
         $this -> enumValues = $matches[1];
 
+        $this -> statusCuenta = $this -> usuario -> status;
+
         $this -> openEdit = true;
     }
+
+    public function update()
+    {
+        $this -> usuario -> update([
+            'status' => $this -> statusCuenta,
+        ]);
+
+        $this -> reset();
+
+        return true;
+    }
+
 }

@@ -14,6 +14,8 @@
             <div id="mapEstados" class="h-full rounded-xl shadow-lg" style="width: 95vw;"></div>
         </section>
 
+        <x-searcher class="!w-full" />
+
         {{-- contenedor de estados --}}
         <div class="estados-container">
             <div class="grid-estados">
@@ -22,7 +24,8 @@
                     <!-- tarjeta de estado -->
                     <div class="card-estado">
                         {{-- imagen --}}
-                        <img src="{{img_u_url($estado->foto)}}" alt="{{$estado->foto}}" />
+                        {{-- <img src="{{img_u_url($estado->foto)}}" alt="{{$estado->foto}}" /> --}}
+                        <img src="{{$estado->foto}}" alt="{{$estado->foto}}" />
                         {{-- nombre, leyenda y acceso --}}
                         <div class="estado-content">
                             <div class="name-legend relative flex flex-col justify-between gap-6">
@@ -34,7 +37,7 @@
                                 Descubre las fascinantes zonas arqueológicas de <small><strong>{{$estado->nombre}} - {{$estado->capital}}</strong></small>, hogar de antiguas civilizaciones.
                             </p>
                             <div>
-                                <x-button tipo="go" class="!font-bold">
+                                <x-button tipo="go" class="!font-bold" wire:click="redirigir({{$estado->idEstadoRepublica}})">
                                     Explorar
                                 </x-button>
                             </div>

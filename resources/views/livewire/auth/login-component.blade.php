@@ -13,6 +13,7 @@
 
             <x-strong class="text-center tracking-widest">¡Bienvenido de nuevo!</x-strong>
 
+            {{-- formulario --}}
             <form wire:submit="login" autocomplete="off">
                 @csrf
 

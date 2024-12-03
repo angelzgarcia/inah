@@ -11,7 +11,7 @@ use Livewire\Attributes\Validate;
 
 class CreateForm extends Form
 {
-    #[Rule('required|string|min:5|max:30|unique:culturas,nombre|regex: /^[\pL\s]+$/u')]
+    #[Rule('required|string|min:3|max:30|unique:culturas,nombre|regex: /^[\pL\s]+$/u')]
     public $nombre;
 
     #[Rule('required|max:80|min:20')]
@@ -118,6 +118,7 @@ class CreateForm extends Form
             'nombre.required' => 'El nombre es obligatorio.',
             'nombre.string' => 'El nombre debe ser una cadena de texto.',
             'nombre.max' => 'El nombre no puede tener más de 50 caracteres.',
+            'nombre.min' => 'El nombre no puede tener menos de 5 caracteres.',
             'nombre.unique' => 'El nombre ya está registrado en otra cultura.',
             'nombre.regex' => 'El nombre solo puede contener letras y espacios.',
 

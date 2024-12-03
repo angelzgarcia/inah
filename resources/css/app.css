@@ -795,7 +795,8 @@ footer {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: .5em;
+        gap: .5em;  
+
         /* & fieldset {
             border-radius: 2em;
             position: relative;
@@ -812,7 +813,8 @@ footer {
                 /* position: relative;
                 top: -10px; */
                 /* padding: 1em; */
-        & input {
+
+            & input {
             color: #111;
             box-shadow: 0 0 .2em .5px rgba(0, 0, 0, 0.15) inset;
             /* background-color: #611232; */
@@ -831,7 +833,9 @@ footer {
                 0 0 .2em .5px rgba(0, 0, 0, 0.15) inset,
                 0 .2em .3em 0 rgba(34, 34, 34, 0.134);
             }
+
         }
+
         & button {
             display: block;
             width: 80px;
@@ -855,6 +859,7 @@ footer {
             }
         }
     }
+
 }
 
 /* SECCION DATABSE ADMIN */

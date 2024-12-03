@@ -1,7 +1,6 @@
 
 
 <x-user-main title="Estado X | INAH">
-
-    @livewire('estados.estados-show-component')
+{{$estado}}
 
 </x-user-main>

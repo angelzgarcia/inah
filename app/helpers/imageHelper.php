@@ -4,6 +4,7 @@
 
     if (!function_exists('img_d_url')) {
         function img_d_url($filename) {
+
             return asset("/img/downloads/$filename");
         }
     }

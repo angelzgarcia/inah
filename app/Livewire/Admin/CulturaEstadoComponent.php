@@ -5,9 +5,12 @@ namespace App\Livewire\Admin;
 use App\Models\CulturaEstado;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CulturaEstadoComponent extends Component
 {
+    use WithPagination;
+
     public
     $openShow = false,
     $perPage = 5,
@@ -15,6 +18,11 @@ class CulturaEstadoComponent extends Component
     $sortColumn = 'idCulturaEstado',
     $sortDirection = 'desc',
     $cultura_estado;
+
+    public function updateQuery()
+    {
+        $this -> reset('pageCulturasEstados');
+    }
 
     public function render()
     {

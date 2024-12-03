@@ -2,8 +2,26 @@
 
 
 
-<div class="searcher-container flex flex-row">
-    <div class="relative">
+<div
+    {!!
+        $attributes -> merge([
+            'class'
+                =>
+            'searcher-container flex flex-row'
+        ])
+    !!}
+>
+
+    <div
+        {!!
+            $attributes -> merge([
+                'class'
+                    =>
+                'relative'
+            ])
+        !!}
+        {{-- class="relative " --}}
+    >
         <input type="text" wire:model.live.debounce.100ms="query" placeholder="¿Qúe buscabas.....?">
         <x-button tipo="x" wire:click="$set('query', '')" class="absolute right-20 !bg-gray-300 !cursor-pointer !w-1" />
         <button>

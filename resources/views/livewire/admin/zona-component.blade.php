@@ -191,14 +191,14 @@
                                 {{-- direccion --}}
                                 <x-fieldset>
                                     <x-legend>Dirección*</x-legend>
-                                    <x-input wire:model.live="zonaCreate.direccion" id="address" placeholder="Busca una dirección" />
+                                    <x-input wire:model="zonaCreate.direccion" id="address" placeholder="Busca una dirección" />
                                     <x-error-message for="zonaCreate.direccion" />
                                 </x-fieldset>
 
                                 {{-- fotos --}}
                                 <x-fieldset>
                                     <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
-                                    <input type="file" wire:model.live="zonaCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple>
+                                    <input type="file" wire:model="zonaCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple>
                                     <x-error-message for="zonaCreate.imagenes" />
                                 </x-fieldset>
                             </div>
