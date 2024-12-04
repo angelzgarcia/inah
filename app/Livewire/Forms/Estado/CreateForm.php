@@ -24,10 +24,11 @@ class CreateForm extends Form
     #[Rule('required|image|mimes:jpeg,jpg,png,webp|max:10000')]
     public $foto;
 
-    #[Rule('required|url|unique:estados,video|regex:/^(https:\/\/www\.youtube\.com\/watch\?v=[\w-]+(?:&[\w-]+=[\w-]+)*)$/')]
+    // regex:/^(https:\/\/www\.youtube\.com\/watch\?v=[\w-]+(?:&[\w-]+=[\w-]+)*)$/
+    #[Rule('required|url|unique:estados,video')]
     public $video;
 
-    #[Rule('required|mimes:pdf|max:15000','triptico', 'triptico')]
+    #[Rule('required|mimes:pdf|max:15000')]
     public $triptico;
 
     #[Rule('required|mimes:pdf|max:10500')]
@@ -53,6 +54,7 @@ class CreateForm extends Form
         if (!$coords) return $this -> nombre;
 
         if (isset($this -> foto, $this -> guia, $this -> triptico)) {
+            $this -> validate();
 
             $foto = basename(time() . '-' . $this -> foto -> store('img/uploads', 'public'));
             $triptico =  $this -> triptico -> storeAs('tripticos', $this -> triptico -> getClientOriginalName() . '-' . time() , 'public');

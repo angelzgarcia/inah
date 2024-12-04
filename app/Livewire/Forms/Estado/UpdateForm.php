@@ -79,6 +79,17 @@ class UpdateForm extends Form
             ],
         ]);
 
+        // actualizar coordenadas en la tabla ubicaciones
+        $this -> coords = getCoordinates(strtolower(trim(stripslashes($this -> nombre))));
+
+        if (!$this -> coords)
+            return false;
+        else
+            $this -> estado -> ubicacion -> update([
+                'latitud' => $this -> coords['lat'],
+                'longitud' => $this -> coords['lng'],
+            ]);
+
         $this -> estado -> video = $this -> cleanYouTubeUrl($this -> video);
 
         if (isset($this -> foto))
@@ -94,7 +105,7 @@ class UpdateForm extends Form
                 actualizarFichero("guias", $this -> estado -> guia, "guia", $this -> guia);
 
         $this -> estado -> update($this -> only(
-'nombre',
+            'nombre',
             'capital',
             'video',
         ));
@@ -113,19 +124,6 @@ class UpdateForm extends Form
                 CulturaEstado::where('idCultura', $idCultura)
                             -> where('idEstadoRepublica', $this -> estado -> idEstadoRepublica)
                             -> delete();
-
-        // actualizar coordenadas en la tabla ubicaciones
-        if ($this -> estado -> nombre != $this -> nombre) {
-            $this -> coords = getCoordinates($this -> nombre);
-
-            if (!$this->coords)
-                return false;
-            else
-                $this -> estado -> ubicacion -> update([
-                    'latitud' => $this -> coords['lat'],
-                    'longitud' => $this -> coords['lng'],
-                ]);
-        }
 
         $this -> reset();
 

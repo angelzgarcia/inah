@@ -12,6 +12,8 @@
         {{$title ?? 'Zonas Arqueológicas de México'}}
     </title>
 
+    @stack('css')
+
     @livewireStyles {{-- ESTILOS DE LIVEWIRE --}}
 
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
 class Cultura extends Model
 {
@@ -20,6 +21,23 @@ class Cultura extends Model
 
     // CAMPOS IGNORADOS CON ASIGNACION MASIVA
     protected $guarded = ['fotos'];
+
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function($cultura) {
+            if (!$cultura->slug) {
+                $cultura->slug = Str::slug($cultura->nombre, '-');
+            }
+        });
+    }
 
     public function fotos()
     {

@@ -191,14 +191,14 @@
                                 {{-- direccion --}}
                                 <x-fieldset>
                                     <x-legend>Dirección*</x-legend>
-                                    <x-input wire:model.live="zonaCreate.direccion" id="address" placeholder="Busca una dirección" />
+                                    <x-input wire:model="zonaCreate.direccion" id="address" placeholder="Busca una dirección" />
                                     <x-error-message for="zonaCreate.direccion" />
                                 </x-fieldset>
 
                                 {{-- fotos --}}
                                 <x-fieldset>
                                     <x-legend>Fotos* <small class="text-xs font-bold"> Min 2. Max. 4</small></x-legend>
-                                    <input type="file" wire:model.live="zonaCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple>
+                                    <input type="file" wire:model="zonaCreate.imagenes" wire:key="{{$fotoKey}}" accept="image/*" multiple>
                                     <x-error-message for="zonaCreate.imagenes" />
                                 </x-fieldset>
                             </div>
@@ -468,7 +468,7 @@
                             {{-- relacion con estados --}}
                             <x-fieldset>
                                 <x-legend class="!normal-case">¿En qué estado de la República Mexicana se encuentra esta Zona Arqueológica?*</x-legend>
-                                <x-select wire:model.live="zonaUpdate.estadoRelacionado">
+                                <x-select wire:model="zonaUpdate.estadoRelacionado">
                                     <option value="" disabled>Selecciona un Estado</option>
                                     @foreach ($estados as $estado)
                                         <option
@@ -485,7 +485,7 @@
                             {{-- relacion con culturas --}}
                             <x-fieldset>
                                 <x-legend class="normal-case">¿A qué cultura de Mexico pertenece esta Zona Arqueológica?*</x-legend>
-                                <x-select wire:model.live="zonaUpdate.culturaRelacionada">
+                                <x-select wire:model="zonaUpdate.culturaRelacionada">
                                     <option value="" disabled>Selecciona una Cultura</option>
                                     @foreach ($culturas as $cultura)
                                         <option

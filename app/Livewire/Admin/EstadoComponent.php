@@ -74,32 +74,27 @@ class EstadoComponent extends Component
         $this -> tripticoKey = rand();
     }
 
-    public function show(Estado $estado)
+    public function show($idEstado)
     {
-        $this -> estado = $estado;
+        $this -> estado = Estado::find($idEstado);
 
-        $this -> cargarCulturasRelacionados($estado -> idEstadoRepublica);
+        $this -> cargarCulturasRelacionados($this -> estado -> idEstadoRepublica);
 
-        if ($estado->ubicacion) {
+        if ($this -> estado -> ubicacion) {
             $this->dispatch('openModal', [
-                'lat' => $estado->ubicacion->latitud,
-                'lng' => $estado->ubicacion->longitud,
-            ]);
-        } else {
-            $this->dispatch('openModal', [
-                'lat' => 0,
-                'lng' => 0,
+                'lat' => (float) ($this -> estado -> ubicacion -> latitud ?? 0.0),
+                'lng' => (float) ($this -> estado -> ubicacion -> longitud ?? 0.0),
             ]);
         }
 
         $this -> openShow = true;
     }
 
-    public function edit(Estado $estado)
+    public function edit($idEstado)
     {
-        $this -> estado = $estado;
+        $this -> estado = Estado::find($idEstado);
 
-        $this -> cargarCulturasRelacionados($estado -> idEstadoRepublica);
+        $this -> cargarCulturasRelacionados($this->estado -> idEstadoRepublica);
 
         // se envian solo los id de las culturas, no los modelos completos
         $this -> estadoUpdate -> culturasActualesID = $this
@@ -107,7 +102,7 @@ class EstadoComponent extends Component
                                                 -> pluck('idCultura')
                                                 -> toArray();
 
-        $this -> estadoUpdate -> edit($estado);
+        $this -> estadoUpdate -> edit($this -> estado);
     }
 
     public function update()
@@ -118,7 +113,7 @@ class EstadoComponent extends Component
             return $this -> dispatch('est-event', icon: 'success', title: 'Estado actualizado con éxito');
 
         else
-            return $this -> dispatch('est-event', icon: 'error', title: 'No se pudo obtener una ubicación para "' . $this -> estadoUpdate -> nombre . '"');
+            return $this -> dispatch('est-event', icon: 'error', title: 'No se pudo obtener una ubicación para "' . $this -> estadoUpdate -> nombre . '"<br><br>Posible errror tipográfico.');
     }
 
     public function confirmDestroy($idEstado)
@@ -126,9 +121,11 @@ class EstadoComponent extends Component
         $this -> dispatch('conf-event', $idEstado);
     }
 
-    public function destroy(Estado $estado)
+    public function destroy($idEstado)
     {
-        $estado -> delete();
+        $this -> estado = Estado::find($idEstado);
+
+        $this -> estado -> delete();
 
         $this -> dispatch('est-event', icon: 'success', title: 'Estado eliminado con éxito');
     }

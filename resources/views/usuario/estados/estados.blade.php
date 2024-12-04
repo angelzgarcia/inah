@@ -268,15 +268,11 @@
                     const marker = new google.maps.Marker({
                         position: { lat: estado.lat, lng: estado.lng },
                         map: map,
-                        title: estado.name
-                    });
-
-                    const infoWindow = new google.maps.InfoWindow({
-                        content: `<h3>${estado.name}</h3>`
-                    });
-
-                    marker.addListener('click', () => {
-                        infoWindow.open(map, marker);
+                        title: estado.name,
+                        icon: {
+                            url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                            scaledSize: new google.maps.Size(20, 20),
+                        },
                     });
                 });
             }

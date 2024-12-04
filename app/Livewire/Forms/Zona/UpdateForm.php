@@ -217,7 +217,10 @@ class UpdateForm extends Form
             ]);
         }
 
-        $this -> zona -> update($this -> only([
+        // $this -> cargarEstadoCultura($this->zona->idZonaArqueologica);
+
+        // dd($this -> estadoRelacionado);
+        $this -> zona -> update([
             'nombre',
             'significado',
             'relevancia',
@@ -228,7 +231,7 @@ class UpdateForm extends Form
             'contacto',
             'idCultura' => $this -> culturaRelacionada,
             'idEstadoRepublica' => $this -> estadoRelacionado,
-        ]));
+        ]);
 
         $this -> reset();
 
