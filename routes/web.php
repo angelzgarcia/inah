@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\VerificarCuentaController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Usuario\HomeController;
+use App\Models\Estado;
+use App\Models\Zona;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
@@ -39,17 +41,34 @@ Route::prefix('/')
         return view('usuario.estados.estados');
     }) -> name('estados');
 
-    Route::get('estados/{estado}', function(){
-        
+    Route::get('estados/{slug}', function($slug){
+        $estado = Estado::where('slug', $slug) -> first();
         return view('usuario.estados.estados-show', compact('estado'));
     }) -> name('estado.show');
+
+    Route::get('estados/{slug}/culturas', function($slug){
+        $estado = Estado::where('slug', $slug) -> first();
+        return view('usuario.culturas-estados', compact('estado'));
+    }) -> name('culturas-estados');
+
+    Route::get('estados/{slug}/zonas-arqueologicas', function($slug){
+        $estado = Estado::where('slug', $slug) -> first();
+        return view('usuario.zonas-estados', compact('estado'));
+    }) -> name('zonas-estados');
+
+    Route::get('estados/{slug_estado}/{slug_zona}', function($slug_estado, $slug_zona){
+        $estado = Estado::where('slug', $slug_estado) -> first();
+        $zona = Zona::where('slug', $slug_zona) -> first();
+        return view('usuario.zonas.zonas-show', compact('estado', 'zona'));
+    }) -> name('zona-estado.show'); 
 
     Route::get('zonas', function(){
         return view('usuario.zonas.zonas');
     }) -> name('zonas');
 
-    Route::get('zonas/{id}', function($id){
-        return view('usuario.zonas.zonas-show');
+    Route::get('zonas/{slug}', function($slug){
+        $zona = Zona::where('slug', $slug) -> first();
+        return view('usuario.zonas.zonas-show', compact('zona'));
     }) -> name('zona.show');
 
     Route::get('quizz', function(){

@@ -4,7 +4,14 @@
 
 {{-- ventana modal --}}
 <div class="modal-container modal-show-container modal-edit-container">
-    <div class="modal"
+    <div
+    {!!
+        $attributes -> merge([
+            'class'
+                =>
+            'modal'
+        ])
+    !!}
         x-data="{ showModal: @entangle($openPropiety) }"
         x-show="showModal"
         x-transition:enter="transition ease-out duration-300 transform"
@@ -76,7 +83,7 @@
                         </div>
 
                     @endif
-                    
+
                 </div>
             </div>
         </div>

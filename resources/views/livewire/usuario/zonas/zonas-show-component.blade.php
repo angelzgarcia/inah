@@ -1,3 +1,6 @@
+
+
+
 <div>
-    {{-- Stop trying to control. --}}
+    {{$zona->nombre}}
 </div>

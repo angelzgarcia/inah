@@ -4,16 +4,18 @@ namespace App\Livewire\Usuario\Estados;
 
 use App\Models\Estado;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class EstadosComponent extends Component
 {
-    public $query = '';
+    use WithPagination;
 
+    public $query = '';
 
     public function render()
     {
         $estados = Estado::where('nombre', 'like', "%{$this->query}%")
-                            ->orderBy('nombre', 'asc')
+                            -> orderBy('nombre', 'asc')
                             -> paginate(10, pageName: 'pageEstados');
 
         return view('livewire.usuario.estados.estados-component', compact('estados'));
@@ -23,7 +25,9 @@ class EstadosComponent extends Component
     {
         $estado = Estado::find($idEstado);
 
-        return $this -> redirect(route('estado.show', compact('estado')));
+        $slug = $estado -> slug;
+
+        return $this -> redirect(route('estado.show', compact('slug')), navigate:true);
     }
 
 }

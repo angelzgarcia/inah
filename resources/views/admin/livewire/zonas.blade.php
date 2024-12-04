@@ -5,7 +5,7 @@
     @livewire('admin.zona-component')
 
     @push('js')
-        <script src="https://maps.googleapis.com/maps/api/js?key={{config('services.google_maps.key')}}&loading=async&libraries=places"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{config('services.google_maps.key')}}&loading=async&libraries=places" de></script>
 
         {{-- buscador de direcciones de google --}}
         <script>

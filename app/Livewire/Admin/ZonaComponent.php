@@ -49,14 +49,14 @@ class ZonaComponent extends Component
 
         $nCulturas = Cultura::count();
         $nEstados = Estado::count();
+        
+        $this -> dispatch('address', $this -> zonaCreate -> direccion);
 
         return view('livewire.admin.zona-component', compact('zonas', 'culturas', 'estados', 'nCulturas', 'nEstados'));
     }
 
     public function save()
     {
-        $this -> dispatch('address', $this -> zonaCreate -> direccion);
-
         $validate = $this -> zonaCreate -> save();
 
         match ($validate) {

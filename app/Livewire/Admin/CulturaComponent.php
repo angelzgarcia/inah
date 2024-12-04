@@ -71,21 +71,21 @@ class CulturaComponent extends Component
     }
 
     // ver detalles
-    public function show(Cultura $cultura)
+    public function show($idCultura)
     {
-        $this -> cultura = $cultura;
+        $this -> cultura = Cultura::find($idCultura);
 
-        $this -> cargarEstadosRelacionados($cultura -> idCultura);
+        $this -> cargarEstadosRelacionados($this -> cultura -> idCultura);
 
         $this -> openShow = true;
     }
 
     // editar
-    public function edit(Cultura $cultura)
+    public function edit($idCultura)
     {
-        $this -> cultura = $cultura;
+        $this -> cultura = Cultura::find($idCultura);
 
-        $this -> cargarEstadosRelacionados($cultura -> idCultura);
+        $this -> cargarEstadosRelacionados($this -> cultura -> idCultura);
 
         // se envian solo los id de los estados, no los modelos completos
         $this -> culturaUpdate -> estadosActualesID = $this
@@ -93,7 +93,7 @@ class CulturaComponent extends Component
                                                 -> pluck('idEstadoRepublica')
                                                 -> toArray();
 
-        $this -> culturaUpdate -> edit($cultura);
+        $this -> culturaUpdate -> edit($this-> cultura);
     }
 
     // actualizar
@@ -127,9 +127,11 @@ class CulturaComponent extends Component
     }
 
     // eliminar
-    public function destroy(Cultura $cultura)
+    public function destroy($idCultura)
     {
-        $cultura -> delete();
+        $this -> cultura = Cultura::find($idCultura);
+
+        $this-> cultura -> delete();
 
         $this -> dispatch('cult-event', icon:'success', title:'Cultura eliminada');
     }

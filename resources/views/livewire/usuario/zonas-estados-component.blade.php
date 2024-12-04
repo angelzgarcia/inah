@@ -1,48 +1,54 @@
 
 
-<x-admin-main title="Estados de la República Mexicana | Admin | INAH">
+<div>
 
-    @livewire('admin.estado-component')
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Zonas Arqueológicas de {{$estado->nombre}}</h1>
 
+    <div id="map" class="rounded-xl w-full h-[600px]"></div>
+
+    <section class="bg-gray-100 p-8">
+        <!-- GRILLA -->
+        <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-8">
+            <!-- TARJETAS DE LAS zonas -->
+            @foreach ($zonas as $zona)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105 cursor-pointer"
+                    wire:click="mostrarZona({{$zona->idZonaArqueologica}})"
+                >
+                    <div class="h-40 bg-cover bg-center" style="background-image: url('{{img_u_url($zona->fotos->first()?->foto)}}');">
+                    </div>
+                    <div class="p-4">
+                        <h2 class="text-lg font-semibold text-gray-800">{{$zona->nombre}}</h2>
+                        <p class="text-sm text-gray-600 mt-2 line-clamp-2">{{$zona->significado}}</p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <x-paginador :table="$zonas" />
+
+    </section>
+
+    {{-- MAPA --}}
+    @php
+        $zonasArray = $zonas->map(function ($zona) {
+            return [
+                'lat' => $zona->ubicacion->latitud,
+                'lng' => $zona->ubicacion->longitud,
+                'nombre' => $zona->nombre,
+            ];
+        })->toArray();
+    @endphp
     @push('js')
-        <script src="https://maps.googleapis.com/maps/api/js?key={{config('services.google_maps.key')}}&loading=async" defer></script>
-
-        <x-toast name_event="est-event"/> {{-- SWEET ALERT TOAST --}}
-
-        <x-toast-confirm
-            {{-- text="Todas las culturas relacionadas a este estado tambien serán elimiandas." --}}
-        /> {{-- SWEET ALERT CONMFIRM EVENT --}}
-
         <script>
-            Livewire.on('openModal', data => {
-                console.log("Datos recibidos:", data);
+            function initMap() {
+                const zonas = @json($zonasArray);
 
-                const locationData = Array.isArray(data) ? data[0] : data;
+                const lat = {{$zonas->first()?->ubicacion->latitud ?? 0}};
+                const lng = {{$zonas->first()?->ubicacion->longitud ?? 0}};
 
-                if (!locationData || typeof locationData.lat === "undefined" || typeof locationData.lng === "undefined") {
-                    console.error("Los datos recibidos no tienen lat o lng:", locationData);
-                    return;
-                }
-                setTimeout(() => {
-                    initMap(locationData);
-                }, 200);
-            });
-
-            function initMap(data) {
-                const estado = {
-                    lat: parseFloat(data.lat),
-                    lng: parseFloat(data.lng)
-                };
-                const mapaContenedor = document.getElementById('mapaEstado');
-
-                const map = new google.maps.Map(mapaContenedor, {
-                    zoom: 6,
-                    center: estado,
-                    mapTypeId: 'hybrid',
-                    mapTypeControl: true,
-                    mapTypeControlOptions: {
-                        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU, // Muestra un menú desplegable
-                    },
+                const map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 7,
+                    center: { lat: lat, lng: lng },
                     styles:[
                         {
                             "elementType": "geometry",
@@ -202,21 +208,23 @@
                             }
                             ]
                         }
-                        ]
+                    ]
                 });
 
-                new google.maps.Marker({
-                    position: estado,
-                    map: map,
-                });
+                zonas.forEach(zona => {
+                    const marker = new google.maps.Marker({
+                        position: { lat: parseFloat(zona.lat), lng: parseFloat(zona.lng) },
+                        map: map,
+                        title: zona.nombre,
+                        icon: {
+                            url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                            scaledSize: new google.maps.Size(20, 20),
+                        },
+                    });
 
-                google.maps.event.addListenerOnce(map, 'tilesloaded', () => {
-                    google.maps.event.trigger(map, 'resize');
                 });
             }
+        </script> {{-- FUNCION INIT MAP --}}
+    @endpush
 
-        </script> {{-- INIT MAP --}}
-
-    @endpush {{-- STACK JS ESTADOS --}}
-
-</x-admin-main>
+</div>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
 class Estado extends Model
 {
@@ -15,6 +16,22 @@ class Estado extends Model
     // protected $fillable = [];
     protected $guarded = [''];
 
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function($estado) {
+            if (!$estado->slug) {
+                $estado->slug = Str::slug($estado->nombre, '-');
+            }
+        });
+    }
 
     public function ubicacion() {
         return $this -> hasOne(UbicacionEstado::class, 'idEstadoRepublica', 'idEstadoRepublica');

@@ -41,8 +41,8 @@ class UbicacionEstadoFactory extends Factory
         self::$usedIds[] = $idEstado;
 
         return [
-            'latitud' => fake() -> unique() -> latitude(),
-            'longitud' => fake() -> unique() -> longitude(),
+            'latitud' => fake()->unique()->latitude(14.5, 32.7),
+            'longitud' => fake()->unique()->longitude(-118.5, -86.5),
 
             'idEstadoRepublica' => $idEstado,
         ];

@@ -468,7 +468,7 @@
                             {{-- relacion con estados --}}
                             <x-fieldset>
                                 <x-legend class="!normal-case">¿En qué estado de la República Mexicana se encuentra esta Zona Arqueológica?*</x-legend>
-                                <x-select wire:model.live="zonaUpdate.estadoRelacionado">
+                                <x-select wire:model="zonaUpdate.estadoRelacionado">
                                     <option value="" disabled>Selecciona un Estado</option>
                                     @foreach ($estados as $estado)
                                         <option
@@ -485,7 +485,7 @@
                             {{-- relacion con culturas --}}
                             <x-fieldset>
                                 <x-legend class="normal-case">¿A qué cultura de Mexico pertenece esta Zona Arqueológica?*</x-legend>
-                                <x-select wire:model.live="zonaUpdate.culturaRelacionada">
+                                <x-select wire:model="zonaUpdate.culturaRelacionada">
                                     <option value="" disabled>Selecciona una Cultura</option>
                                     @foreach ($culturas as $cultura)
                                         <option

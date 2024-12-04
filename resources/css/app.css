@@ -403,6 +403,82 @@ footer {
 }
 
 
+/* ESTADOS */
+
+/* clima */
+/* Estilos generales para la tarjeta de clima */
+.weather-card {
+    max-width: 100%; /* Reducir el ancho máximo */
+    /* padding: 15px; Reducir el relleno */
+    border-radius: 15px;
+    background: linear-gradient(to bottom, #0196ad, #0196ad);
+    /* box-shadow: ; */
+    box-shadow: 0 0 .3em .3em #c9c9c9e6, 0 .4em .1em rgba(0, 0, 0, 0.205);
+    color: white;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    text-align: center;
+}
+
+/* Caja de la temperatura */
+/* #caja1 {
+    margin-bottom: 8px;
+} */
+
+#temperatura-valor {
+    /* font-size: 4rem; Tamaño más pequeño para la temperatura */
+    /* font-weight: 300; */
+    padding: .3em 1em;
+    border-radius: 1em;
+    background-color: #006a7a89;
+    transition: all .4s;
+    &:hover {
+        transform: scale(105%);
+        background-color: #006a7a2f;
+    }
+}
+
+#temperatura-descripcion {
+    font-size: 1rem; /* Reducir el tamaño de la descripción */
+    font-weight: 300;
+}
+
+/* Caja de la ubicación y el icono */
+#caja2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin-bottom: 8px; */
+}
+
+#ubicacion {
+    font-size: 1.2rem; /* Reducir el tamaño de la ubicación */
+    font-weight: 400;
+    /* margin: 8px 0; */
+}
+
+#icono-animado {
+    /* margin-top: 8px; */
+    height: 50px; /* Tamaño más pequeño del icono */
+    width: 50px;
+}
+
+/* Caja de la velocidad del viento */
+#caja3 {
+    font-size: 0.9rem; /* Tamaño reducido para la etiqueta */
+    color: hsl(0, 0%, 100%);
+}
+
+#viento-velocidad {
+    font-size: 1.5rem; /* Tamaño reducido para el valor del viento */
+    font-weight: 400;
+    /* margin-top: 4px; */
+}
+
+
+
+
+
+
 
 
 
@@ -795,7 +871,7 @@ footer {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: .5em;  
+        gap: .5em;
 
         /* & fieldset {
             border-radius: 2em;

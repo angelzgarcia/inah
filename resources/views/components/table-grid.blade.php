@@ -74,6 +74,7 @@
                         <div class="flex gap-3 flex-row justify-self-end">
                             {{-- ver mas --}}
                             @if ($ver_mas)
+                                {{-- {{dd($register->{$keys[0]})}} --}}
                                 <x-button tipo="show" class="btn-btn" wire:click="show({{ $register->{$keys[0]} }})">
                                     Ver más
                                 </x-button>
